@@ -37,6 +37,7 @@ class CreateAccountViewController: UIViewController {
                     "lastName": self.lastNameField.text ?? "",
                     "phoneNumber": self.phoneNumberField.text ?? "",
                     "homeCity": "",
+                    "notificationPreferences": NSNull(),
                     "profilePicture": NSNull(),
                     "friendsList": [],
                     "reviews": []
