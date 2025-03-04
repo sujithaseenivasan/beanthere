@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class CreateAccountViewController: UIViewController {
     
@@ -29,6 +30,25 @@ class CreateAccountViewController: UIViewController {
         Auth.auth().addStateDidChangeListener() {
             (auth, user) in
             if user != nil {
+                let userId = user!.uid
+                Firestore.firestore().collection("users").document(userId).setData([
+                    "email": self.emailField.text ?? "",
+                    "firstName": self.firstNameField.text ?? "",
+                    "lastName": self.lastNameField.text ?? "",
+                    "phoneNumber": self.phoneNumberField.text ?? "",
+                    "homeCity": "",
+                    "profilePicture": NSNull(),
+                    "friendsList": [],
+                    "reviews": []
+                ]) { error in
+                    if let error = error {
+                        print("Error saving user data: \(error.localizedDescription)")
+                    } else {
+                        print("User data saved successfully!")
+                    }
+                }
+                    
+                
                 self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
                 self.firstNameField.text = nil
                 self.lastNameField.text = nil
