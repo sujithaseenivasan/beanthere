@@ -19,6 +19,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.passwordTextField.isSecureTextEntry = true
 
         Auth.auth().addStateDidChangeListener() {
             (auth, user) in

@@ -65,7 +65,7 @@
                                     <constraint firstAttribute="width" constant="246" id="wzU-ma-DJV"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="email"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SaP-pH-BKz">
                                 <rect key="frame" x="163.66666666666666" y="653" width="66" height="35"/>
@@ -86,15 +86,7 @@
                                     <segue destination="il6-v8-m3d" kind="presentation" identifier="createAccountSegue" modalPresentationStyle="fullScreen" id="she-BZ-BEy"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="98K-B5-Vg6">
-                                <rect key="frame" x="73" y="420" width="246" height="34"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="246" id="yCN-f5-Pic"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwJ-Rb-o1b">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwJ-Rb-o1b">
                                 <rect key="frame" x="196.66666666666666" y="738" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -106,6 +98,14 @@
                                 <color key="textColor" red="0.16060653329999999" green="0.1057028547" blue="0.10961224880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="98K-B5-Vg6">
+                                <rect key="frame" x="73.666666666666686" y="418" width="246" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="246" id="yCN-f5-Pic"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" textContentType="password"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="oca-2F-HLK"/>
                         <color key="backgroundColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -122,7 +122,7 @@
                             <constraint firstItem="YE9-6x-Dmu" firstAttribute="top" secondItem="5e5-Em-OKQ" secondAttribute="bottom" constant="26" id="PyN-iB-y4x"/>
                             <constraint firstItem="YE9-6x-Dmu" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="SyZ-OB-hLv"/>
                             <constraint firstItem="iw2-db-Q0Z" firstAttribute="top" secondItem="oca-2F-HLK" secondAttribute="top" constant="57" id="bcI-pY-qkn"/>
-                            <constraint firstItem="98K-B5-Vg6" firstAttribute="top" secondItem="Vns-af-SVG" secondAttribute="bottom" constant="39" id="eZW-QB-aIt"/>
+                            <constraint firstItem="98K-B5-Vg6" firstAttribute="top" secondItem="Vns-af-SVG" secondAttribute="bottom" constant="15" id="eZW-QB-aIt"/>
                             <constraint firstItem="Vns-af-SVG" firstAttribute="top" secondItem="YE9-6x-Dmu" secondAttribute="bottom" constant="41" id="fVe-8R-3g4"/>
                             <constraint firstItem="5e5-Em-OKQ" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="lGR-pE-P61"/>
                             <constraint firstItem="Vns-af-SVG" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="rQG-NH-nKv"/>
@@ -170,7 +170,7 @@
                                     <constraint firstAttribute="width" constant="271" id="WTX-8k-rPZ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="name"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F5V-cG-6zm">
                                 <rect key="frame" x="61" y="418" width="271" height="34"/>
@@ -178,7 +178,7 @@
                                     <constraint firstAttribute="width" constant="271" id="ChS-YF-KBF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="name"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4hg-rt-wck">
                                 <rect key="frame" x="61" y="460" width="271" height="34"/>
@@ -186,7 +186,7 @@
                                     <constraint firstAttribute="width" constant="271" id="3Lz-c1-evq"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="email"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HDN-4U-Pnc">
                                 <rect key="frame" x="61" y="502" width="271" height="34"/>
@@ -194,7 +194,7 @@
                                     <constraint firstAttribute="width" constant="271" id="Xsj-ur-oeA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="tel"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cin-bO-Te0">
                                 <rect key="frame" x="61" y="544" width="271" height="34"/>
@@ -202,7 +202,7 @@
                                     <constraint firstAttribute="width" constant="271" id="oq8-YM-LjA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="password"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Reenter Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fcU-ou-yXL">
                                 <rect key="frame" x="61" y="586" width="271" height="34"/>
@@ -210,7 +210,7 @@
                                     <constraint firstAttribute="width" constant="271" id="v5h-lT-vH6"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="password"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New to beanthere? Sign up!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v4S-zG-Xy6">
                                 <rect key="frame" x="91" y="332" width="211" height="21"/>
@@ -227,7 +227,7 @@
                                     <segue destination="8y0-HL-B3j" kind="presentation" identifier="loginSegue" modalPresentationStyle="fullScreen" id="YYH-35-hXi"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doY-21-a3c">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doY-21-a3c">
                                 <rect key="frame" x="196.66666666666666" y="755" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -314,12 +314,25 @@
                                     <segue destination="8y0-HL-B3j" kind="presentation" identifier="logoutSegue" modalPresentationStyle="fullScreen" id="bcg-gk-JJ6"/>
                                 </connections>
                             </button>
+                            <searchBar contentMode="redraw" placeholder="Search for Coffee Shops" translatesAutoresizingMaskIntoConstraints="NO" id="Rmt-lc-ncu">
+                                <rect key="frame" x="0.0" y="141" width="393" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="393" id="fDa-gK-hgt"/>
+                                </constraints>
+                                <color key="barTintColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="pQg-Eo-DQj" id="UmF-T1-NJV"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Vx2-iM-Lre"/>
                         <color key="backgroundColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="9ir-zh-3aV" firstAttribute="top" secondItem="Vx2-iM-Lre" secondAttribute="top" id="7EP-aI-v5U"/>
+                            <constraint firstItem="Rmt-lc-ncu" firstAttribute="top" secondItem="9ir-zh-3aV" secondAttribute="bottom" constant="-59" id="AzG-Kz-eWG"/>
                             <constraint firstItem="Vx2-iM-Lre" firstAttribute="leading" secondItem="9ir-zh-3aV" secondAttribute="leading" constant="60" id="Qhd-AY-DeH"/>
+                            <constraint firstItem="Rmt-lc-ncu" firstAttribute="centerX" secondItem="Wif-B9-xE6" secondAttribute="centerX" id="srS-I3-p7E"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="haq-qC-GLV"/>
@@ -330,8 +343,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="t8J-sX-Lmt"/>
-        <segue reference="bcg-gk-JJ6"/>
+        <segue reference="7qJ-UA-P2s"/>
+        <segue reference="YYH-35-hXi"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="beantherelogo" width="500" height="500"/>

@@ -22,6 +22,9 @@ class CreateAccountViewController: UIViewController {
     let segueIdentifier = "homeSegue2"
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.passwordField.isSecureTextEntry = true
+        self.reenterPasswordField.isSecureTextEntry = true
 
         Auth.auth().addStateDidChangeListener() {
             (auth, user) in
