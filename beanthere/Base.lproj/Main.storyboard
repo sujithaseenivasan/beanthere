@@ -314,7 +314,7 @@
                                     <segue destination="8y0-HL-B3j" kind="presentation" identifier="logoutSegue" modalPresentationStyle="fullScreen" id="bcg-gk-JJ6"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" placeholder="Search for Coffee Shops" translatesAutoresizingMaskIntoConstraints="NO" id="Rmt-lc-ncu">
+                            <searchBar contentMode="redraw" text="" placeholder="Search for Coffee Shops" translatesAutoresizingMaskIntoConstraints="NO" id="Rmt-lc-ncu">
                                 <rect key="frame" x="0.0" y="141" width="393" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="393" id="fDa-gK-hgt"/>
@@ -360,7 +360,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7qJ-UA-P2s"/>
+        <segue reference="she-BZ-BEy"/>
+        <segue reference="t8J-sX-Lmt"/>
         <segue reference="YYH-35-hXi"/>
     </inferredMetricsTieBreakers>
     <resources>
