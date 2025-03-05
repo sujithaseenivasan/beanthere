@@ -158,12 +158,6 @@
                                     <constraint firstAttribute="height" constant="203" id="y2x-cn-RYW"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6y-iV-pbR">
-                                <rect key="frame" x="109.66666666666669" y="270" width="174" height="31.333333333333314"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <color key="textColor" red="0.16060653329999999" green="0.1057028547" blue="0.10961224880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w2n-6e-ROs">
                                 <rect key="frame" x="61" y="376" width="271" height="34"/>
                                 <constraints>
@@ -243,6 +237,12 @@
                                     <action selector="createAccountButtonPressed:" destination="il6-v8-m3d" eventType="touchUpInside" id="xjy-ds-nCz"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6y-iV-pbR">
+                                <rect key="frame" x="109.66666666666669" y="270" width="174" height="31.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <color key="textColor" red="0.16060653329999999" green="0.1057028547" blue="0.10961224880000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DXx-xG-tJ5"/>
                         <color key="backgroundColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -325,6 +325,15 @@
                                     <outlet property="delegate" destination="pQg-Eo-DQj" id="UmF-T1-NJV"/>
                                 </connections>
                             </searchBar>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DTc-bc-aAw">
+                                <rect key="frame" x="119" y="573" width="153" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Segue To TabBar"/>
+                                <connections>
+                                    <segue destination="bby-yU-wo2" kind="presentation" modalPresentationStyle="fullScreen" id="LGT-Xu-Efa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Vx2-iM-Lre"/>
                         <color key="backgroundColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -340,6 +349,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jyI-Y1-QXZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2192" y="32"/>
+        </scene>
+        <!--UITabBarID-->
+        <scene sceneID="AYC-Hh-ehq">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserSetting" referencedIdentifier="UITabBarID" id="bby-yU-wo2" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b7h-F6-n1p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2907" y="92"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
