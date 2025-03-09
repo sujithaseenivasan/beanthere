@@ -25,7 +25,7 @@ def search(api_key, term, location):
     url_params = {
         'term': term.replace(' ', '+'),
         'location': location.replace(' ', '+'),
-        'limit': 50  # Adjust limit as needed
+        'limit': 5  # Adjust limit as needed
     }
     return request(api_key, url_params)
 
@@ -48,7 +48,10 @@ def save_to_firestore(coffee_shops, api_key):
             'city': shop['location']['city'],
             'image_url': shop['image_url'],
             'price': price,
-            'phone': shop['display_phone']
+            'phone': shop['display_phone'],
+            'reviews': [],
+            'topTags': [],
+            'avgRating': None
         })
 
 
