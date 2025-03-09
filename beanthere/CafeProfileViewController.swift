@@ -25,6 +25,22 @@ class CafeProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //adjust font size to fit into label
+        cafeNameLabel.adjustsFontSizeToFitWidth = true
+        cafeNameLabel.minimumScaleFactor = 0.5
+        addressLabel.adjustsFontSizeToFitWidth = true
+        addressLabel.minimumScaleFactor = 0.5
+        
+        // allow description to go to multiple lines
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        
+        makeLabelOval(tagLabel1)
+        makeLabelOval(tagLabel2)
+        makeLabelOval(tagLabel3)
+        makeLabelOval(tagLabel4)
+        
+        
         fetchCafeData()
 
         // Do any additional setup after loading the view.
@@ -43,6 +59,7 @@ class CafeProfileViewController: UIViewController {
                 
                 self.cafeNameLabel.text = data?["name"] as? String ?? "No Name"
                 self.addressLabel.text = data?["address"] as? String ?? "No address"
+                self.descriptionLabel.text = data?["description"] as? String ?? "No description"
                 
                 if let imageUrl = data?["image_url"] as? String {
                     self.loadImage(from: imageUrl)
@@ -67,6 +84,12 @@ class CafeProfileViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // helper function to make labels oval
+    func makeLabelOval(_ label: UILabel) {
+        label.layer.cornerRadius = label.frame.size.height / 2
+        label.layer.masksToBounds = true
     }
 
 }
