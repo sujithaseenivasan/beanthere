@@ -24,6 +24,8 @@ class LoginViewController: UIViewController {
         Auth.auth().addStateDidChangeListener() {
             (auth, user) in
             if user != nil {
+                //pass userID to other pages
+                UserManager.shared.u_userID = user!.uid
                 self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
                 self.emailTextField.text = nil
                 self.passwordTextField.text = nil

@@ -75,6 +75,7 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="loginPressed:" destination="8y0-HL-B3j" eventType="touchUpInside" id="ldi-EM-68x"/>
+                                    <segue destination="bby-yU-wo2" kind="presentation" identifier="homeSegue1" modalPresentationStyle="fullScreen" id="DNA-ir-Rtv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUS-F6-IeR">
@@ -136,12 +137,11 @@
                         <outlet property="emailTextField" destination="Vns-af-SVG" id="LiC-Aw-EqB"/>
                         <outlet property="errorLabel" destination="lwJ-Rb-o1b" id="x7G-dB-DjB"/>
                         <outlet property="passwordTextField" destination="98K-B5-Vg6" id="CU5-7x-qSf"/>
-                        <segue destination="pQg-Eo-DQj" kind="presentation" identifier="homeSegue1" modalPresentationStyle="fullScreen" id="t8J-sX-Lmt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PHs-6f-wgK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="901.52671755725191" y="-304.22535211267609"/>
+            <point key="canvasLocation" x="1189" y="-306"/>
         </scene>
         <!--Create Account View Controller-->
         <scene sceneID="AD8-yZ-znH">
@@ -235,6 +235,7 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="createAccountButtonPressed:" destination="il6-v8-m3d" eventType="touchUpInside" id="xjy-ds-nCz"/>
+                                    <segue destination="bby-yU-wo2" kind="presentation" identifier="homeSegue2" modalPresentationStyle="fullScreen" id="exC-GV-Wvp"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6y-iV-pbR">
@@ -282,12 +283,11 @@
                         <outlet property="passwordField" destination="cin-bO-Te0" id="gSC-qj-cGf"/>
                         <outlet property="phoneNumberField" destination="HDN-4U-Pnc" id="HB2-yV-x9O"/>
                         <outlet property="reenterPasswordField" destination="fcU-ou-yXL" id="YwE-FT-MM8"/>
-                        <segue destination="pQg-Eo-DQj" kind="presentation" identifier="homeSegue2" modalPresentationStyle="fullScreen" id="7qJ-UA-P2s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pww-Uf-IN8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="902" y="422"/>
+            <point key="canvasLocation" x="888" y="461"/>
         </scene>
         <!--Feed View Controller-->
         <scene sceneID="eMw-KU-esQ">
@@ -298,7 +298,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="beantherelogosecondary" translatesAutoresizingMaskIntoConstraints="NO" id="9ir-zh-3aV">
-                                <rect key="frame" x="-60" y="0.0" width="377" height="200"/>
+                                <rect key="frame" x="-60" y="59" width="377" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="377" id="O0D-yf-bM1"/>
                                     <constraint firstAttribute="height" constant="200" id="wKk-gM-V4q"/>
@@ -311,11 +311,10 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Logout"/>
                                 <connections>
                                     <action selector="logoutPressedWith_sender:" destination="pQg-Eo-DQj" eventType="touchUpInside" id="jSd-Py-yA3"/>
-                                    <segue destination="8y0-HL-B3j" kind="presentation" identifier="logoutSegue" modalPresentationStyle="fullScreen" id="bcg-gk-JJ6"/>
                                 </connections>
                             </button>
                             <searchBar contentMode="redraw" text="" placeholder="Search for Coffee Shops" translatesAutoresizingMaskIntoConstraints="NO" id="Rmt-lc-ncu">
-                                <rect key="frame" x="0.0" y="141" width="393" height="56"/>
+                                <rect key="frame" x="0.0" y="200" width="393" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="393" id="fDa-gK-hgt"/>
                                 </constraints>
@@ -330,9 +329,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Segue To TabBar"/>
-                                <connections>
-                                    <segue destination="bby-yU-wo2" kind="presentation" modalPresentationStyle="fullScreen" id="LGT-Xu-Efa"/>
-                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Vx2-iM-Lre"/>
@@ -348,7 +344,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jyI-Y1-QXZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2192" y="32"/>
+            <point key="canvasLocation" x="2608" y="-432"/>
         </scene>
         <!--UITabBarID-->
         <scene sceneID="AYC-Hh-ehq">
@@ -356,12 +352,12 @@
                 <viewControllerPlaceholder storyboardName="UserSetting" referencedIdentifier="UITabBarID" id="bby-yU-wo2" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7h-F6-n1p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2907" y="92"/>
+            <point key="canvasLocation" x="1750" y="156"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="7qJ-UA-P2s"/>
-        <segue reference="YYH-35-hXi"/>
+        <segue reference="exC-GV-Wvp"/>
+        <segue reference="cby-5d-R0P"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="beantherelogo" width="500" height="500"/>

@@ -45,6 +45,8 @@ class CreateAccountViewController: UIViewController {
                     if let error = error {
                         print("Error saving user data: \(error.localizedDescription)")
                     } else {
+                        //pass userID to other pages
+                        UserManager.shared.u_userID = user!.uid
                         print("User data saved successfully!")
                     }
                 }
