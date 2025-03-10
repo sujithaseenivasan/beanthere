@@ -21,7 +21,7 @@ class CafeProfileViewController: UIViewController {
     
     //firestore instance
     let db = Firestore.firestore()
-    var cafeID: String = "3L0v19ibM9bOqE0Ys75YhA" //need to change this to be able to dynamically update it
+    var cafeId: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +47,14 @@ class CafeProfileViewController: UIViewController {
     }
     
     func fetchCafeData() {
-        db.collection("coffeeShops").document(cafeID).getDocument { (document, error) in
+        guard let cafeId = cafeId else {
+                print("Error: cafeId is nil in CafeProfileViewController")
+                return
+            }
+            
+        print("Fetching data for cafeId: \(cafeId)") // Debugging
+        
+        db.collection("coffeeShops").document(cafeId).getDocument { (document, error) in
             if let error = error {
                        // get the specific error
                        print("Error fetching document: \(error.localizedDescription)")
@@ -90,6 +97,20 @@ class CafeProfileViewController: UIViewController {
     func makeLabelOval(_ label: UILabel) {
         label.layer.cornerRadius = label.frame.size.height / 2
         label.layer.masksToBounds = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if self.isMovingFromParent {
+            // This means the user pressed the back button
+            backButtonPressed()
+        }
+    }
+
+    func backButtonPressed() {
+            navigationController?.popToRootViewController(animated: true)
+
     }
 
 }

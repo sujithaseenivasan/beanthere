@@ -11,6 +11,7 @@ import FirebaseFirestore
 class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let tableCellIdentifier = "CoffeeSearchCell"
+    let cafeProfileSegueIdentifier = "cafeProfileSegueIdentifier"
 
     let db = Firestore.firestore()
     // Array to store fetched coffee shop data
@@ -55,7 +56,11 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
                 for document in snapshot.documents {
                     let data = document.data()
                     
+                    
+                    print("ID: \(document.documentID)")
+                    
                     let coffeeShop = CoffeeShop(
+                        documentId: document.documentID,
                         name: data["name"] as? String ?? "No Name",
                         address: data["address"] as? String ?? "No Address",
                         tags: data["tags"] as? [String] ?? [],
@@ -101,6 +106,22 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCoffeeShop = fetchedResults[indexPath.row]
+        print("SELECTED ID: \(selectedCoffeeShop.documentId)")
+        performSegue(withIdentifier: cafeProfileSegueIdentifier, sender: selectedCoffeeShop)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == cafeProfileSegueIdentifier {
+            if let destinationVC = segue.destination as? CafeProfileViewController,
+               let selectedCoffeeShop = sender as? CoffeeShop {
+                destinationVC.cafeId = selectedCoffeeShop.documentId
+            }
+        }
+    }
+
 
     func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
         guard let url = URL(string: urlString) else {

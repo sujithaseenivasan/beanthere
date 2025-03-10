@@ -7,13 +7,15 @@
 
 
 class CoffeeShop {
+    var documentId: String
     var name: String
     var address: String
     var tags: [String]
     var description: String
     var imageUrl: String?
     
-    init(name: String, address: String, tags: [String], description: String, imageUrl: String) {
+    init(documentId: String, name: String, address: String, tags: [String], description: String, imageUrl: String) {
+        self.documentId = documentId
         self.name = name
         self.address = address
         self.tags = tags
