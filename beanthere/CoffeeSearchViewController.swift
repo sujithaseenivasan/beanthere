@@ -8,14 +8,16 @@
 import UIKit
 import FirebaseFirestore
 
-class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     let tableCellIdentifier = "CoffeeSearchCell"
     let cafeProfileSegueIdentifier = "cafeProfileSegueIdentifier"
 
     let db = Firestore.firestore()
-    // Array to store fetched coffee shop data
-    var fetchedResults: [CoffeeShop] = []
+    
+    var allResults: [CoffeeShop] = []
+    var filteredResults: [CoffeeShop] = []
     
     @IBOutlet weak var searchBar: UISearchBar!
     var initialSearchText: String?
@@ -25,6 +27,7 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.text = initialSearchText
+        searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 300
@@ -42,22 +45,21 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
     
 
     func fetchCafeData() {
+        activityIndicator.startAnimating()
         db.collection("coffeeShops").getDocuments { (snapshot, error) in
+            
             if let error = error {
                 print("Error fetching documents: \(error.localizedDescription)")
                 return
             }
 
             // Clear old results
-            self.fetchedResults.removeAll()
+            self.allResults.removeAll()
 
             // Parse documents
             if let snapshot = snapshot {
                 for document in snapshot.documents {
                     let data = document.data()
-                    
-                    
-                    print("ID: \(document.documentID)")
                     
                     let coffeeShop = CoffeeShop(
                         documentId: document.documentID,
@@ -68,26 +70,29 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
                         imageUrl: data["image_url"] as? String ?? ""
                     )
                     
-                    self.fetchedResults.append(coffeeShop)
+                    self.allResults.append(coffeeShop)
                 }
+                
+                self.filteredResults = self.allResults
                 
                 // Reload table view on the main thread
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
             }
+            self.activityIndicator.stopAnimating()
         }
     }
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResults.count
+        return filteredResults.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableCellIdentifier, for: indexPath) as! CoffeeSearchCell
         
-        let coffeeShop = fetchedResults[indexPath.row]
+        let coffeeShop = filteredResults[indexPath.row]
         
         cell.coffeeShopName.text = coffeeShop.name
         cell.address.text = coffeeShop.address
@@ -101,16 +106,23 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
                 }
             }
         } else {
-            cell.coffeeShopImage.image = nil // Set a placeholder or leave blank
+            cell.coffeeShopImage.image = nil
         }
         
         return cell
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCoffeeShop = fetchedResults[indexPath.row]
-        print("SELECTED ID: \(selectedCoffeeShop.documentId)")
-        performSegue(withIdentifier: cafeProfileSegueIdentifier, sender: selectedCoffeeShop)
+        let selectedCoffeeShop = filteredResults[indexPath.row]
+
+        let storyboard = UIStoryboard(name: "UserSetting", bundle: nil)
+        if let cafeProfileVC = storyboard.instantiateViewController(withIdentifier: "CafeProfileViewController") as? CafeProfileViewController {
+            
+            cafeProfileVC.cafeId = selectedCoffeeShop.documentId
+            
+            navigationController?.pushViewController(cafeProfileVC, animated: true)
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -137,6 +149,19 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+          if searchText.isEmpty {
+              filteredResults = allResults
+          } else {
+              filteredResults = allResults.filter { cafe in
+                  cafe.name.lowercased().contains(searchText.lowercased()) ||
+                  cafe.address.lowercased().contains(searchText.lowercased()) ||
+                  cafe.tags.contains { $0.lowercased().contains(searchText.lowercased()) }
+              }
+          }
+          tableView.reloadData()
+      }
 
 
 }

@@ -11,15 +11,20 @@ import FirebaseAuth
 class FeedViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var searchBar: UISearchBar!
+    private var hasPerformedSegue = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
     }
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-            performSegue(withIdentifier: "coffeeSearchSegue", sender: self)
-    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+         if !searchText.isEmpty && !hasPerformedSegue {
+             hasPerformedSegue = true
+             performSegue(withIdentifier: "coffeeSearchSegue", sender: self)
+             hasPerformedSegue = false
+         }
+     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "coffeeSearchSegue",

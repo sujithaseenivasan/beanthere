@@ -99,18 +99,4 @@ class CafeProfileViewController: UIViewController {
         label.layer.masksToBounds = true
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        if self.isMovingFromParent {
-            // This means the user pressed the back button
-            backButtonPressed()
-        }
-    }
-
-    func backButtonPressed() {
-            navigationController?.popToRootViewController(animated: true)
-
-    }
-
 }
