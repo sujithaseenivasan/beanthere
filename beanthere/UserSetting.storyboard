@@ -367,12 +367,23 @@
                                 <color key="barTintColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feed coming in Beta Release!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bwu-K8-5Vi">
+                                <rect key="frame" x="89" y="426.66666666666669" width="224" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="224" id="Epl-gj-1Hg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="YvZ-bJ-s0W"/>
                         <color key="backgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Bwu-K8-5Vi" firstAttribute="centerX" secondItem="MeE-XO-qpp" secondAttribute="centerX" id="FiP-xK-gu3"/>
                             <constraint firstItem="Uvb-aR-lxb" firstAttribute="centerX" secondItem="MeE-XO-qpp" secondAttribute="centerX" id="PKa-J3-T6Z"/>
                             <constraint firstItem="Phq-Ze-Ldq" firstAttribute="leading" secondItem="YvZ-bJ-s0W" secondAttribute="leading" constant="16" id="cAX-kl-9wz"/>
+                            <constraint firstItem="Bwu-K8-5Vi" firstAttribute="centerY" secondItem="MeE-XO-qpp" secondAttribute="centerY" id="eRW-1V-Dmv"/>
                             <constraint firstItem="Uvb-aR-lxb" firstAttribute="top" secondItem="YvZ-bJ-s0W" secondAttribute="top" constant="58" id="lSf-dy-X1R"/>
                             <constraint firstItem="Phq-Ze-Ldq" firstAttribute="top" secondItem="YvZ-bJ-s0W" secondAttribute="top" id="t2e-5A-ehy"/>
                         </constraints>
