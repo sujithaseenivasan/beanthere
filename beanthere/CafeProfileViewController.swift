@@ -2,7 +2,7 @@
 //  CafeProfileViewController.swift
 //  beanthere
 //
-//  Created by Sarah Neville on 3/9/25.
+//  Created by Sarah Fedorchak on 3/9/25.
 //
 
 import UIKit
@@ -10,6 +10,7 @@ import FirebaseFirestore
 
 class CafeProfileViewController: UIViewController {
 
+    
     @IBOutlet weak var cafeImage: UIImageView!
     @IBOutlet weak var cafeNameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
