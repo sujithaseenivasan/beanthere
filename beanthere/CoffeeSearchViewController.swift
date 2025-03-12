@@ -105,6 +105,8 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         makeLabelOval(cell.tag2)
         makeLabelOval(cell.tag3)
         makeLabelOval(cell.tag4)
+        cell.coffeeShopImage.contentMode = .scaleAspectFill
+        cell.coffeeShopImage.clipsToBounds = true
         
         // Load image asynchronously
         if let imageUrl = coffeeShop.imageUrl {

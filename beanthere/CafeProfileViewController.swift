@@ -41,6 +41,9 @@ class CafeProfileViewController: UIViewController {
         makeLabelOval(tagLabel3)
         makeLabelOval(tagLabel4)
         
+        // make image fill the UIImageView space
+        cafeImage.contentMode = .scaleAspectFill
+        cafeImage.clipsToBounds = true
         
         fetchCafeData()
 
@@ -86,6 +89,7 @@ class CafeProfileViewController: UIViewController {
         //try to download image data
         DispatchQueue.global().async {
             if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+//                let finalImage = self.cropToHorizontal(image)
                 //update the UI
                 DispatchQueue.main.async {
                     self.cafeImage.image = image
