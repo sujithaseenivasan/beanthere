@@ -4,12 +4,18 @@
 //
 //  Created by yrone umutesi on 3/9/25.
 //
+/*all Image manupilation functions will be globalCode.swift file*/
+
 
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
+
 class UserProfileVC: UIViewController, PassUserInfo {
     
+    @IBOutlet weak var MainName: UILabel!
+    @IBOutlet weak var UserImage1: UIImageView!
     @IBOutlet weak var Name1: UILabel!
     @IBOutlet weak var UserName1: UILabel!
     @IBOutlet weak var Email1: UILabel!
@@ -22,8 +28,10 @@ class UserProfileVC: UIViewController, PassUserInfo {
     let editSegue = "editProfileSegue"
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        //make image round
+        makeImageOval(UserImage1)
+        //download image from firebase and display it
+        downloadImage(self.UserImage1)
     }
     
 
@@ -51,6 +59,7 @@ class UserProfileVC: UIViewController, PassUserInfo {
             self.UserName1.text = data?["username"] as? String ?? " "
             self.Email1.text = data?["email"] as? String ?? " "
             self.Name1.text = data?["firstName"] as? String ?? " "
+            self.MainName.text = self.Name1.text
             self.City1.text = data?["homeCity"] as? String ?? " "
             self.Phone1.text = data?["phoneNumber"] as? String ?? " "
             self.Notification1.text = data?["notificationPreferences"] as? String ?? " "
@@ -66,6 +75,11 @@ class UserProfileVC: UIViewController, PassUserInfo {
         
     }
     
+    // set logout variable to true
+    
+    @IBAction func LogOutButton(_ sender: Any) {
+        globalDidLogOut = true
+    }
     //overwrite do the connection  between the 2 screens and the main screen
     override func prepare( for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == editSegue,
@@ -76,12 +90,20 @@ class UserProfileVC: UIViewController, PassUserInfo {
     
     //function to populate user informations in the struct and pass it along
     func populateUserInfo(info: UserManager) {
-        self.UserName1.text = userChange.u_username
-        self.Email1.text = userChange.u_email
-        self.Name1.text = userChange.u_name
-        self.City1.text = userChange.u_city
-        self.Phone1.text = userChange.u_phone
-        self.Notification1.text = userChange.u_notifications
+        print("WENT IN FUNCTION SEGUE")
+        
+        self.UserName1.text = info.u_username
+        self.Email1.text = info.u_email
+        self.Name1.text = info.u_name
+        self.City1.text = info.u_city
+        self.Phone1.text = info.u_phone
+        self.Notification1.text = info.u_notifications
+        print("LAST IMAGE \(self.UserImage1.image)")
+        print("NEW NAME \(info.u_img.image)")
+        self.UserImage1 = info.u_img
+        downloadImage(self.UserImage1)
+        print("UPDATED IMAGE \(self.UserImage1.image)")
+        print("UPDATED NAME \(info.u_img.image)")
     }
     
 }

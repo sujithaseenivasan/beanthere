@@ -11,7 +11,7 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="OpenScreenID" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -41,7 +41,7 @@
         <!--Login View Controller-->
         <scene sceneID="ZIR-6C-De6">
             <objects>
-                <viewController id="8y0-HL-B3j" customClass="LoginViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OpenScreenID" id="8y0-HL-B3j" customClass="LoginViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="G5A-Rp-46M">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -356,7 +356,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="exC-GV-Wvp"/>
+        <segue reference="DNA-ir-Rtv"/>
         <segue reference="cby-5d-R0P"/>
     </inferredMetricsTieBreakers>
     <resources>

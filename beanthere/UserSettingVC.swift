@@ -4,49 +4,43 @@
 //
 //  Created by yrone umutesi on 3/4/25.
 //
+/*all Image manupilation functions will be globalCode.swift file*/
+
 
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 // tabView struct
 //struct TabView<SelectionValue, Content> where Selection
 //Value : Hashable, Content : View
-class UserSettingVC: UIViewController{
+class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     @IBOutlet weak var Username: UITextField!
     @IBOutlet weak var Name: UITextField!
     @IBOutlet weak var userImage: UIImageView!
-    
     @IBOutlet weak var Email: UITextField!
-    
     @IBOutlet weak var City: UITextField!
-    
     @IBOutlet weak var Phone: UITextField!
-    
     @IBOutlet weak var Password: UITextField!
-    
     @IBOutlet weak var Notification: UITextField!
     var loaded_data : [String : Any]?
     var delegate: PassUserInfo?
-    
+    private let storageRef = Storage.storage().reference()
+    var didPicChange = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //make image round
-        userImage.layer.cornerRadius = userImage.frame.size.width / 2
-        userImage.clipsToBounds = true
-        
-        //Add code to the things that segue to remove back button and reallocate segue
-        
-        self.navigationItem.setHidesBackButton(true, animated: true)
-        self.navigationItem.leftBarButtonItem = nil
-        
+        makeImageOval(userImage)
+        //download image from firebase and display it
+        downloadImage(self.userImage)
     }
     
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
         var settingUID = UserManager.shared.u_userID
-        print ("USER ID IS \(settingUID) 1 ")
         
         // search in firebase if you find the user populate the users information in the swift fields
         let userField = Firestore.firestore().collection("users").document(settingUID)
@@ -104,10 +98,59 @@ class UserSettingVC: UIViewController{
             self.loaded_data!["notificationPreferences"] = self.Notification.text
             changed = true
         }
+        if(didPicChange){
+            changed = true
+        }
+        //COMEBACK FOR THE PICTURE PASS
         print("CODE ENTERED CHANGE")
         return changed
     }
     
+    // function that will help us upload user photo when click on the button
+      @IBAction func editPhotoButton(_ sender: Any) {
+          didPicChange = true
+          let picker = UIImagePickerController()
+          picker.sourceType = .photoLibrary
+          picker.delegate = self
+          picker.allowsEditing = true
+          present(picker, animated: true)
+      }
+    
+    //function 1 for UIImagePickerControllerDelegate (called when user finishes picking a so we wouldn't grab photo from  in here)
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
+            picker.dismiss(animated: true)
+            //allows editing, has to be an image
+            guard let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else{return}
+            //get bytes of the image
+            guard let imgData = img.pngData() else {return}
+            //upload bytes of our image data (don't care about metadata
+            storageRef.child("images/\(UserManager.shared.u_userID)file.png").putData(imgData, metadata: nil) { _, error in
+                guard error == nil else {
+                    print("failed to upload \(error!.localizedDescription) ")
+                    return
+                }
+                
+                //then convert them to download url , get a reference to the url (the path)
+                self.storageRef.child("images/\(UserManager.shared.u_userID)file.png").downloadURL(completion: { url, error in
+                    guard let url = url, error == nil else{
+                        print("failed to downloadURL \(error!.localizedDescription) ")
+                        return}
+                    let urlStr = url.absoluteString
+                    DispatchQueue.main.async{
+                        self.userImage.image = img
+                    }
+                    print("Download URL: \(urlStr)")
+                    //save it to userdefaults to be used to download latest image after
+                    UserDefaults.standard.set(urlStr, forKey: "url")
+                })
+            }
+        }
+    
+        //function 2 for UIImagePickerControllerDelegate (what happens when the picker is canceled)
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
+            picker.dismiss(animated: true)
+        }
+
     // function to update the fields when they are being typed in so that if they are changed the changes also reflect in the firebase storage. Save every changes when you exist the page
     @IBAction func SaveChanges(_ sender: Any) {
         // if the information didn't change exit the function
@@ -122,14 +165,15 @@ class UserSettingVC: UIViewController{
                     print("Document successfully updated")
                 }
             }
-        var editUserManager = UserManager(
+        let editUserManager = UserManager(
             u_userID: UserManager.shared.u_userID,
             u_name : self.Name.text,
             u_username: self.Username.text,
             u_email : self.Email.text,
             u_city : self.City.text,
             u_phone : self.Phone.text,
-            u_notifications : self.Notification.text
+            u_notifications : self.Notification.text,
+            u_img: self.userImage
         )
         delegate!.populateUserInfo(info: editUserManager)
         self.navigationController?.popViewController(animated: true)

@@ -26,7 +26,10 @@ class LoginViewController: UIViewController {
             if user != nil {
                 //pass userID to other pages
                 UserManager.shared.u_userID = user!.uid
-                self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
+                //if didn't logout bypass and go to other screens immediately
+                if(!globalDidLogOut){
+                    self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
+                }
                 self.emailTextField.text = nil
                 self.passwordTextField.text = nil
             }
@@ -41,6 +44,8 @@ class LoginViewController: UIViewController {
             if let error = error as NSError? {
                 self.errorLabel.text = "\(error.localizedDescription)"
             } else {
+                //since you are logged in set up the logOut bool to false
+                globalDidLogOut = false
                 self.errorLabel.text = ""
             }
         }
