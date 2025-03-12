@@ -525,23 +525,23 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAp-Sz-F8u">
-                                                    <rect key="frame" x="20" y="178" width="50" height="25"/>
+                                                    <rect key="frame" x="20" y="178" width="50" height="15"/>
                                                     <color key="backgroundColor" red="0.82352941176470584" green="0.67450980392156867" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="2JL-hJ-8RE"/>
-                                                        <constraint firstAttribute="height" constant="25" id="tDB-kX-Dfp"/>
+                                                        <constraint firstAttribute="height" constant="15" id="tDB-kX-Dfp"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zPu-Vj-Wxq">
-                                                    <rect key="frame" x="110" y="178" width="50" height="25"/>
+                                                    <rect key="frame" x="110" y="178" width="50" height="15"/>
                                                     <color key="backgroundColor" red="0.82352941180000006" green="0.67450980390000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="5Go-nU-Vn0"/>
+                                                        <constraint firstAttribute="height" constant="15" id="5Go-nU-Vn0"/>
                                                         <constraint firstAttribute="width" constant="50" id="ElU-vV-JJ5"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -549,11 +549,11 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dY5-ly-R1O">
-                                                    <rect key="frame" x="200" y="178" width="50" height="25"/>
+                                                    <rect key="frame" x="200" y="178" width="50" height="15"/>
                                                     <color key="backgroundColor" red="0.82352941180000006" green="0.67450980390000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="25" id="ZX1-fo-FCa"/>
+                                                        <constraint firstAttribute="height" constant="15" id="ZX1-fo-FCa"/>
                                                         <constraint firstAttribute="width" constant="50" id="icZ-WH-YsH"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -561,12 +561,12 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWv-f4-X1w">
-                                                    <rect key="frame" x="290" y="178" width="50" height="25"/>
+                                                    <rect key="frame" x="290" y="178" width="50" height="15"/>
                                                     <color key="backgroundColor" red="0.82352941180000006" green="0.67450980390000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="50" id="2Xv-12-58B"/>
-                                                        <constraint firstAttribute="height" constant="25" id="K6e-7j-TQk"/>
+                                                        <constraint firstAttribute="height" constant="15" id="K6e-7j-TQk"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
@@ -823,23 +823,23 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tag" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Imu-hw-40H">
-                                <rect key="frame" x="28" y="391" width="60" height="30"/>
+                                <rect key="frame" x="28" y="391" width="60" height="15"/>
                                 <color key="backgroundColor" red="0.82352941180000006" green="0.67450980390000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="dr2-qc-UQn"/>
-                                    <constraint firstAttribute="height" constant="30" id="tXT-DU-J2n"/>
+                                    <constraint firstAttribute="height" constant="15" id="tXT-DU-J2n"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tag" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5U-wh-yqI">
-                                <rect key="frame" x="123" y="391" width="60" height="30"/>
+                                <rect key="frame" x="123" y="391" width="60" height="15"/>
                                 <color key="backgroundColor" red="0.82352941180000006" green="0.67450980390000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="nGL-zO-Du6"/>
+                                    <constraint firstAttribute="height" constant="15" id="nGL-zO-Du6"/>
                                     <constraint firstAttribute="width" constant="60" id="qVu-YG-xw9"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -847,11 +847,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tag" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="45K-MT-XAb">
-                                <rect key="frame" x="221" y="391" width="60" height="30"/>
+                                <rect key="frame" x="221" y="391" width="60" height="15"/>
                                 <color key="backgroundColor" red="0.82352941180000006" green="0.67450980390000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="PfQ-Q0-hnF"/>
+                                    <constraint firstAttribute="height" constant="15" id="PfQ-Q0-hnF"/>
                                     <constraint firstAttribute="width" constant="60" id="xwW-Gj-u4t"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -859,12 +859,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tag" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Mn-Op-JkH">
-                                <rect key="frame" x="323" y="391" width="60" height="30"/>
+                                <rect key="frame" x="323" y="391" width="60" height="15"/>
                                 <color key="backgroundColor" red="0.82352941180000006" green="0.67450980390000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <rect key="contentStretch" x="0.10000000000000001" y="0.0" width="1" height="1"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="0xW-qj-vis"/>
-                                    <constraint firstAttribute="height" constant="30" id="7bu-MV-LaX"/>
+                                    <constraint firstAttribute="height" constant="15" id="7bu-MV-LaX"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <nil key="textColor"/>
