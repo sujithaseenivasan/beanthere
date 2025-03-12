@@ -94,9 +94,17 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         
         let coffeeShop = filteredResults[indexPath.row]
         
+        cell.coffeeShopName.adjustsFontSizeToFitWidth = true
+        cell.coffeeShopName.minimumScaleFactor = 0.5
+        cell.address.adjustsFontSizeToFitWidth = true
+        cell.address.minimumScaleFactor = 0.5
         cell.coffeeShopName.text = coffeeShop.name
         cell.address.text = coffeeShop.address
         cell.cafeDescription.text = coffeeShop.description
+        makeLabelOval(cell.tag1)
+        makeLabelOval(cell.tag2)
+        makeLabelOval(cell.tag3)
+        makeLabelOval(cell.tag4)
         
         // Load image asynchronously
         if let imageUrl = coffeeShop.imageUrl {
@@ -162,6 +170,11 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
           }
           tableView.reloadData()
       }
+    
+    func makeLabelOval(_ label: UILabel) {
+        label.layer.cornerRadius = label.frame.size.height / 2
+        label.layer.masksToBounds = true
+    }
 
 
 }
