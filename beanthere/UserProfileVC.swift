@@ -39,7 +39,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
         var settingUID = UserManager.shared.u_userID
-        print ("USER ID IS \(settingUID) 1 ")
         
         // search in firebase if you find the user populate the users information in the swift fields
         let userField = Firestore.firestore().collection("users").document(settingUID)
@@ -98,12 +97,9 @@ class UserProfileVC: UIViewController, PassUserInfo {
         self.City1.text = info.u_city
         self.Phone1.text = info.u_phone
         self.Notification1.text = info.u_notifications
-        print("LAST IMAGE \(self.UserImage1.image)")
-        print("NEW NAME \(info.u_img.image)")
-        self.UserImage1 = info.u_img
+        self.UserImage1.image = info.u_img.image
         downloadImage(self.UserImage1)
-        print("UPDATED IMAGE \(self.UserImage1.image)")
-        print("UPDATED NAME \(info.u_img.image)")
+        
     }
     
 }
