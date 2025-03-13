@@ -21,7 +21,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
     @IBOutlet weak var Email1: UILabel!
     @IBOutlet weak var City1: UILabel!
     @IBOutlet weak var Phone1: UILabel!
-    @IBOutlet weak var Pswd1: UILabel!
     @IBOutlet weak var Notification1: UILabel!
     var loaded_data : [String : Any]?
     
@@ -34,7 +33,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
         downloadImage(self.UserImage1)
     }
     
-
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
@@ -101,5 +99,4 @@ class UserProfileVC: UIViewController, PassUserInfo {
         downloadImage(self.UserImage1)
         
     }
-    
 }

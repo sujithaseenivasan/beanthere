@@ -36,7 +36,6 @@ class LoginViewController: UIViewController {
         }
     }
     
-    
     @IBAction func loginPressed(_ sender: Any) {
         Auth.auth().signIn(withEmail: emailTextField.text!,
                            password: passwordTextField.text!) {
@@ -50,5 +49,8 @@ class LoginViewController: UIViewController {
             }
         }
     }
-
+    
+    @IBAction func forgotPassword(_ sender: Any) {
+        changePassword(emailTextField.text!)
+    }
 }

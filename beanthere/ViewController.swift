@@ -18,7 +18,5 @@ class ViewController: UIViewController {
             self.performSegue(withIdentifier: self.segueIdentifier, sender: self)
         }
     }
-
-
 }
 

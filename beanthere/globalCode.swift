@@ -5,6 +5,7 @@
 //  Created by yrone umutesi on 3/9/25.
 //
 import UIKit
+import FirebaseAuth
 struct UserManager {
     var u_userID: String
     var u_name: String?
@@ -43,21 +44,30 @@ func makeImageOval(_ img: UIImageView) {
 //function that helps download the image from firebase in a URL and show it  to the image screen
 func downloadImage(_ img : UIImageView){
     // download image if it has a value set
-            guard let urlStr = UserDefaults.standard.value(forKey: "url") as? String, let url = URL(string: urlStr) else{
-                return
-            }
-            
-            let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
-                guard let data = data, error == nil else{
-                    return
-                }
-                //the DispatchQueue.main is to put it on the main frame bcs it is running on a background one rn
-                DispatchQueue.main.async{
-                    let showImg = UIImage(data: data)
-                    img.image = showImg
-                }
-            })
-            task.resume()
+    guard let urlStr = UserDefaults.standard.value(forKey: "url") as? String, let url = URL(string: urlStr) else{
+        return
+    }
+    
+    let task = URLSession.shared.dataTask(with: url, completionHandler: { data, _, error in
+        guard let data = data, error == nil else{
+            return
+        }
+        //the DispatchQueue.main is to put it on the main frame bcs it is running on a background one rn
+        DispatchQueue.main.async{
+            let showImg = UIImage(data: data)
+            img.image = showImg
+        }
+    })
+    task.resume()
 }
 
-
+// function that allows user to change their password through their email
+func changePassword(_ userEmail: String) {
+    Auth.auth().sendPasswordReset(withEmail: userEmail) { error in
+        if let error = error {
+            print("Error sending password reset: \(error.localizedDescription)")
+        } else {
+            print("Password reset email sent.")
+        }
+    }
+}

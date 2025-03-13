@@ -68,7 +68,7 @@
                                 <textInputTraits key="textInputTraits" textContentType="email"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SaP-pH-BKz">
-                                <rect key="frame" x="163.66666666666666" y="653" width="66" height="35"/>
+                                <rect key="frame" x="163.66666666666666" y="658.33333333333337" width="66" height="40.333333333333371"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Login" cornerStyle="capsule">
                                     <color key="baseBackgroundColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -79,7 +79,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUS-F6-IeR">
-                                <rect key="frame" x="51" y="574" width="291" height="35"/>
+                                <rect key="frame" x="51" y="574" width="291" height="40.333333333333371"/>
                                 <color key="tintColor" red="0.26638233659999999" green="0.1400513649" blue="0.1110240296" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="New to beanthere? Create Account"/>
@@ -88,7 +88,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwJ-Rb-o1b">
-                                <rect key="frame" x="196.66666666666666" y="738" width="0.0" height="0.0"/>
+                                <rect key="frame" x="196.66666666666666" y="748.66666666666663" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -107,6 +107,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="password"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9m1-Xp-ye7">
+                                <rect key="frame" x="116.66666666666669" y="513" width="160" height="41"/>
+                                <color key="tintColor" red="0.25098040700000002" green="0.14901961389999999" blue="0.1176470518" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Forgot Password?"/>
+                                <connections>
+                                    <action selector="forgotPassword:" destination="8y0-HL-B3j" eventType="touchUpInside" id="Gkr-Gv-MC3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="oca-2F-HLK"/>
                         <color key="backgroundColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -114,6 +123,8 @@
                             <constraint firstItem="5e5-Em-OKQ" firstAttribute="top" secondItem="oca-2F-HLK" secondAttribute="top" constant="251" id="3oY-Ud-hj2"/>
                             <constraint firstItem="lwJ-Rb-o1b" firstAttribute="top" secondItem="SaP-pH-BKz" secondAttribute="bottom" constant="50" id="7Cr-rN-qoN"/>
                             <constraint firstItem="YUS-F6-IeR" firstAttribute="top" secondItem="oca-2F-HLK" secondAttribute="top" constant="574" id="9hJ-0B-ZhK"/>
+                            <constraint firstItem="9m1-Xp-ye7" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="Ckm-EL-ugH"/>
+                            <constraint firstItem="YUS-F6-IeR" firstAttribute="top" secondItem="9m1-Xp-ye7" secondAttribute="bottom" constant="20" id="D6Y-mJ-YHL"/>
                             <constraint firstItem="YUS-F6-IeR" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="DRC-q3-aTy"/>
                             <constraint firstItem="YUS-F6-IeR" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="Hiy-W0-rmW"/>
                             <constraint firstItem="iw2-db-Q0Z" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="Ipb-BB-ZqR"/>
@@ -122,6 +133,7 @@
                             <constraint firstItem="lwJ-Rb-o1b" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="PIl-dm-3yc"/>
                             <constraint firstItem="YE9-6x-Dmu" firstAttribute="top" secondItem="5e5-Em-OKQ" secondAttribute="bottom" constant="26" id="PyN-iB-y4x"/>
                             <constraint firstItem="YE9-6x-Dmu" firstAttribute="centerX" secondItem="G5A-Rp-46M" secondAttribute="centerX" id="SyZ-OB-hLv"/>
+                            <constraint firstItem="9m1-Xp-ye7" firstAttribute="top" secondItem="oca-2F-HLK" secondAttribute="top" constant="513" id="T9R-S0-NE1"/>
                             <constraint firstItem="iw2-db-Q0Z" firstAttribute="top" secondItem="oca-2F-HLK" secondAttribute="top" constant="57" id="bcI-pY-qkn"/>
                             <constraint firstItem="98K-B5-Vg6" firstAttribute="top" secondItem="Vns-af-SVG" secondAttribute="bottom" constant="15" id="eZW-QB-aIt"/>
                             <constraint firstItem="Vns-af-SVG" firstAttribute="top" secondItem="YE9-6x-Dmu" secondAttribute="bottom" constant="41" id="fVe-8R-3g4"/>
@@ -213,7 +225,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z8n-fX-thP">
-                                <rect key="frame" x="59.666666666666657" y="645" width="274" height="35"/>
+                                <rect key="frame" x="59.666666666666657" y="645" width="274" height="40.333333333333371"/>
                                 <color key="tintColor" red="0.26638233659999999" green="0.1400513649" blue="0.1110240296" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Already have an account? Log in."/>
@@ -222,13 +234,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="doY-21-a3c">
-                                <rect key="frame" x="196.66666666666666" y="755" width="0.0" height="0.0"/>
+                                <rect key="frame" x="196.66666666666666" y="765.66666666666663" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RHO-oq-2L4">
-                                <rect key="frame" x="125" y="688" width="143" height="35"/>
+                                <rect key="frame" x="125" y="693.33333333333337" width="143" height="40.333333333333371"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Create Account" cornerStyle="capsule">
                                     <color key="baseBackgroundColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
