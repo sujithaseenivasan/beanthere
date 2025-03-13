@@ -31,6 +31,12 @@ class UserProfileVC: UIViewController, PassUserInfo {
         makeImageOval(UserImage1)
         //download image from firebase and display it
         downloadImage(self.UserImage1)
+        
+        
+        UserImage1.contentMode = .scaleAspectFill
+        self.UserImage1.layer.cornerRadius = self.UserImage1.frame.width / 2
+        UserImage1.clipsToBounds = true
+        self.UserImage1.layer.masksToBounds = true
     }
     
     //In will appear that is where we load every instance of settings

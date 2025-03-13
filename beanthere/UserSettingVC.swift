@@ -32,8 +32,12 @@ override func viewDidLoad() {
     super.viewDidLoad()
     //make image round
     makeImageOval(userImage)
+    
     //download image from firebase and display it
     downloadImage(self.userImage)
+    
+    userImage.contentMode = .scaleAspectFill
+    userImage.clipsToBounds = true
 }
 
 //In will appear that is where we load every instance of settings
@@ -137,6 +141,8 @@ func didUserInfoChange() -> Bool{
                 let urlStr = url.absoluteString
                 DispatchQueue.main.async{
                     self.userImage.image = img
+                    self.userImage.layer.cornerRadius = self.userImage.frame.width / 2
+                        self.userImage.layer.masksToBounds = true
                 }
                 print("Download URL: \(urlStr)")
                 //save it to userdefaults to be used to download latest image after
