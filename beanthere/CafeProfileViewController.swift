@@ -24,6 +24,8 @@ class CafeProfileViewController: UIViewController {
     let db = Firestore.firestore()
     var cafeId: String?
     
+    let addReviewSegueIdentifier = "addReviewSegue"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //adjust font size to fit into label
@@ -101,6 +103,14 @@ class CafeProfileViewController: UIViewController {
     func makeLabelOval(_ label: UILabel) {
         label.layer.cornerRadius = label.frame.size.height / 2
         label.layer.masksToBounds = true
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == addReviewSegueIdentifier {
+            if let destinationVC = segue.destination as? AddReviewViewController {
+                destinationVC.cafeId = self.cafeId
+            }
+        }
     }
 
 }
