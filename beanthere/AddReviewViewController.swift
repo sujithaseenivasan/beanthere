@@ -8,21 +8,23 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import FirebaseStorage
+import PhotosUI
 
 let db = Firestore.firestore()
 
-class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var ratingButtons: [UIButton]!
     @IBOutlet weak var tagCollectionView: UICollectionView!
     @IBOutlet weak var notesTextView: UITextView!
+    @IBOutlet weak var photoCollectionView: UICollectionView!
     
-    var currentRating = 0
     var cafeId: String?
     
-    var tags = ["Local Favorite", "Cozy", "Pet-friendly", "Great Study Spot", "Outdoor Seating", "WiFi", "Other"]
+    var currentRating = 0
     
-
+    var tags = ["Local Favorite", "Cozy", "Pet-friendly", "Great Study Spot", "Outdoor Seating", "WiFi", "Other"]
     var selectedTags: [String: UIColor] = [:]
     let colors: [UIColor] = [
         UIColor(named: "TagColor1") ?? .red,
@@ -31,18 +33,30 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
         UIColor(named: "TagColor4") ?? .orange,
         UIColor(named: "TagColor5") ?? .purple
     ]
-  
+    
+    var selectedImages: [UIImage] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tagCollectionView.delegate = self
         tagCollectionView.dataSource = self
         
+        photoCollectionView.delegate = self
+        photoCollectionView.dataSource = self
+        
         updateCollectionViewHeight()
         updateButtonImages()
         styleTextView()
+        stylePhotoCollectionView()
     }
     
+    func stylePhotoCollectionView() {
+        photoCollectionView.layer.cornerRadius = 10
+        photoCollectionView.layer.masksToBounds = true
+        photoCollectionView.layer.borderWidth = 1
+        photoCollectionView.layer.borderColor = UIColor.lightGray.cgColor
+    }
+
     func styleTextView() {
         notesTextView.layer.cornerRadius = 10
         notesTextView.layer.borderWidth = 1
@@ -78,17 +92,28 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tags.count
+        if collectionView == tagCollectionView {
+            return tags.count
+        } else if collectionView == photoCollectionView {
+            return selectedImages.count
+        }
+        return 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath) as! TagCell
-                let tag = tags[indexPath.item]
-                let isSelected = selectedTags[tag] != nil
-                let color = selectedTags[tag] ?? .lightGray
-                
-                cell.configure(tag: tag, isSelected: isSelected, color: color)
-                return cell
+        if collectionView == tagCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TagCell", for: indexPath) as! TagCell
+            let tag = tags[indexPath.item]
+            let isSelected = selectedTags[tag] != nil
+            let color = selectedTags[tag] ?? .lightGray
+            cell.configure(tag: tag, isSelected: isSelected, color: color)
+            return cell
+        } else if collectionView == photoCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
+            cell.imageView.image = selectedImages[indexPath.item]
+            return cell
+        }
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -110,15 +135,32 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
         }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let tag = tags[indexPath.item]
-        let isSelected = selectedTags[tag] != nil
-        
-        let font = UIFont.systemFont(ofSize: 14)
-        let textWidth = (isSelected ? tag : "+ " + tag).size(withAttributes: [.font: font]).width
-        let padding: CGFloat = 30
-        let totalWidth = textWidth + padding
-        let height: CGFloat = 35
-        return CGSize(width: totalWidth, height: height)
+        if collectionView == tagCollectionView {
+            let tag = tags[indexPath.item]
+            let isSelected = selectedTags[tag] != nil
+            let font = UIFont.systemFont(ofSize: 14)
+            let textWidth = (isSelected ? tag : "+ " + tag).size(withAttributes: [.font: font]).width
+            let padding: CGFloat = 30
+            return CGSize(width: textWidth + padding, height: 35)
+        } else if collectionView == photoCollectionView {
+            let width = (collectionView.frame.width - 10) / 3
+            return CGSize(width: width, height: width)
+        }
+        return CGSize(width: 50, height: 50)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == photoCollectionView {
+            return 0
+        }
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        if collectionView == photoCollectionView {
+            return 0
+        }
+        return 10
     }
 
 
@@ -154,34 +196,103 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     
-
+    @IBAction func uploadPictureButtonPressed(_ sender: Any) {
+        var config = PHPickerConfiguration()
+               config.selectionLimit = 5
+               config.filter = .images
+               
+               let picker = PHPickerViewController(configuration: config)
+               picker.delegate = self
+               present(picker, animated: true)
+    }
     
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true)
+            
+            for result in results {
+                result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (image, error) in
+                    guard let self = self, let image = image as? UIImage else { return }
+                    DispatchQueue.main.async {
+                        self.selectedImages.append(image)
+                        self.photoCollectionView.reloadData()
+                    }
+                }
+            }
+        }
+    
+    
+    func uploadImagesToStorage(reviewID: String, completion: @escaping ([String]) -> Void) {
+        guard !selectedImages.isEmpty else {
+            completion([])
+            return
+        }
+        
+        let storageRef = Storage.storage().reference().child("review_images/\(reviewID)")
+        var uploadedImageURLs: [String] = []
+        
+        let dispatchGroup = DispatchGroup()
+        
+        for (index, image) in selectedImages.enumerated() {
+            dispatchGroup.enter()
+            
+            if let imageData = image.jpegData(compressionQuality: 0.8) {
+                let imageRef = storageRef.child("\(index).jpg")
+                
+                imageRef.putData(imageData, metadata: nil) { _, error in
+                    if let error = error {
+                        print("Error uploading image: \(error.localizedDescription)")
+                        dispatchGroup.leave()
+                        return
+                    }
+                    
+                    imageRef.downloadURL { url, error in
+                        if let url = url {
+                            uploadedImageURLs.append(url.absoluteString)
+                        }
+                        dispatchGroup.leave()
+                    }
+                }
+            } else {
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(uploadedImageURLs)
+        }
+    }
+
     @IBAction func submitReviewButtonPressed(_ sender: Any) {
         guard let userID = Auth.auth().currentUser?.uid else {
-                print("User not logged in")
-                return
-            }
+            print("User not logged in")
+            return
+        }
 
         let coffeeShopID = cafeId
-    
         let reviewsCollection = db.collection("reviews")
 
-        let reviewData: [String: Any] = [
-            "coffeeShopID": coffeeShopID ?? "not_found",
-            "comment": notesTextView.text ?? "",
-            "rating": currentRating,
-            "tags": Array(selectedTags.keys),
-            "timestamp": Timestamp(date: Date()),
-            "userID": userID
-        ]
+        let newReviewRef = reviewsCollection.document()
+        let reviewID = newReviewRef.documentID
+        
+        uploadImagesToStorage(reviewID: reviewID) { imageURLs in
+            
+            let reviewData: [String: Any] = [
+                "coffeeShopID": coffeeShopID ?? "not_found",
+                "comment": self.notesTextView.text ?? "",
+                "rating": self.currentRating,
+                "tags": Array(self.selectedTags.keys),
+                "timestamp": Timestamp(date: Date()),
+                "userID": userID,
+                "imageURLs": imageURLs 
+            ]
 
-        reviewsCollection.addDocument(data: reviewData) { error in
-            if let error = error {
-                print("Error saving review: \(error.localizedDescription)")
-            } else {
-                print("Review successfully saved!")
-                self.navigationController?.popViewController(animated: true)
-
+            newReviewRef.setData(reviewData) { error in
+                if let error = error {
+                    print("Error saving review: \(error.localizedDescription)")
+                } else {
+                    print("Review successfully saved with images!")
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
     }

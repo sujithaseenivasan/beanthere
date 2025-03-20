@@ -15,9 +15,11 @@
 		7355DC832D764564003260C8 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 7355DC822D764564003260C8 /* FirebaseFirestoreCombine-Community */; };
 		7355DC852D764564003260C8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7355DC842D764564003260C8 /* FirebaseStorage */; };
 		7355DC872D764564003260C8 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 7355DC862D764564003260C8 /* FirebaseStorageCombine-Community */; };
+		736902922D8B953A00ACFF58 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736902912D8B953A00ACFF58 /* ImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		736902912D8B953A00ACFF58 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		73EDBA652D71021500D1B6E0 /* beanthere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = beanthere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -64,6 +66,7 @@
 		73EDBA5C2D71021500D1B6E0 = {
 			isa = PBXGroup;
 			children = (
+				736902912D8B953A00ACFF58 /* ImageCell.swift */,
 				73EDBA672D71021500D1B6E0 /* beanthere */,
 				73EDBA662D71021500D1B6E0 /* Products */,
 			);
@@ -162,6 +165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				736902922D8B953A00ACFF58 /* ImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

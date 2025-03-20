@@ -19,6 +19,7 @@ class TagCell: UICollectionViewCell {
     
     func configure(tag: String, isSelected: Bool, color: UIColor) {
         tagContents.isUserInteractionEnabled = false
+        tagContents.titleLabel?.font = UIFont.systemFont(ofSize: 2) 
         contentView.backgroundColor = isSelected ? color : UIColor(named: "UnselectedTag")
 
         if isSelected {
