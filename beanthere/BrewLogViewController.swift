@@ -2,11 +2,12 @@
 //  BrewLogViewController.swift
 //  beanthere
 //
-//  Created by Sarah Neville on 4/1/25.
+//  Created by Sarah Fedorchak on 4/1/25.
 //
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAuth
 
 class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -17,7 +18,6 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     //array to store fetched reviews
     var reviews: [Review] = []
     let db = Firestore.firestore()
-    let userID = "U1KQYXg9igZhGcDaQWIUBMe0nX53" // Replace with dynamic user ID
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,17 +29,23 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func fetchUserReviews() {
-        //get the list of review IDs for the current user
-        db.collection("users").document(userID).getDocument { (document, error) in
-            if let document = document, document.exists {
-                if let reviewIDs = document.data()?["reviews"] as? [String] {
-                    self.fetchReviewDetails(reviewIDs: reviewIDs)
+        //get the user that is currently logged in
+        if let userID = Auth.auth().currentUser?.uid {
+            //if user is currently logged in, use thier userID to fetch their document
+            db.collection("users").document(userID).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let reviewIDs = document.data()?["reviews"] as? [String] {
+                        self.fetchReviewDetails(reviewIDs: reviewIDs)
+                    }
+                } else {
+                    print("User document not found")
                 }
-            } else {
-                print("User document not found")
             }
+        } else {
+            print("No user is logged in")
         }
     }
+
     
     func fetchReviewDetails(reviewIDs: [String]) {
         let group = DispatchGroup()

@@ -2,7 +2,7 @@
 //  BrewLogCell.swift
 //  beanthere
 //
-//  Created by Sarah Neville on 4/1/25.
+//  Created by Sarah Fedorchak on 4/1/25.
 //
 
 import Foundation
