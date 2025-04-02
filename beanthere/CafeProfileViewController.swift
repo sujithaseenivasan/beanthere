@@ -6,6 +6,7 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseStorage
 
 class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -28,31 +29,7 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
     let addReviewSegueIdentifier = "addReviewSegue"
     
     // Fake review data
-    var reviews: [(reviewData: [String: Any], userData: [String: Any]?)] = [
-        (
-            reviewData: [
-                "comment": "Loved the cappuccino! Great ambiance.",
-                "tags": ["Great Coffee", "Cozy"],
-                "imageURLs": ["https://via.placeholder.com/100", "https://via.placeholder.com/100"]
-            ],
-            userData: [
-                "name": "Alice Johnson",
-                "profilePicture": "https://via.placeholder.com/50"
-            ]
-        ),
-        (
-            reviewData: [
-                "comment": "Friendly staff and fast service!",
-                "tags": ["Fast Service", "Friendly"],
-                "imageURLs": []
-            ],
-            userData: [
-                "name": "Bob Smith",
-                "profilePicture": "https://via.placeholder.com/50"
-            ]
-        )
-    ]
-    
+    var reviews: [(reviewData: [String: Any], userData: [String: Any]?)] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         //adjust font size to fit into label
@@ -83,35 +60,88 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
     
     func fetchCafeData() {
         guard let cafeId = cafeId else {
-                print("Error: cafeId is nil in CafeProfileViewController")
-                return
-            }
-            
+            print("Error: cafeId is nil in CafeProfileViewController")
+            return
+        }
+
         print("Fetching data for cafeId: \(cafeId)") // Debugging
-        
+
         db.collection("coffeeShops").document(cafeId).getDocument { (document, error) in
             if let error = error {
-                       // get the specific error
-                       print("Error fetching document: \(error.localizedDescription)")
-                       return
-                   }
-            
-            if let document, document.exists {
-                let data = document.data()
-                
-                self.cafeNameLabel.text = data?["name"] as? String ?? "No Name"
-                self.addressLabel.text = data?["address"] as? String ?? "No address"
-                self.descriptionLabel.text = data?["description"] as? String ?? "No description"
-                
-                if let imageUrl = data?["image_url"] as? String {
+                print("Error fetching document: \(error.localizedDescription)")
+                return
+            }
+
+            if let document, document.exists, let data = document.data() {
+                self.cafeNameLabel.text = data["name"] as? String ?? "No Name"
+                self.addressLabel.text = data["address"] as? String ?? "No address"
+                self.descriptionLabel.text = data["description"] as? String ?? "No description"
+
+                if let imageUrl = data["image_url"] as? String {
                     self.loadImage(from: imageUrl)
                 }
-            }
-            else {
+
+                if let reviewIds = data["reviews"] as? [String] {
+                    self.fetchReviews(reviewIds: reviewIds)
+                }
+            } else {
                 print("Document does not exist.")
             }
         }
     }
+    
+    func fetchReviews(reviewIds: [String]) {
+        let reviewCollection = db.collection("reviews")
+        let userCollection = db.collection("users")
+
+        var fetchedReviews: [(reviewData: [String: Any], userData: [String: Any]?)] = []
+
+        let dispatchGroup = DispatchGroup()
+
+        for reviewId in reviewIds {
+            dispatchGroup.enter()
+            
+            reviewCollection.document(reviewId).getDocument { (reviewDoc, error) in
+                if let error = error {
+                    print("Error fetching review: \(error.localizedDescription)")
+                    dispatchGroup.leave()
+                    return
+                }
+
+                if let reviewDoc, reviewDoc.exists, let reviewData = reviewDoc.data() {
+                    let userId = reviewData["userID"] as? String ?? ""
+
+                    dispatchGroup.enter()
+                    userCollection.document(userId).getDocument { (userDoc, error) in
+                        defer { dispatchGroup.leave() }
+                        
+                        if let error = error {
+                            print("Error fetching user: \(error.localizedDescription)")
+                            return
+                        }
+
+                        var userData = userDoc?.data() ?? [:]
+                        
+                        // Combine firstName and lastName
+                        let firstName = userData["firstName"] as? String ?? ""
+                        let lastName = userData["lastName"] as? String ?? ""
+                        userData["fullName"] = firstName + " " + lastName
+                        
+                        fetchedReviews.append((reviewData, userData))
+                    }
+                }
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            self.reviews = fetchedReviews
+            self.reviewsTableView.reloadData()
+        }
+    }
+
+
+
     
     //load image function
     func loadImage(from urlString: String) {
@@ -124,6 +154,22 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
                 DispatchQueue.main.async {
                     self.cafeImage.image = image
                 }
+            }
+        }
+    }
+    
+    func loadReviewImage(reviewId: String, completion: @escaping (UIImage?) -> Void) {
+        let storageRef = Storage.storage().reference().child("review_images/\(reviewId)")
+        
+        storageRef.downloadURL { url, error in
+            if let error = error {
+                print("Error getting review image URL: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            if let url = url {
+                self.downloadImage(from: url, completion: completion)
             }
         }
     }
@@ -148,48 +194,71 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableCellIdentifier, for: indexPath) as! ReviewTableViewCell
-        
+
         let reviewData = reviews[indexPath.row].reviewData
         let userData = reviews[indexPath.row].userData
 
         cell.reviewNotes.text = reviewData["comment"] as? String ?? "No Review"
-        
+
         let tags = reviewData["tags"] as? [String] ?? []
         cell.tagOne.text = tags.indices.contains(0) ? tags[0] : ""
         cell.tagTwo.text = tags.indices.contains(1) ? tags[1] : ""
-        
-        if let userName = userData?["name"] as? String {
-            cell.userName.text = userName
+
+        if let fullName = userData?["fullName"] as? String, !fullName.trimmingCharacters(in: .whitespaces).isEmpty {
+            cell.userName.text = fullName
         } else {
             cell.userName.text = "Unknown User"
         }
+
+        if let profilePicUrl = userData?["profilePicture"] as? String, !profilePicUrl.isEmpty {
+            loadProfileImage(userId: profilePicUrl) { image in
+                DispatchQueue.main.async {
+                    cell.userProfilePicture.image = image
+                    cell.userProfilePicture.layer.cornerRadius = cell.userProfilePicture.frame.height / 2
+                    cell.userProfilePicture.clipsToBounds = true
+                }
+            }
+        }
         
-        if let profilePicUrl = userData?["profilePicture"] as? String {
-            loadProfileImage(from: profilePicUrl) { image in
-                cell.userProfilePicture.image = image
-                cell.userProfilePicture.layer.cornerRadius = cell.userProfilePicture.frame.height / 2
-                cell.userProfilePicture.clipsToBounds = true
+        if let reviewId = reviewData["reviewId"] as? String {
+            loadReviewImage(reviewId: reviewId) { image in
+                DispatchQueue.main.async {
+                    cell.imageOne.image = image
+                }
             }
         }
 
         return cell
     }
-    
-    func loadProfileImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
-            guard let url = URL(string: urlString) else {
+
+
+    func loadProfileImage(userId: String, completion: @escaping (UIImage?) -> Void) {
+        let storageRef = Storage.storage().reference().child("images/\(userId)")
+        
+        storageRef.downloadURL { url, error in
+            if let error = error {
+                print("Error getting profile image URL: \(error.localizedDescription)")
                 completion(nil)
                 return
             }
             
-            DispatchQueue.global().async {
-                if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        completion(image)
-                    }
-                } else {
-                    completion(nil)
-                }
+            if let url = url {
+                self.downloadImage(from: url, completion: completion)
             }
         }
+    }
+
+    func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
     
 }
