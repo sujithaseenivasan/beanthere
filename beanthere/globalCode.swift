@@ -20,6 +20,13 @@ struct UserManager {
     static var shared = UserManager(u_userID: " ")
 }
 
+// this struct will be used in the main User profile and in the view friend profile to be able to navigate to their bew logs
+struct BrewLogNavCell {
+    var icon: UIImage
+    var title: String
+    var navButton: UIButton?
+}
+
 var globalDidLogOut = false
 // A shared instance of UserManager to ensure a single instance is used globally
 var userChange = UserManager(u_userID: " ", u_name: " ", u_username: " ", u_email: " ", u_city: " ", u_phone: " ", u_pswd: " ", u_notifications: " ", u_img: nil)
@@ -37,8 +44,10 @@ func makeLabelOval(_ label: UILabel) {
 
 // helper function to make labels oval
 func makeImageOval(_ img: UIImageView) {
+    img.contentMode = .scaleAspectFill
     img.layer.cornerRadius = img.frame.size.height / 2
     img.layer.masksToBounds = true
+    img.clipsToBounds = true
 }
 
 //function that helps download the image from firebase in a URL and show it  to the image screen

@@ -32,7 +32,7 @@ class UserProfileVC: UIViewController, PassUserInfo {
         //download image from firebase and display it
         downloadImage(self.UserImage1)
         
-        
+        //TO CHECK IS REPEATED
         UserImage1.contentMode = .scaleAspectFill
         self.UserImage1.layer.cornerRadius = self.UserImage1.frame.width / 2
         UserImage1.clipsToBounds = true
