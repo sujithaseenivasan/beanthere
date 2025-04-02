@@ -291,6 +291,26 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
                     print("Error saving review: \(error.localizedDescription)")
                 } else {
                     print("Review successfully saved with images!")
+                    let coffeeShopRef = db.collection("coffeeShops").document(coffeeShopID!)
+                    let userRef = db.collection("users").document(userID)
+
+                    let updateData: [String: Any] = ["reviews": FieldValue.arrayUnion([reviewID])]
+
+                    coffeeShopRef.updateData(updateData) { error in
+                        if let error = error {
+                            print("Error updating coffee shop reviews: \(error.localizedDescription)")
+                        } else {
+                            print("Review ID added to coffee shop's reviews array")
+                        }
+                    }
+
+                    userRef.updateData(updateData) { error in
+                        if let error = error {
+                            print("Error updating user reviews: \(error.localizedDescription)")
+                        } else {
+                            print("Review ID added to user's reviews array")
+                        }
+                    }
                     self.navigationController?.popViewController(animated: true)
                 }
             }
