@@ -1,4 +1,3 @@
-//
 //  CafeProfileViewController.swift
 //  beanthere
 //
@@ -8,9 +7,8 @@
 import UIKit
 import FirebaseFirestore
 
-class CafeProfileViewController: UIViewController {
+class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    
     @IBOutlet weak var cafeImage: UIImageView!
     @IBOutlet weak var cafeNameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
@@ -20,11 +18,40 @@ class CafeProfileViewController: UIViewController {
     @IBOutlet weak var tagLabel1: UILabel!
     @IBOutlet weak var tagLabel4: UILabel!
     
+    @IBOutlet weak var reviewsTableView: UITableView!
+    
     //firestore instance
     let db = Firestore.firestore()
     var cafeId: String?
     
+    let tableCellIdentifier = "ReviewTableViewCell"
     let addReviewSegueIdentifier = "addReviewSegue"
+    
+    // Fake review data
+    var reviews: [(reviewData: [String: Any], userData: [String: Any]?)] = [
+        (
+            reviewData: [
+                "comment": "Loved the cappuccino! Great ambiance.",
+                "tags": ["Great Coffee", "Cozy"],
+                "imageURLs": ["https://via.placeholder.com/100", "https://via.placeholder.com/100"]
+            ],
+            userData: [
+                "name": "Alice Johnson",
+                "profilePicture": "https://via.placeholder.com/50"
+            ]
+        ),
+        (
+            reviewData: [
+                "comment": "Friendly staff and fast service!",
+                "tags": ["Fast Service", "Friendly"],
+                "imageURLs": []
+            ],
+            userData: [
+                "name": "Bob Smith",
+                "profilePicture": "https://via.placeholder.com/50"
+            ]
+        )
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +74,11 @@ class CafeProfileViewController: UIViewController {
         cafeImage.contentMode = .scaleAspectFill
         cafeImage.clipsToBounds = true
         
+        reviewsTableView.delegate = self
+        reviewsTableView.dataSource = self
+        reviewsTableView.rowHeight = 150
+        
         fetchCafeData()
-
-        // Do any additional setup after loading the view.
     }
     
     func fetchCafeData() {
@@ -112,5 +141,55 @@ class CafeProfileViewController: UIViewController {
             }
         }
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return reviews.count
+    }
+        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableCellIdentifier, for: indexPath) as! ReviewTableViewCell
+        
+        let reviewData = reviews[indexPath.row].reviewData
+        let userData = reviews[indexPath.row].userData
 
+        cell.reviewNotes.text = reviewData["comment"] as? String ?? "No Review"
+        
+        let tags = reviewData["tags"] as? [String] ?? []
+        cell.tagOne.text = tags.indices.contains(0) ? tags[0] : ""
+        cell.tagTwo.text = tags.indices.contains(1) ? tags[1] : ""
+        
+        if let userName = userData?["name"] as? String {
+            cell.userName.text = userName
+        } else {
+            cell.userName.text = "Unknown User"
+        }
+        
+        if let profilePicUrl = userData?["profilePicture"] as? String {
+            loadProfileImage(from: profilePicUrl) { image in
+                cell.userProfilePicture.image = image
+                cell.userProfilePicture.layer.cornerRadius = cell.userProfilePicture.frame.height / 2
+                cell.userProfilePicture.clipsToBounds = true
+            }
+        }
+
+        return cell
+    }
+    
+    func loadProfileImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
+            guard let url = URL(string: urlString) else {
+                completion(nil)
+                return
+            }
+            
+            DispatchQueue.global().async {
+                if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        completion(image)
+                    }
+                } else {
+                    completion(nil)
+                }
+            }
+        }
+    
 }
