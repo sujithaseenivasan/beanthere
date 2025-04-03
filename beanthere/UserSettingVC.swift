@@ -28,6 +28,7 @@ var delegate: PassUserInfo?
 private let storageRef = Storage.storage().reference()
 var didPicChange = false
 
+    
 override func viewDidLoad() {
     super.viewDidLoad()
     //make image round

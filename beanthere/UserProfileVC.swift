@@ -23,7 +23,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
     @IBOutlet weak var Phone1: UILabel!
     @IBOutlet weak var Notification1: UILabel!
     var loaded_data : [String : Any]?
-    
     let editSegue = "editProfileSegue"
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +56,7 @@ class UserProfileVC: UIViewController, PassUserInfo {
                 return
             }
             
+            
             // Retrieve the fields from the Firestore document
             let data = document.data()
             self.UserName1.text = data?["username"] as? String ?? " "
@@ -70,6 +70,20 @@ class UserProfileVC: UIViewController, PassUserInfo {
             //put all the information of currently loaded data here
             self.loaded_data = data
         }
+    }
+    
+    //When the viewDisappear pass the data back to the main profile
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        let editUserManager = UserManager(
+            u_userID: UserManager.shared.u_userID,
+            u_name : self.Name1.text,
+            u_username: self.UserName1.text,
+            u_img: self.UserImage1
+        )
+        //populate
+        mainUserProfilePopulate = editUserManager
+        
     }
     
     //go to edit profile
@@ -105,4 +119,5 @@ class UserProfileVC: UIViewController, PassUserInfo {
         downloadImage(self.UserImage1)
         
     }
+    
 }

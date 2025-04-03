@@ -36,6 +36,11 @@ protocol PassUserInfo{
     func populateUserInfo(info : UserManager)
 }
 
+//protocol to pass info back to the MainUser Profile
+protocol PassUserInfoToProfileView{
+    func populateUserInfoToProfileView(info : UserManager)
+}
+
 // helper function to make labels oval
 func makeLabelOval(_ label: UILabel) {
     label.layer.cornerRadius = label.frame.size.height / 2
