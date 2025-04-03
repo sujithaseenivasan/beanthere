@@ -108,8 +108,10 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
                     return
                 }
 
-                if let reviewDoc, reviewDoc.exists, let reviewData = reviewDoc.data() {
+                if let reviewDoc, reviewDoc.exists, var reviewData = reviewDoc.data() {
                     let userId = reviewData["userID"] as? String ?? ""
+                    
+                    reviewData["reviewId"] = reviewDoc.documentID
 
                     dispatchGroup.enter()
                     userCollection.document(userId).getDocument { (userDoc, error) in
@@ -139,9 +141,6 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
             self.reviewsTableView.reloadData()
         }
     }
-
-
-
     
     //load image function
     func loadImage(from urlString: String) {
@@ -158,21 +157,6 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    func loadReviewImage(reviewId: String, completion: @escaping (UIImage?) -> Void) {
-        let storageRef = Storage.storage().reference().child("review_images/\(reviewId)")
-        
-        storageRef.downloadURL { url, error in
-            if let error = error {
-                print("Error getting review image URL: \(error.localizedDescription)")
-                completion(nil)
-                return
-            }
-            
-            if let url = url {
-                self.downloadImage(from: url, completion: completion)
-            }
-        }
-    }
     
     // helper function to make labels oval
     func makeLabelOval(_ label: UILabel) {
@@ -199,6 +183,18 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         let userData = reviews[indexPath.row].userData
 
         cell.reviewNotes.text = reviewData["comment"] as? String ?? "No Review"
+        
+        if let rating = reviewData["rating"] as? Int {
+                // Set up the rating beans based on the rating
+                for i in 0..<5 {
+                    let imageView = cell.beanImageViews[i] // Assuming you have an array of UIImageViews in the cell
+                    if i < rating {
+                        imageView.image = UIImage(named: "filled_bean.png") // Set filled bean for rated beans
+                    } else {
+                        imageView.image = nil // Hide empty beans
+                    }
+                }
+            }
 
         let tags = reviewData["tags"] as? [String] ?? []
         cell.tagOne.text = tags.indices.contains(0) ? tags[0] : ""
@@ -210,30 +206,46 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
             cell.userName.text = "Unknown User"
         }
 
-        if let profilePicUrl = userData?["profilePicture"] as? String, !profilePicUrl.isEmpty {
-            loadProfileImage(userId: profilePicUrl) { image in
+        loadProfileImage(userId: reviewData["userID"] as! String) { image in
+            DispatchQueue.main.async {
+                cell.userProfilePicture.image = image
+
+                // Ensure the image view is square before applying corner radius
+                let sideLength = min(cell.userProfilePicture.frame.width, cell.userProfilePicture.frame.height)
+                cell.userProfilePicture.layer.cornerRadius = sideLength / 2
+                cell.userProfilePicture.clipsToBounds = true
+            }
+        }
+
+        if let reviewId = reviewData["reviewId"] as? String {
+            loadReviewImage(reviewId: reviewId) { images in
                 DispatchQueue.main.async {
-                    cell.userProfilePicture.image = image
-                    cell.userProfilePicture.layer.cornerRadius = cell.userProfilePicture.frame.height / 2
-                    cell.userProfilePicture.clipsToBounds = true
+                    if let images = images, !images.isEmpty {
+                        cell.imageOne.image = images[0] // Show first image
+
+                        if images.count > 1 {
+                            cell.imageTwo.image = images[1] // Show second image if available
+                        }
+                    }
                 }
             }
         }
         
-        if let reviewId = reviewData["reviewId"] as? String {
-            loadReviewImage(reviewId: reviewId) { image in
-                DispatchQueue.main.async {
-                    cell.imageOne.image = image
-                }
-            }
-        }
+        cell.tagOne.adjustsFontSizeToFitWidth = true
+        cell.tagOne.minimumScaleFactor = 0.8
+        cell.tagOne.sizeToFit()
+
+        cell.tagTwo.adjustsFontSizeToFitWidth = true
+        cell.tagTwo.minimumScaleFactor = 0.8
+        cell.tagTwo.sizeToFit()
 
         return cell
     }
 
 
     func loadProfileImage(userId: String, completion: @escaping (UIImage?) -> Void) {
-        let storageRef = Storage.storage().reference().child("images/\(userId)")
+        print("loadProfileImage called for userId: \(userId)") // Debugging
+        let storageRef = Storage.storage().reference().child("images/\(userId)file.png")
         
         storageRef.downloadURL { url, error in
             if let error = error {
@@ -243,10 +255,53 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
             }
             
             if let url = url {
+                print("Profile image URL: \(url)") // Debugging
                 self.downloadImage(from: url, completion: completion)
             }
         }
     }
+
+    func loadReviewImage(reviewId: String, completion: @escaping ([UIImage]?) -> Void) {
+        let storageRef = Storage.storage().reference().child("review_images/\(reviewId)/")
+
+        storageRef.listAll { (result, error) in
+            if let error = error {
+                print("Error listing images for review \(reviewId): \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            let dispatchGroup = DispatchGroup()
+            var images: [UIImage] = []
+
+            for item in result!.items {
+                dispatchGroup.enter()
+                item.downloadURL { url, error in
+                    if let error = error {
+                        print("Error getting image URL for \(item.name): \(error.localizedDescription)")
+                        dispatchGroup.leave()
+                        return
+                    }
+
+                    if let url = url {
+                        self.downloadImage(from: url) { image in
+                            if let image = image {
+                                images.append(image)
+                            }
+                            dispatchGroup.leave()
+                        }
+                    }
+                }
+            }
+
+            dispatchGroup.notify(queue: .main) {
+                completion(images.isEmpty ? nil : images)
+            }
+        }
+    }
+
+
+
 
     func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
         DispatchQueue.global().async {
