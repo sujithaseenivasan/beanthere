@@ -23,6 +23,11 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+//        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.estimatedRowHeight = 300  // any reasonable guess
+        tableView.rowHeight = 100
+        print("hello")
+        print("navigationController: \(navigationController)")
         
         fetchUserReviews()
         // Do any additional setup after loading the view.
@@ -50,43 +55,39 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     func fetchReviewDetails(reviewIDs: [String]) {
         let group = DispatchGroup()
         var fetchedReviews: [Review] = []
-        //loop through each of the reviews
+
         for reviewID in reviewIDs {
             group.enter()
             db.collection("reviews").document(reviewID).getDocument { (document, error) in
-                defer { group.leave() }
-                //put the Firestore data into Review struct
-                if let document = document, document.exists, let data = document.data() {
-                    var review = Review(
-                        coffeeShopID: data["coffeeShopID"] as? String ?? "",
-                        comment: data["comment"] as? String ?? "",
-                        rating: data["rating"] as? Int ?? 0,
-                        tags: data["tags"] as? [String] ?? [],
-                        timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date()
-                    )
-                    
-                    group.enter()
-                    //get the name of the coffee shop and the address based on the coffeeShopID
-                    //and add it to the struct
-                    self.fetchCoffeeShopDetails(for: review.coffeeShopID) { name, address in
-                        review.coffeeShopName = name
-                        review.address = address
-                        //add review to our temp array
-                        fetchedReviews.append(review)
-                        group.leave()
-                    }
+                // Document doesn't exist or there's an error
+                guard let document = document, document.exists, let data = document.data() else {
+                    group.leave()
+                    return
                 }
-                group.leave()
+
+                var review = Review(
+                    coffeeShopID: data["coffeeShopID"] as? String ?? "",
+                    comment: data["comment"] as? String ?? "",
+                    rating: data["rating"] as? Int ?? 0,
+                    tags: data["tags"] as? [String] ?? [],
+                    timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date()
+                )
+
+                self.fetchCoffeeShopDetails(for: review.coffeeShopID) { name, address in
+                    review.coffeeShopName = name
+                    review.address = address
+                    fetchedReviews.append(review)
+                    group.leave() // only called here after everything is done
+                }
             }
         }
-        
+
         group.notify(queue: .main) {
-            //once all the reviews are fetched, update the main array
             self.reviews = fetchedReviews
             self.tableView.reloadData()
         }
     }
-    
+
     //helper function that grabs the name and address for a particular coffeeShopID
     func fetchCoffeeShopDetails(for coffeeShopID: String, completion: @escaping (String?, String?) -> Void) {
         db.collection("coffeeShops").document(coffeeShopID).getDocument { (document, error) in
@@ -119,6 +120,23 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.bean5.isHidden = review.rating < 5
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // get the selected coffee shop from reviews
+        let selectedCoffeeShop = reviews[indexPath.row]
+        
+        let storyboard = UIStoryboard(name: "UserSetting", bundle: nil)
+        
+        if let cafeProfileVC = storyboard.instantiateViewController(withIdentifier: "CafeProfileViewController") as? CafeProfileViewController {
+            
+            // pass the selected shop's ID to the next screen
+            cafeProfileVC.cafeId = selectedCoffeeShop.coffeeShopID
+            
+            // push the profile screen onto the navigation stack
+            navigationController?.pushViewController(cafeProfileVC, animated: true)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }
