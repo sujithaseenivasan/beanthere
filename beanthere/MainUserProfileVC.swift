@@ -31,11 +31,11 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     let addReviewSegueIdentifier = "addReviewSegue"
     let userSettingsSegueIdentifier = "userSettingSegue"
     // Fake review data
-    var reviews: [(reviewData: [String: Any], userData: [String: Any]?)] = []
+    var userReviews:[Review] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // from firebase download the image and make it round
         downloadImage(self.userProfileImg)
         makeImageOval(self.userProfileImg)
@@ -44,18 +44,18 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         userReviewsTableView.dataSource = self
         userReviewsTableView.rowHeight = 150
         //Default of timerTable
-        userReviewsTableView.register(UITableViewCell.self, forCellReuseIdentifier: valCellIndetifier)
+        userReviewsTableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: valCellIndetifier)
         
     }
     
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
-        var profileUID = UserManager.shared.u_userID
+        let profileUID = UserManager.shared.u_userID
         self.userID = profileUID
         
         // search in firebase if you find the user populate the users information in the swift fields
-        let userField = Firestore.firestore().collection("reviews").document(profileUID)
+        let userField = Firestore.firestore().collection("users").document(profileUID)
         userField.getDocument { (docSnap, error) in
             //if user have an error guard it
             if let error = error {
@@ -72,8 +72,13 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             self.userProfileUsername.text = data?["username"] as? String ?? " "
             
             self.profileName.text = data?["firstName"] as? String ?? " "
-            //put all the information of currently loaded data in the table
-            //self.fetchUserData();
+            
+            let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
+            //put all the information of currently loaded data in the array of reviews
+            self.populateUserReviews( reviewIDs: reviewIDs)
+            //reload and update any new info
+            self.userReviewsTableView.reloadData()
+            
         }
     }
     
@@ -94,91 +99,87 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         downloadImage(self.userProfileImg)
     }
     
-    
-    func fetchUserData() {
-        guard let profileUID = self.userID else {
-            print("Error: cafeId is nil in CafeProfileViewController")
-            return
-        }
-
-        print("Fetching data for userID: \(profileUID)") // Debugging
-
-        db.collection("users").document(profileUID).getDocument { (document, error) in
-            if let error = error {
-                print("Error fetching document: \(error.localizedDescription)")
-                return
-            }
-
-            if let document, document.exists, let data = document.data() {
-                if let reviewIds = data["reviews"] as? [String] {
-                    self.fetchReviews(reviewIds: reviewIds)
-                }
-            } else {
-                print("Document does not exist.")
-            }
-        }
-    }
-    
-    func fetchReviews(reviewIds: [String]) {
-        let reviewCollection = db.collection("reviews")
-        let userCollection = db.collection("users")
-
-        var fetchedReviews: [(reviewData: [String: Any], userData: [String: Any]?)] = []
-
-        let dispatchGroup = DispatchGroup()
-
-        for reviewId in reviewIds {
-            dispatchGroup.enter()
-            
-            reviewCollection.document(reviewId).getDocument { (reviewDoc, error) in
+    // this function populates the array of reviews that users have so far from firestore fill
+    func populateUserReviews( reviewIDs: [String]){
+        let db = Firestore.firestore()
+        let group = DispatchGroup() //Allow async actions to happen
+        
+        //forloop to populate each review that the user wrote
+        for reviewID in reviewIDs{
+            group.enter()
+            let userReview = Firestore.firestore().collection("reviews").document(reviewID)
+            userReview.getDocument { (docSnap, error) in
+                //if user have an error guard it
                 if let error = error {
-                    print("Error fetching review: \(error.localizedDescription)")
-                    dispatchGroup.leave()
+                    print("Error fetching user review data: \(error.localizedDescription)")
                     return
                 }
-
-                if let reviewDoc, reviewDoc.exists, var reviewData = reviewDoc.data() {
-                    let userId = reviewData["userID"] as? String ?? ""
-                    
-                    reviewData["reviewId"] = reviewDoc.documentID
-
-                    dispatchGroup.enter()
-                    userCollection.document(userId).getDocument { (userDoc, error) in
-                        defer { dispatchGroup.leave() }
-                        
-                        if let error = error {
-                            print("Error fetching user: \(error.localizedDescription)")
-                            return
-                        }
-
-                        var userData = userDoc?.data() ?? [:]
-                        
-                        // Combine firstName and lastName
-                        let firstName = userData["firstName"] as? String ?? ""
-                        let lastName = userData["lastName"] as? String ?? ""
-                        userData["fullName"] = firstName + " " + lastName
-                        
-                        fetchedReviews.append((reviewData, userData))
-                    }
+                guard let document = docSnap, document.exists else {
+                    print("User reviews does not exist")
+                    return
                 }
-                dispatchGroup.leave()
+                
+                // Retrieve the fields from the Firestore document
+                let data = document.data()!
+                // Parse Firestore document into Review struct
+                guard let cafeID = data["coffeeShopID"] as? String else {
+                    print("CoffeShopID does not exist")
+                    return
+                }
+                let comment = data["comment"] as? String ?? ""
+                let rating = data["rating"] as? Int ?? 0
+                let tags = data["tags"] as? [String] ?? []
+                
+                //now retrieve the data using the cafeID to get the cafe adress and name
+                let cafeInfo = Firestore.firestore().collection("coffeeShops").document(cafeID)
+                cafeInfo.getDocument { (docSnap, error) in
+                    defer { group.leave() }
+                    
+                    let cafeData = docSnap!.data()!
+                    let cafeName = cafeData["name"] as? String
+                    let address = cafeData["address"] as? String
+                    
+                    //populate all the data we collected as a review and then add the review in the array
+                    let review = Review(
+                        coffeeShopID: cafeID,
+                        coffeeShopName: cafeName,
+                        address: address,
+                        comment: comment,
+                        rating: rating,
+                        tags: tags,
+                        timestamp:(data["timestamp"] as! Timestamp).dateValue()
+                    )
+                    
+                    self.userReviews.append(review)
+                    
+                }
+              }
             }
         }
-
-        dispatchGroup.notify(queue: .main) {
-            self.reviews = fetchedReviews
-            //self.userReviewsTableView.reloadData()
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return userReviews.count
         }
-    }
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath as IndexPath)
-        return cell
+        
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            var userReview = userReviews[indexPath.row]
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! ProfileTableViewCell
+//            cell.cafeName.text = userReview.coffeeShopName ?? "Unknown cafe"
+//            cell.cafeAdrr.text = userReview.address ?? "Unknown address"
+//            cell.cafeRank.text = "\(userReview.rating)"
+//            cell.cafeTag.text = userReview.tags.joined(separator: " ")
+//            cell.comment.text = userReview.comment
+            return cell
+        }
+        
     }
 
+// create a class of a table cell and design it how you want it to look
+class ProfileTableViewCell: UITableViewCell {
+    @IBOutlet weak var drinkImg: UIImageView!
+    @IBOutlet weak var cafeName: UILabel!
+    @IBOutlet weak var cafeAdrr: UILabel!
+    @IBOutlet weak var cafeRank: UILabel!
+    @IBOutlet weak var cafeTag: UILabel!
+    @IBOutlet weak var comment: UILabel!
 }
