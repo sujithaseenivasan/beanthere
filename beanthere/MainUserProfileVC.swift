@@ -10,7 +10,6 @@ import FirebaseFirestore
 import FirebaseStorage
 
 
-var mainUserProfilePopulate = UserManager(u_userID: "")
 class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView{
     
     
@@ -30,7 +29,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     var userID : String?
     let valCellIndetifier = "valCellID"
     let addReviewSegueIdentifier = "addReviewSegue"
-    let userSettingsSegueIdentifier = "userSettingsSegue"
+    let userSettingsSegueIdentifier = "userSettingSegue"
     // Fake review data
     var reviews: [(reviewData: [String: Any], userData: [String: Any]?)] = []
     
@@ -82,7 +81,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     override func prepare( for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == userSettingsSegueIdentifier,
            let userProfileVC = segue.destination as? UserProfileVC{
-            populateUserInfoToProfileView(info: mainUserProfilePopulate)
+            userProfileVC.delegate =  self
         }
     }
     

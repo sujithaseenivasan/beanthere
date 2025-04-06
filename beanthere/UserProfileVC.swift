@@ -14,16 +14,20 @@ import FirebaseStorage
 
 class UserProfileVC: UIViewController, PassUserInfo {
     
-    @IBOutlet weak var MainName: UILabel!
-    @IBOutlet weak var UserImage1: UIImageView!
-    @IBOutlet weak var Name1: UILabel!
-    @IBOutlet weak var UserName1: UILabel!
-    @IBOutlet weak var Email1: UILabel!
-    @IBOutlet weak var City1: UILabel!
-    @IBOutlet weak var Phone1: UILabel!
-    @IBOutlet weak var Notification1: UILabel!
+    
+    @IBOutlet weak var MainName : UILabel!
+    @IBOutlet weak var UserImage1 : UIImageView!
+    @IBOutlet weak var Name1 : UILabel!
+    @IBOutlet weak var UserName1 : UILabel!
+    @IBOutlet weak var Email1 : UILabel!
+    @IBOutlet weak var City1 : UILabel!
+    @IBOutlet weak var Phone1 : UILabel!
+    @IBOutlet weak var Notification1 : UILabel!
     var loaded_data : [String : Any]?
     let editSegue = "editProfileSegue"
+    var wentToProfile : Bool = false
+    var delegate: PassUserInfoToProfileView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //make image round
@@ -41,6 +45,9 @@ class UserProfileVC: UIViewController, PassUserInfo {
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
+        wentToProfile = true
+        print ("THE WENT  PROFILE BOOL VIEWWILLAPPEAR \(wentToProfile)")
+        
         var settingUID = UserManager.shared.u_userID
         
         // search in firebase if you find the user populate the users information in the swift fields
@@ -81,14 +88,21 @@ class UserProfileVC: UIViewController, PassUserInfo {
             u_username: self.UserName1.text,
             u_img: self.UserImage1
         )
-        //populate
-        mainUserProfilePopulate = editUserManager
+        if(wentToProfile){
+            print ("ENTERED THE VIEWDID DISAPPEAR")
+            delegate!.populateUserInfoToProfileView(info: editUserManager)
+        } else {
+            print ("DIDN'T ENTERED THE VIEWDID DISAPPEAR")
+
+        }
+       
         
     }
     
     //go to edit profile
     
     @IBAction func EditButton(_ sender: Any) {
+        wentToProfile = false
         
     }
     
@@ -96,6 +110,7 @@ class UserProfileVC: UIViewController, PassUserInfo {
     
     @IBAction func LogOutButton(_ sender: Any) {
         globalDidLogOut = true
+        wentToProfile = false
     }
     //overwrite do the connection  between the 2 screens and the main screen
     override func prepare( for segue: UIStoryboardSegue, sender: Any?){
