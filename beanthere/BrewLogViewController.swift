@@ -105,7 +105,7 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BrewLogCell", for: indexPath) as! BrewLogCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BrewLogCell", for: indexPath) as! BrewLogCellTableViewCell
         let review = reviews[indexPath.row]
         cell.coffeeShopName.text = review.coffeeShopName
         cell.addressLabel.text = review.address
