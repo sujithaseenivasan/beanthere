@@ -10,7 +10,6 @@ import UIKit
 
 class BrewLogCell: UITableViewCell {
     
-    @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var coffeeShopName: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var notes: UILabel!

@@ -26,8 +26,6 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
 //        tableView.rowHeight = UITableView.automaticDimension
 //        tableView.estimatedRowHeight = 300  // any reasonable guess
         tableView.rowHeight = 100
-        print("hello")
-        print("navigationController: \(navigationController)")
         
         fetchUserReviews()
         // Do any additional setup after loading the view.
