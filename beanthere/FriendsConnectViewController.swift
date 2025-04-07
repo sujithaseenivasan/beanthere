@@ -10,25 +10,26 @@ import UIKit
 class FriendsConnectViewController: UIViewController {
     
     
-    @IBOutlet weak var suggestFriendsCollection: UICollectionView!
-    
-    @IBOutlet weak var contactsFriendsCollection: UICollectionView!
-    
-    @IBOutlet weak var suggestedFriendImage: UIImageView!
-    
-    
-    @IBOutlet weak var suggestedFriendName: UILabel!
-    
-    @IBOutlet weak var suggestedFriendUsername: UILabel!
-    
-    
-    @IBOutlet weak var contactsFriendImage: UIImageView!
-    
-    
-    @IBOutlet weak var contactsFriendName: UILabel!
-    
-    
-    @IBOutlet weak var contactsFriendUsername: UILabel!
+//    @IBOutlet weak var suggestFriendsCollection: UICollectionView!
+//    
+//    @IBOutlet weak var contactsFriendsCollection: UICollectionView!
+//    
+//    @IBOutlet weak var suggestedFriendImage: UIImageView!
+//    
+//    
+//    @IBOutlet weak var suggestedFriendName: UILabel!
+//    
+//    @IBOutlet weak var suggestedFriendUsername: UILabel!
+//    
+//    
+//    @IBOutlet weak var contactsFriendImage: UIImageView!
+//    
+//    
+//    @IBOutlet weak var contactsFriendName: UILabel!
+//    
+//    
+//    @IBOutlet weak var contactsFriendUsername: UILabel!
+//
     override func viewDidLoad() {
         super.viewDidLoad()
 

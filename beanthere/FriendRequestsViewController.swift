@@ -14,11 +14,11 @@ import UIKit
 
 class FriendRequestsViewController: UIViewController {
 
-    @IBOutlet weak var friendRequestsTable: UITableView!
-    
-    @IBOutlet weak var requestNameLabel: UILabel!
-    
-    @IBOutlet weak var requestUsernameLabel: UILabel!
+//    @IBOutlet weak var friendRequestsTable: UITableView!
+//    
+//    @IBOutlet weak var requestNameLabel: UILabel!
+//    
+//    @IBOutlet weak var requestUsernameLabel: UILabel!
     
     var delegate: UIViewController!
     
