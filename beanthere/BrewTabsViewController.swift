@@ -18,6 +18,7 @@ class BrewTabsViewController: UIViewController {
     
     var currentVC: UIViewController?
     var defaultTabIndex: Int = 0
+    var friendID: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,13 @@ class BrewTabsViewController: UIViewController {
         print("ENTERED BREWTAB3 ")
         wantToTryVC = storyboard.instantiateViewController(withIdentifier: "WantToTryViewController") as? WantToTryViewController
         recsVC = storyboard.instantiateViewController(withIdentifier: "RecommendationViewController") as? RecommendationViewController
+        
+        //pass friend ID to each VC
+        if let friendID = self.friendID {
+            beenVC.friendID = friendID
+            wantToTryVC.friendID = friendID
+            // Optional: recsVC.friendID = friendID
+        }
 
         
         segmentedControl.selectedSegmentIndex = defaultTabIndex

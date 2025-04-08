@@ -18,6 +18,9 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     //array to store fetched reviews
     var reviews: [Review] = []
     let db = Firestore.firestore()
+    
+    //if we are viewing another user's brewlog
+    var friendID: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,20 +35,23 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func fetchUserReviews() {
-        //get the user that is currently logged in
-        if let userID = Auth.auth().currentUser?.uid {
-            //if user is currently logged in, use thier userID to fetch their document
-            db.collection("users").document(userID).getDocument { (document, error) in
-                if let document = document, document.exists {
-                    if let reviewIDs = document.data()?["reviews"] as? [String] {
-                        self.fetchReviewDetails(reviewIDs: reviewIDs)
-                    }
+        // Use friendID if passed in, otherwise fallback to current user's UID
+        guard let uidToUse = friendID ?? Auth.auth().currentUser?.uid else {
+            print("No user is logged in and no friend ID was provided")
+            return
+        }
+
+        // fetch the user's document from Firestore
+        db.collection("users").document(uidToUse).getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let reviewIDs = document.data()?["reviews"] as? [String] {
+                    self.fetchReviewDetails(reviewIDs: reviewIDs)
                 } else {
-                    print("User document not found")
+                    print("No reviews found in user document")
                 }
+            } else {
+                print("User document not found or error: \(error?.localizedDescription ?? "Unknown error")")
             }
-        } else {
-            print("No user is logged in")
         }
     }
 

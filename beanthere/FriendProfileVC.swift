@@ -39,14 +39,18 @@ class FriendProfileVC: UIViewController {
     @IBAction func beenBrewButton(_ sender: Any) {
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    //segue to view friend's brewlog from their profile
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "friendToBeenSegue",
+           let tabsVC = segue.destination as? BrewTabsViewController {
+            tabsVC.defaultTabIndex = 0 // assuming we want to default to the "Been" tab
+            tabsVC.friendID = self.friendID // or however you're storing it
+        }
+        if segue.identifier == "friendToWantToTrySegue",
+           let tabsVC = segue.destination as? BrewTabsViewController {
+            tabsVC.defaultTabIndex = 1 // now we are going to "Want to Try" tab
+            tabsVC.friendID = self.friendID
+        }
     }
-    */
 
 }

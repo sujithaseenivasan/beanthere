@@ -17,6 +17,9 @@ class WantToTryViewController: UIViewController, UITableViewDelegate, UITableVie
     var coffeeShops: [CoffeeShop] = []
     let db = Firestore.firestore()
     
+    //if we are viewing another users brewlog
+    var friendID: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -26,21 +29,23 @@ class WantToTryViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func fetchWantToTry() {
-        //get the current user that is signed in
-        guard let userID = Auth.auth().currentUser?.uid else { return }
+        // Use friendID if passed in, otherwise use current user
+        guard let uidToUse = friendID ?? Auth.auth().currentUser?.uid else {
+            print("No user logged in and no friend ID provided.")
+            return
+        }
         //get the users data
-        db.collection("users").document(userID).getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        let data = document.data()
-                        let coffeeShopIDs = data?["wantToTry"] as? [String] ?? []
+        db.collection("users").document(uidToUse).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = document.data()
+                let coffeeShopIDs = data?["wantToTry"] as? [String] ?? []
 
-                        self.fetchShopsFromIDs(coffeeShopIDs)
-                    } else {
-                        print("User doc not found")
-                    }
-                }
+                self.fetchShopsFromIDs(coffeeShopIDs)
+            } else {
+                print("User document not found or error: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }
     }
-    
     func fetchShopsFromIDs(_ ids: [String]) {
         let group = DispatchGroup()
         //temporary array to hold fetched CoffeeShops objects
