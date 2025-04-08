@@ -12,13 +12,11 @@ import UIKit
 //    
 //}
 
+let friendRequestCellIdentifier = "FriendRequestCell"
+
 class FriendRequestsViewController: UIViewController {
 
-//    @IBOutlet weak var friendRequestsTable: UITableView!
-//    
-//    @IBOutlet weak var requestNameLabel: UILabel!
-//    
-//    @IBOutlet weak var requestUsernameLabel: UILabel!
+    @IBOutlet weak var friendRequestsTable: UITableView!
     
     var delegate: UIViewController!
     
@@ -26,12 +24,5 @@ class FriendRequestsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-    }
-    
-    @IBAction func confirmRequest(_ sender: Any) {
-    }
-    
-    
-    @IBAction func deleteRequest(_ sender: Any) {
     }
 }

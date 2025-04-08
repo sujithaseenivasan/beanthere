@@ -7,29 +7,17 @@
 
 import UIKit
 
+let suggestFriendCellIdentifier = "SuggestedFriendCell"
+let contactsFriendCellIdentifier = "ContactsFriendCell"
+
 class FriendsConnectViewController: UIViewController {
     
     
-//    @IBOutlet weak var suggestFriendsCollection: UICollectionView!
-//    
-//    @IBOutlet weak var contactsFriendsCollection: UICollectionView!
-//    
-//    @IBOutlet weak var suggestedFriendImage: UIImageView!
-//    
-//    
-//    @IBOutlet weak var suggestedFriendName: UILabel!
-//    
-//    @IBOutlet weak var suggestedFriendUsername: UILabel!
-//    
-//    
-//    @IBOutlet weak var contactsFriendImage: UIImageView!
-//    
-//    
-//    @IBOutlet weak var contactsFriendName: UILabel!
-//    
-//    
-//    @IBOutlet weak var contactsFriendUsername: UILabel!
-//
+    @IBOutlet weak var suggestFriendsCollection: UICollectionView!
+    
+    @IBOutlet weak var contactsFriendsCollection: UICollectionView!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,14 +28,6 @@ class FriendsConnectViewController: UIViewController {
            let nextVC = segue.destination as? FriendRequestsViewController {
             nextVC.delegate = self
         }
-    }
-    
-    
-    @IBAction func followSuggestedFriend(_ sender: Any) {
-    }
-    
-    
-    @IBAction func followContactsFriend(_ sender: Any) {
     }
     
 }
