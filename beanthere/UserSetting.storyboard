@@ -275,7 +275,7 @@
                                             <outlet property="suggestedFriendImage" destination="IHJ-qK-O7x" id="RAj-Ls-pqk"/>
                                             <outlet property="suggestedFriendName" destination="Vea-67-2ne" id="KVJ-hm-dzt"/>
                                             <outlet property="suggestedFriendUsername" destination="haL-ai-P5N" id="hXv-Lc-2Nj"/>
-                                            <segue destination="cCL-dh-yzC" kind="presentation" identifier="suggGoToFriendProfID" id="5Kt-Vn-ezp"/>
+                                            <segue destination="cCL-dh-yzC" kind="presentation" identifier="suggGoToFriendProfID" modalPresentationStyle="fullScreen" id="5Kt-Vn-ezp"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -381,6 +381,7 @@
                     <connections>
                         <outlet property="contactsFriendsCollection" destination="Es6-yp-ya0" id="5C6-Nd-BaV"/>
                         <outlet property="suggestFriendsCollection" destination="IvU-To-smJ" id="blX-3A-wXW"/>
+                        <outlet property="testForFriendID" destination="Vea-67-2ne" id="ag5-pU-BHF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQL-eE-obp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -681,20 +682,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="402" height="864"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toplogo" translatesAutoresizingMaskIntoConstraints="NO" id="cZb-Td-kwQ">
-                                <rect key="frame" x="16" y="0.0" width="204" height="47"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="47" id="EaD-gp-mn5"/>
-                                    <constraint firstAttribute="width" constant="204" id="Fci-HK-ajZ"/>
-                                </constraints>
-                            </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EoF-UT-RwV">
-                                <rect key="frame" x="111" y="47" width="180" height="180"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="180" id="Kvv-oh-6cu"/>
-                                    <constraint firstAttribute="width" constant="180" id="hkg-hH-Efi"/>
-                                </constraints>
-                            </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="tf0-vW-n6H">
                                 <rect key="frame" x="16" y="301" width="375" height="235"/>
                                 <subviews>
@@ -876,6 +863,20 @@
                                 <rect key="frame" x="16" y="559" width="370" height="315"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="toplogo" translatesAutoresizingMaskIntoConstraints="NO" id="cZb-Td-kwQ">
+                                <rect key="frame" x="16" y="50" width="204" height="47"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="47" id="EaD-gp-mn5"/>
+                                    <constraint firstAttribute="width" constant="204" id="Fci-HK-ajZ"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EoF-UT-RwV">
+                                <rect key="frame" x="111" y="97" width="180" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="Kvv-oh-6cu"/>
+                                    <constraint firstAttribute="width" constant="180" id="hkg-hH-Efi"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hER-xF-NVg"/>
                         <color key="backgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1514,7 +1515,7 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tns-wh-RUu">
-                                <rect key="frame" x="0.0" y="166" width="402" height="612"/>
+                                <rect key="frame" x="0.0" y="166" width="402" height="674"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
@@ -1829,7 +1830,7 @@
                                                     <color key="highlightedColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brief description of coffee shop" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gax-Ng-qGa">
-                                                    <rect key="frame" x="24.666666666666657" y="255.33333333333334" width="353" height="15.6666666666666"/>
+                                                    <rect key="frame" x="24.666666666666657" y="255.33333333333334" width="353" height="15.666666666666657"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15.666666666666572" id="GFg-Zr-boF"/>
                                                         <constraint firstAttribute="width" constant="353" id="wIb-Cl-Qpl"/>
@@ -2273,9 +2274,6 @@
                                 <buttonConfiguration key="configuration" style="plain" image="bookmark.circle" catalog="system">
                                     <color key="baseForegroundColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </buttonConfiguration>
-                                <connections>
-                                    <action selector="bookmarkBtnPressed:" destination="6q9-hf-Pqa" eventType="touchUpInside" id="Coy-HT-xv4"/>
-                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ryA-yy-qhn">
                                 <rect key="frame" x="167" y="301" width="129" height="25"/>
@@ -2694,7 +2692,7 @@
                     <tabBarItem key="tabBarItem" title="BREW LOG" image="cup.and.heat.waves" catalog="system" selectedImage="cup.and.heat.waves" id="7wG-9s-938"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ldk-VP-hqa">
-                        <rect key="frame" x="0.0" y="62" width="402" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -2708,7 +2706,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="u0r-VO-MCo"/>
+        <segue reference="C5i-aF-20x"/>
         <segue reference="U2q-Mk-CSq"/>
         <segue reference="Odn-FF-Cel"/>
     </inferredMetricsTieBreakers>
