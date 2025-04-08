@@ -40,6 +40,7 @@ override func viewDidLoad() {
     userImage.contentMode = .scaleAspectFill
     userImage.clipsToBounds = true
 }
+    
 
 //In will appear that is where we load every instance of settings
 override func viewWillAppear(_ _animated : Bool){

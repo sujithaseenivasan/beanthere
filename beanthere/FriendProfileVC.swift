@@ -21,6 +21,8 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var wantNum: UILabel!
     
     @IBOutlet weak var friendReviewTableView: UITableView!
+    var friendID: String!
+    var delegate: UIViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
