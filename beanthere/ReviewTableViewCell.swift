@@ -15,10 +15,8 @@ class ReviewTableViewCell: UITableViewCell {
     
     @IBOutlet weak var reviewNotes: UILabel!
     
-    @IBOutlet weak var tagOne: UILabel!
-    
-    @IBOutlet weak var tagTwo: UILabel!
-    
+    @IBOutlet var reviewTagLabels: [UILabel]!
+
     @IBOutlet weak var imageOne: UIImageView!
     
     @IBOutlet weak var imageTwo: UIImageView!

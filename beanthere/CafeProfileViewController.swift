@@ -14,10 +14,13 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var cafeNameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var tagLabel3: UILabel!
-    @IBOutlet weak var tagLabel2: UILabel!
-    @IBOutlet weak var tagLabel1: UILabel!
-    @IBOutlet weak var tagLabel4: UILabel!
+
+    
+    @IBOutlet weak var cafeRatingStackView: UIStackView!
+    
+    @IBOutlet var cafeBeanImageViews: [UIImageView]!
+
+    @IBOutlet var cafeTagLabels: [UILabel]!
     
     @IBOutlet weak var reviewsTableView: UITableView!
     
@@ -41,11 +44,6 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         // allow description to go to multiple lines
         descriptionLabel.numberOfLines = 0
         descriptionLabel.lineBreakMode = .byWordWrapping
-        
-        makeLabelOval(tagLabel1)
-        makeLabelOval(tagLabel2)
-        makeLabelOval(tagLabel3)
-        makeLabelOval(tagLabel4)
         
         // make image fill the UIImageView space
         cafeImage.contentMode = .scaleAspectFill
@@ -138,9 +136,50 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
 
         dispatchGroup.notify(queue: .main) {
             self.reviews = fetchedReviews
+            
+            // Compute overall cafe rating
+            let totalRating = fetchedReviews.compactMap { $0.reviewData["rating"] as? Int }.reduce(0, +)
+            let reviewCount = fetchedReviews.count
+            let averageRating = reviewCount > 0 ? Double(totalRating) / Double(reviewCount) : 0.0
+            self.updateCafeRatingDisplay(average: averageRating)
+
+            // Determine most popular cafe tags
+            var tagFrequency: [String: Int] = [:]
+
+            for (reviewData, _) in fetchedReviews {
+                if let tags = reviewData["tags"] as? [String] {
+                    for tag in tags {
+                        tagFrequency[tag, default: 0] += 1
+                    }
+                }
+            }
+
+            let sortedTags = tagFrequency.sorted { $0.value > $1.value }
+            let topTags = sortedTags.prefix(4).map { $0.key }
+            self.view.layoutIfNeeded()
+            TagStyler.configureTagLabels(self.cafeTagLabels, withTags: Array(topTags))
+
+
+
             self.reviewsTableView.reloadData()
         }
     }
+    
+    func updateCafeRatingDisplay(average: Double) {
+        let totalBeans = cafeBeanImageViews.count
+        for i in 0..<totalBeans {
+            let imageView = cafeBeanImageViews[i]
+            if Double(i + 1) <= average {
+                imageView.image = UIImage(named: "filled_bean.png")
+            } else if Double(i) < average {
+                imageView.image = UIImage(named: "filled_bean.png") // Add half bean later
+            } else {
+                imageView.image = nil
+            }
+        }
+
+    }
+
     
     //load image function
     func loadImage(from urlString: String) {
@@ -158,12 +197,6 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     
-    // helper function to make labels oval
-    func makeLabelOval(_ label: UILabel) {
-        label.layer.cornerRadius = label.frame.size.height / 2
-        label.layer.masksToBounds = true
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == addReviewSegueIdentifier {
             if let destinationVC = segue.destination as? AddReviewViewController {
@@ -176,6 +209,7 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         return reviews.count
     }
         
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableCellIdentifier, for: indexPath) as! ReviewTableViewCell
 
@@ -185,20 +219,21 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         cell.reviewNotes.text = reviewData["comment"] as? String ?? "No Review"
         
         if let rating = reviewData["rating"] as? Int {
-                // Set up the rating beans based on the rating
-                for i in 0..<5 {
-                    let imageView = cell.beanImageViews[i] // Assuming you have an array of UIImageViews in the cell
-                    if i < rating {
-                        imageView.image = UIImage(named: "filled_bean.png") // Set filled bean for rated beans
-                    } else {
-                        imageView.image = nil // Hide empty beans
-                    }
+            let totalBeans = cell.beanImageViews.count
+            for i in 0..<totalBeans {
+                let imageView = cell.beanImageViews[i]
+                if i >= totalBeans - rating {
+                    imageView.image = UIImage(named: "filled_bean.png")
+                } else {
+                    imageView.image = nil
                 }
             }
+        }
 
         let tags = reviewData["tags"] as? [String] ?? []
-        cell.tagOne.text = tags.indices.contains(0) ? tags[0] : ""
-        cell.tagTwo.text = tags.indices.contains(1) ? tags[1] : ""
+
+        // NEW: Use the shared tag label styling method
+        TagStyler.configureTagLabels(cell.reviewTagLabels, withTags: tags)
 
         if let fullName = userData?["fullName"] as? String, !fullName.trimmingCharacters(in: .whitespaces).isEmpty {
             cell.userName.text = fullName
@@ -209,8 +244,6 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         loadProfileImage(userId: reviewData["userID"] as! String) { image in
             DispatchQueue.main.async {
                 cell.userProfilePicture.image = image
-
-                // Ensure the image view is square before applying corner radius
                 let sideLength = min(cell.userProfilePicture.frame.width, cell.userProfilePicture.frame.height)
                 cell.userProfilePicture.layer.cornerRadius = sideLength / 2
                 cell.userProfilePicture.clipsToBounds = true
@@ -221,26 +254,18 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
             loadReviewImage(reviewId: reviewId) { images in
                 DispatchQueue.main.async {
                     if let images = images, !images.isEmpty {
-                        cell.imageOne.image = images[0] // Show first image
-
+                        cell.imageOne.image = images[0]
                         if images.count > 1 {
-                            cell.imageTwo.image = images[1] // Show second image if available
+                            cell.imageTwo.image = images[1]
                         }
                     }
                 }
             }
         }
-        
-        cell.tagOne.adjustsFontSizeToFitWidth = true
-        cell.tagOne.minimumScaleFactor = 0.8
-        cell.tagOne.sizeToFit()
-
-        cell.tagTwo.adjustsFontSizeToFitWidth = true
-        cell.tagTwo.minimumScaleFactor = 0.8
-        cell.tagTwo.sizeToFit()
 
         return cell
     }
+
 
 
     func loadProfileImage(userId: String, completion: @escaping (UIImage?) -> Void) {
@@ -317,3 +342,52 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
 
     
 }
+
+
+// MARK: - UILabel Padding Extension
+extension UILabel {
+    func padding(left: CGFloat, right: CGFloat) {
+        if let currentConstraints = self.constraints.first(where: { $0.firstAttribute == .width }) {
+            self.removeConstraint(currentConstraints)
+        }
+        let insets = UIEdgeInsets(top: 0, left: left, bottom: 0, right: right)
+        let paddedWidth = self.intrinsicContentSize.width + insets.left + insets.right
+        self.widthAnchor.constraint(greaterThanOrEqualToConstant: paddedWidth).isActive = true
+    }
+}
+struct TagStyler {
+    static func configureTagLabels(_ labels: [UILabel], withTags tags: [String]) {
+        let colors: [UIColor] = [
+            UIColor(named: "TagColor1") ?? .red,
+            UIColor(named: "TagColor2") ?? .blue,
+            UIColor(named: "TagColor3") ?? .green,
+            UIColor(named: "TagColor4") ?? .orange,
+            UIColor(named: "TagColor5") ?? .purple
+        ]
+
+        for (index, label) in labels.enumerated() {
+            if index < tags.count {
+                label.text = tags[index]
+                label.isHidden = false
+                label.backgroundColor = colors[index % colors.count]
+                label.textColor = .white
+                label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+                label.textAlignment = .center
+                label.layer.cornerRadius = label.layer.frame.height > 0 ? label.layer.frame.height / 2 : 15
+                label.layer.masksToBounds = true
+                label.sizeToFit()
+                label.layoutIfNeeded()
+                label.setContentHuggingPriority(.required, for: .horizontal)
+                label.setContentCompressionResistancePriority(.required, for: .horizontal)
+                label.translatesAutoresizingMaskIntoConstraints = false
+                label.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
+                label.padding(left: 12, right: 12)
+            } else {
+                label.text = ""
+                label.isHidden = true
+            }
+        }
+    }
+}
+
+
