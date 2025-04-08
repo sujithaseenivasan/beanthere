@@ -45,8 +45,21 @@ class BrewTabsViewController: UIViewController {
     }
     
     func switchToVC(_ vc: UIViewController) {
-        //TODO: add code here
+        //remove current vc
+        if let current = currentVC {
+            current.willMove(toParent: nil)
+            current.view.removeFromSuperview()
+            current.removeFromParent()
+        }
+        
+        //add the new vc
+        addChild(vc)
+        vc.view.frame = containerView.bounds
+        containerView.addSubview(vc.view)
+        vc.didMove(toParent: self)
+        
+        //update the current
+        currentVC = vc
     }
-
 
 }

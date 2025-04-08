@@ -180,6 +180,9 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
 
     }
 
+    @IBAction func bookmarkBtnPressed(_ sender: Any) {
+        
+    }
     
     //load image function
     func loadImage(from urlString: String) {
