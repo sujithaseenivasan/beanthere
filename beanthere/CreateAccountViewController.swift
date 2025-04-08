@@ -40,6 +40,7 @@ class CreateAccountViewController: UIViewController {
                     "notificationPreferences": NSNull(),
                     "profilePicture": NSNull(),
                     "friendsList": [],
+                    "following":[],
                     "reviews": []
                 ]) { error in
                     if let error = error {

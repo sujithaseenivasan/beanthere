@@ -19,11 +19,10 @@ class BrewTabsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let storyboard = UIStoryboard(name: "UserSettings", bundle: nil)
-        
+        let storyboard = UIStoryboard(name: "UserSetting", bundle: nil)
         //load the VCs programatically
         beenVC = storyboard.instantiateViewController(withIdentifier: "BeenViewController") as? BrewLogViewController
+        print("ENTERED BREWTAB3 ")
         wantToTryVC = storyboard.instantiateViewController(withIdentifier: "WantToTryViewController") as? WantToTryViewController
         
         switchToVC(beenVC)

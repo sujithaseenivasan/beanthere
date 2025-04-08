@@ -42,9 +42,9 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
         userReviewsTableView.delegate = self
         userReviewsTableView.dataSource = self
-        userReviewsTableView.rowHeight = 150
+        //userReviewsTableView.rowHeight = 150
         //Default of timerTable
-        userReviewsTableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: valCellIndetifier)
+        userReviewsTableView.register(MainProfileTableViewCell.self, forCellReuseIdentifier: valCellIndetifier)
         
     }
     
@@ -163,7 +163,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             var userReview = userReviews[indexPath.row]
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! ProfileTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! MainProfileTableViewCell
 //            cell.cafeName.text = userReview.coffeeShopName ?? "Unknown cafe"
 //            cell.cafeAdrr.text = userReview.address ?? "Unknown address"
 //            cell.cafeRank.text = "\(userReview.rating)"
@@ -174,12 +174,3 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
 
-// create a class of a table cell and design it how you want it to look
-class ProfileTableViewCell: UITableViewCell {
-    @IBOutlet weak var drinkImg: UIImageView!
-    @IBOutlet weak var cafeName: UILabel!
-    @IBOutlet weak var cafeAdrr: UILabel!
-    @IBOutlet weak var cafeRank: UILabel!
-    @IBOutlet weak var cafeTag: UILabel!
-    @IBOutlet weak var comment: UILabel!
-}
