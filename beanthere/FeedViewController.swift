@@ -10,6 +10,7 @@ import FirebaseAuth
 
 class FeedViewController: UIViewController, UISearchBarDelegate {
 
+    @IBOutlet weak var feedTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     private var hasPerformedSegue = false
     
@@ -34,12 +35,5 @@ class FeedViewController: UIViewController, UISearchBarDelegate {
     }
 
     
-    @IBAction func logoutPressed(_sender: Any) {
-        do {
-            try Auth.auth().signOut()
-        } catch {
-            print("Sign Out error")
-        }
-    }
 
 }
