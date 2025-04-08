@@ -364,6 +364,32 @@ struct TagStyler {
             UIColor(named: "TagColor4") ?? .orange,
             UIColor(named: "TagColor5") ?? .purple
         ]
+        
+        if tags.isEmpty {
+            for (index, label) in labels.enumerated() {
+                if index == 0 {
+                    label.text = "No tags yet"
+                    label.isHidden = false
+                    label.backgroundColor = .lightGray
+                    label.textColor = .white
+                    label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+                    label.textAlignment = .center
+                    label.layer.cornerRadius = 12
+                    label.layer.masksToBounds = true
+                    label.sizeToFit()
+                    label.layoutIfNeeded()
+                    label.setContentHuggingPriority(.required, for: .horizontal)
+                    label.setContentCompressionResistancePriority(.required, for: .horizontal)
+                    label.translatesAutoresizingMaskIntoConstraints = false
+                    label.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
+                    label.padding(left: 12, right: 12)
+                } else {
+                    label.text = ""
+                    label.isHidden = true
+                }
+            }
+            return
+        }
 
         for (index, label) in labels.enumerated() {
             if index < tags.count {

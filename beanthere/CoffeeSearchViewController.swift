@@ -30,7 +30,7 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         searchBar.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 300
+        tableView.rowHeight = 310
         fetchCafeData()
         tableView.reloadData()
     }
@@ -101,10 +101,6 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         cell.coffeeShopName.text = coffeeShop.name
         cell.address.text = coffeeShop.address
         cell.cafeDescription.text = coffeeShop.description
-        makeLabelOval(cell.tag1)
-        makeLabelOval(cell.tag2)
-        makeLabelOval(cell.tag3)
-        makeLabelOval(cell.tag4)
         cell.coffeeShopImage.contentMode = .scaleAspectFill
         cell.coffeeShopImage.clipsToBounds = true
         
@@ -119,9 +115,74 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
             cell.coffeeShopImage.image = nil
         }
         
+        let db = Firestore.firestore()
+        db.collection("coffeeShops").document(coffeeShop.documentId).getDocument { docSnapshot, error in
+            guard let doc = docSnapshot, error == nil, let data = doc.data(),
+                  let reviewIds = data["reviews"] as? [String] else {
+                TagStyler.configureTagLabels(cell.reviewTagLabels, withTags: [])
+                return
+            }
+
+            var tagFrequency: [String: Int] = [:]
+            var totalRating = 0
+            var ratingCount = 0
+
+            let dispatchGroup = DispatchGroup()
+
+            for reviewId in reviewIds {
+                dispatchGroup.enter()
+                db.collection("reviews").document(reviewId).getDocument { reviewDoc, error in
+                    defer { dispatchGroup.leave() }
+
+                    if let reviewData = reviewDoc?.data() {
+                        // Aggregate tags
+                        if let tags = reviewData["tags"] as? [String] {
+                            for tag in tags {
+                                tagFrequency[tag, default: 0] += 1
+                            }
+                        }
+
+                        // Aggregate rating
+                        if let rating = reviewData["rating"] as? Int {
+                            totalRating += rating
+                            ratingCount += 1
+                        }
+                    }
+                }
+            }
+
+            dispatchGroup.notify(queue: .main) {
+                // Calculate average rating
+                let averageRating = ratingCount > 0 ? Double(totalRating) / Double(ratingCount) : 0.0
+                self.updateBeanRatingDisplay(for: cell.cafeBeanImageViews, average: averageRating)
+
+                // Compute top tags
+                let sortedTags = tagFrequency.sorted { $0.value > $1.value }
+                let topTags = Array(sortedTags.prefix(4).map { $0.key })
+
+                TagStyler.configureTagLabels(cell.reviewTagLabels, withTags: topTags)
+            }
+        }
+
+
+        
         return cell
     }
     
+    func updateBeanRatingDisplay(for imageViews: [UIImageView], average: Double) {
+        for (index, imageView) in imageViews.enumerated() {
+            let ratingPosition = Double(index)
+
+            if ratingPosition + 1 <= average {
+                imageView.image = UIImage(named: "filled_bean.png")
+            } else if ratingPosition < average {
+                imageView.image = UIImage(named: "filled_bean.png")
+            } else {
+                imageView.image = nil
+            }
+        }
+    }
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCoffeeShop = filteredResults[indexPath.row]

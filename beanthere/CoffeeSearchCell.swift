@@ -15,13 +15,9 @@ class CoffeeSearchCell: UITableViewCell {
     
     @IBOutlet weak var address: UILabel!
     
-    @IBOutlet weak var tag1: UILabel!
+    @IBOutlet var reviewTagLabels: [UILabel]!
     
-    @IBOutlet weak var tag2: UILabel!
-    
-    @IBOutlet weak var tag3: UILabel!
-    
-    @IBOutlet weak var tag4: UILabel!
+    @IBOutlet var cafeBeanImageViews: [UIImageView]!
     
     @IBOutlet weak var cafeDescription: UILabel!
 }
