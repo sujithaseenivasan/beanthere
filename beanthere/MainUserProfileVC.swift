@@ -83,10 +83,15 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     //overwrite do the connection  between the 2 screens and the main screen
-    override func prepare( for segue: UIStoryboardSegue, sender: Any?){
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == userSettingsSegueIdentifier,
-           let userProfileVC = segue.destination as? UserProfileVC{
-            userProfileVC.delegate =  self
+           let userProfileVC = segue.destination as? UserProfileVC {
+            userProfileVC.delegate = self
+        }
+        
+        if segue.identifier == "wantToTrySegue",
+           let destination = segue.destination as? BrewTabsViewController {
+            destination.defaultTabIndex = 1 // index 1 = "want to try"
         }
     }
     

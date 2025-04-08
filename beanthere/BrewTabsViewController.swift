@@ -14,8 +14,10 @@ class BrewTabsViewController: UIViewController {
     
     var beenVC: BrewLogViewController!
     var wantToTryVC: WantToTryViewController!
-    //TODO: need to make variable for recs when i make that screen
+    var recsVC: RecommendationViewController!
+    
     var currentVC: UIViewController?
+    var defaultTabIndex: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +26,11 @@ class BrewTabsViewController: UIViewController {
         beenVC = storyboard.instantiateViewController(withIdentifier: "BeenViewController") as? BrewLogViewController
         print("ENTERED BREWTAB3 ")
         wantToTryVC = storyboard.instantiateViewController(withIdentifier: "WantToTryViewController") as? WantToTryViewController
+        recsVC = storyboard.instantiateViewController(withIdentifier: "RecommendationViewController") as? RecommendationViewController
+
         
-        switchToVC(beenVC)
+        segmentedControl.selectedSegmentIndex = defaultTabIndex
+        segmentChanged(segmentedControl)
         
         
     }
@@ -37,7 +42,7 @@ class BrewTabsViewController: UIViewController {
             case 1:
                 switchToVC(wantToTryVC)
             case 2:
-                print("Not created yet")
+            switchToVC(recsVC)
             default:
                 break
             }

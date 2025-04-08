@@ -1176,7 +1176,7 @@
                                                                     <color key="baseBackgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </buttonConfiguration>
                                                                 <connections>
-                                                                    <segue destination="u0K-6H-q2C" kind="show" identifier="UserBeenSegue" id="b2S-w3-MUA"/>
+                                                                    <segue destination="WFN-c9-t7w" kind="show" identifier="brewLogBeenSegue" id="TPW-Kh-lZl"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -1205,7 +1205,7 @@
                                                                     <color key="baseBackgroundColor" red="1" green="0.93725490199999995" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </buttonConfiguration>
                                                                 <connections>
-                                                                    <segue destination="3JG-cs-OVh" kind="show" identifier="UserWantToTrySegue" id="BKX-Lx-UDy"/>
+                                                                    <segue destination="WFN-c9-t7w" kind="show" identifier="wantToTrySegue" id="e0c-LS-16S"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
@@ -1459,11 +1459,11 @@
             <objects>
                 <viewController storyboardIdentifier="BeenViewController" id="u0K-6H-q2C" customClass="BrewLogViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iyc-ry-Jio">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="864"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Pxq-yj-nwI">
-                                <rect key="frame" x="0.0" y="234" width="402" height="527"/>
+                                <rect key="frame" x="0.0" y="307" width="402" height="527"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="527" id="5Y7-dx-15B"/>
@@ -2892,7 +2892,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dLR-0n-jWo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-652.2388059701492" y="-430.43478260869563"/>
+            <point key="canvasLocation" x="69" y="-430"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="uhw-vh-DeX">
@@ -2913,10 +2913,33 @@
             </objects>
             <point key="canvasLocation" x="2779" y="-430"/>
         </scene>
+        <!--Recommendation View Controller-->
+        <scene sceneID="Na2-Ye-xm8">
+            <objects>
+                <viewController storyboardIdentifier="RecommendationViewController" id="VGB-Px-s6G" customClass="RecommendationViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yPm-3z-pkO">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Recs coming in Final!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gO-XD-giN">
+                                <rect key="frame" x="121" y="253" width="161" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="EbQ-bu-PBV"/>
+                        <color key="backgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jPy-Ky-GvB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2761.1940298507461" y="250.57208237986268"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gf2-5B-4Xw"/>
-        <segue reference="b2S-w3-MUA"/>
+        <segue reference="e0c-LS-16S"/>
         <segue reference="Odn-FF-Cel"/>
     </inferredMetricsTieBreakers>
     <resources>
