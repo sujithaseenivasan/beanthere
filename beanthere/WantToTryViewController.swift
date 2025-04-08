@@ -92,5 +92,22 @@ class WantToTryViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     //TODO: add when you click on a cell to take it to that cafe profile
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCoffeeShop = coffeeShops[indexPath.row]
+
+        let storyboard = UIStoryboard(name: "UserSetting", bundle: nil)
+
+        if let cafeProfileVC = storyboard.instantiateViewController(withIdentifier: "CafeProfileViewController") as? CafeProfileViewController {
+            
+            // pass the selected coffee shop’s document ID to the next screen
+            cafeProfileVC.cafeId = selectedCoffeeShop.documentId
+
+            // push the profile view controller
+            navigationController?.pushViewController(cafeProfileVC, animated: true)
+        }
+
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
 }

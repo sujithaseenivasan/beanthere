@@ -7,6 +7,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseAuth
 
 class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -181,7 +182,25 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     @IBAction func bookmarkBtnPressed(_ sender: Any) {
+        //get the user that is currently logged in
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("No user logged in")
+            return
+        }
+        let cafeID = cafeId
         
+        let userRef = Firestore.firestore().collection("users").document(userID)
+        
+        // update the array, girestore will create the field if needed, and avoid duplicates
+        userRef.updateData([
+            "wantToTry": FieldValue.arrayUnion([cafeID])
+        ]) { error in
+            if let error = error {
+                print("Failed to add cafe to wantToTry: \(error.localizedDescription)")
+            } else {
+                print("Cafe added to wantToTry")
+            }
+        }
     }
     
     //load image function
