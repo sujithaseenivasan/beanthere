@@ -20,7 +20,7 @@ struct Friend {
     var profilePicture: String?
 }
 
-class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate {
     
     
     @IBOutlet weak var suggestFriendsCollection: UICollectionView!
@@ -29,6 +29,10 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
     
     
     @IBOutlet weak var noSuggestedFriendsLabel: UILabel!
+    
+    
+    @IBOutlet weak var searchFriends: UISearchBar!
+    private var hasPerformedSegue = false
     
     var suggestedFriends: [Friend] = []
     var selectedFriendId: String = ""
@@ -43,8 +47,18 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
 
         contactsFriendsCollection.delegate = self
         contactsFriendsCollection.dataSource = self
+        
+        searchFriends.delegate = self
 
         loadSuggestedFriends()
+    }
+    
+    func friendsSearchBar(_ searchFriends: UISearchBar, textDidChange searchText: String) {
+        if !searchText.isEmpty && !hasPerformedSegue {
+            hasPerformedSegue = true
+            performSegue(withIdentifier: "FriendSearch", sender: self)
+            hasPerformedSegue = false
+        }
     }
     
     func loadSuggestedFriends() {
@@ -200,6 +214,8 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             // nextVC.friendID = testForFriendID.text ?? ""
             nextVC.friendID = selectedFriendId
             navigationController?.pushViewController(nextVC, animated: true)
+        } else if segue.identifier == "FriendSearch", let nextVC = segue.destination as? FriendSearchViewController {
+            nextVC.initialSearchText = searchFriends.text
         }
     }
 }
