@@ -116,7 +116,7 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
         cell.coffeeShopName.text = review.coffeeShopName
         cell.addressLabel.text = review.address
         cell.notes.text = review.comment
-        
+        print(review.rating)
         cell.bean1.isHidden = review.rating < 1
         cell.bean2.isHidden = review.rating < 2
         cell.bean3.isHidden = review.rating < 3
