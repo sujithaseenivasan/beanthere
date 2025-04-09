@@ -15,4 +15,5 @@ struct Review {
     let rating: Int
     let tags: [String]
     let timestamp: Date
+    let numLikes: Int?
 }

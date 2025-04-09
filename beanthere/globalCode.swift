@@ -7,6 +7,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseFirestore
 struct UserManager {
     var u_userID: String
     var u_name: String?
@@ -130,6 +131,14 @@ func globLoadReviewImage(reviewId: String, completion: @escaping ([UIImage]?) ->
     }
 }
 
+//function that given the reviewID and their new liked image it populates it
+func populateReviewLikes (reviewID: String, likeNum : Int){
+    let reviewRef = Firestore.firestore().collection("reviews").document(reviewID)
+    reviewRef.updateData([
+        "friendsLikes": likeNum
+    ])
+    
+}
 
 // function that allows user to change their password through their email
 func changePassword(_ userEmail: String) {

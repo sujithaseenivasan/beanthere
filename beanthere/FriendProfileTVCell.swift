@@ -24,5 +24,49 @@ class FriendProfileTVCell: UITableViewCell {
     @IBOutlet weak var friendsComment: UIImageView!
     @IBOutlet weak var share: UIImageView!
     
+    var likeCount: Int = 0
+    var reviewID: String = ""
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        //put the tap gestures in the cell programmatically
+        let likeTap = UITapGestureRecognizer(target: self, action: #selector(likeTapRecognizer))
+        likeImg.isUserInteractionEnabled = true
+        likeImg.addGestureRecognizer(likeTap)
+        
+        let commentTap = UITapGestureRecognizer(target: self, action: #selector(commentTapRecognizer))
+        friendsComment.isUserInteractionEnabled = true
+        friendsComment.addGestureRecognizer(commentTap)
+        
+        let shareTap = UITapGestureRecognizer(target: self, action: #selector(shareTapRecognizer))
+        share.isUserInteractionEnabled = true
+        share.addGestureRecognizer(shareTap)
+        
+    }
+
+    
+    //When tapped figure out if there likeImg if it is red if it is add numLiked, and save it in firestore
+    @objc func likeTapRecognizer() {
+        if likeImg.image == UIImage(systemName: "heart") {
+            likeImg.image = UIImage(systemName: "heart.fill")
+            likeImg.tintColor = .red
+            likeCount += 1
+            populateReviewLikes (reviewID: reviewID, likeNum : likeCount)
+        } else {
+            likeImg.image = UIImage(systemName: "heart")
+            likeImg.tintColor = .brown
+            likeCount -= 1
+            populateReviewLikes (reviewID: reviewID, likeNum : likeCount)
+        }
+        
+       numLikes.text = "\(likeCount) likes"
+    }
+    
+    @objc func commentTapRecognizer() {
+    }
+    
+    @objc func shareTapRecognizer() {
+    }
+    
 }
 

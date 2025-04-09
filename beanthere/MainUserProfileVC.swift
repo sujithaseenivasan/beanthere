@@ -44,9 +44,6 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         userReviewsTableView.delegate = self
         userReviewsTableView.dataSource = self
         userReviewsTableView.rowHeight = 150
-        print ("USER PICTURE IN PROFILE \(self.userProfileImg)")
-        //Default of timerTable
-//        userReviewsTableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: valCellIndetifier)
         
     }
     
@@ -102,7 +99,8 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         downloadImage(self.userProfileImg)
     }
     
-    ///TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+    //function that fetchs all the users reviews and places them into our table View and our
+    //array of reviews
     func fetchUserReviews() {
            //get the user that is currently logged in
            if let userID = self.userID {
@@ -141,8 +139,8 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                        comment: data["comment"] as? String ?? "",
                        rating: data["rating"] as? Int ?? 0,
                        tags: data["tags"] as? [String] ?? [],
-                       timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date()
-                       
+                       timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
+                       numLikes: data["friendsLikes"] as? Int ?? 0
                    )
                    
                    self.fetchCoffeeShopDetails(for: review.coffeeShopID) { name, address in
@@ -170,11 +168,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                }
            }
        }
-   //TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-    // function that adds the pic
     
-     
-// TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
     // this function populates the array of reviews that users have so far from firestore fill
     
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -183,36 +177,32 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            var userReview = userReviews[indexPath.row]
-            //print ("Entered CellForRowAt at Profile ")
+            let userReview = userReviews[indexPath.row]
             let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! MainProfileTableViewCell
             if (userReviews.count > 0){
+                cell.likeCount = userReview.numLikes ?? 0
+                cell.reviewID = userReviewIDs[indexPath.row]
+                
                 cell.cafeName.text = userReview.coffeeShopName
                 cell.cafeAdrr.text = userReview.address
-                var cafeRanks = userReview.rating
+                let cafeRanks = userReview.rating
                 //populate the beans given the ranking
                 let beans = [cell.bean11, cell.bean2, cell.bean3, cell.bean4, cell.bean5]
                 for (index, bean) in beans.enumerated() {
                     bean?.image = cafeRanks > index ? UIImage(named: "filled_bean.png") : nil
                 }
 
-
                 cell.userComment.text = userReview.comment
-                //import a picture using reviewIDs
                 globLoadReviewImage(reviewId: userReviewIDs[indexPath.row]){images in
                     if let images = images, !images.isEmpty {
-                        cell.drinkImg.image = images.first ?? UIImage(named: "beantherelogo")// Show first image
-//                         print("IN ARRAY IMAGE REVIEW \(numReviews) IS \(review.drinkImg)")
-//                         numReviews += 1
-                        }
-                    
+                        cell.drinkImg.image = images.first ?? UIImage(named: "beantherelog")// Show first image
+                    }
                 }
-                //cell.drinkImg.image = userReview.drinkImg?.image
-                
-                print("IN CELL IMAGE REVIEW  IS \(cell.drinkImg)")
                 makeImageOval(cell.drinkImg)
                 //download image from firebase and display it
                 downloadImage(cell.drinkImg)
+                
+                
             }
             return cell
         }

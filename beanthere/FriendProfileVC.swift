@@ -111,7 +111,8 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                     comment: data["comment"] as? String ?? "",
                     rating: data["rating"] as? Int ?? 0,
                     tags: data["tags"] as? [String] ?? [],
-                    timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date()
+                    timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
+                    numLikes: data["friendsLikes"] as? Int ?? 0
                 )
                    
                 self.fetchCoffeeShopDetails(for: review.coffeeShopID) { name, address in
@@ -140,10 +141,45 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    /*when the follow Button is clicked increase the number of followers for the
+    friend and the following numbers for the user*/
     @IBAction func followButton(_ sender: Any) {
+        if let button = sender as? UIButton {
+                button.backgroundColor = UIColor.clear
+            }
     }
     
-    
+    //function that users the users (following) firestore database
+    //or the friends followers when clicked.
+    //COMEBACK
+    func fetchAndUpdateFollowCount(userID: String, following: Bool) {
+       
+        let userField = Firestore.firestore().collection("users").document(userID)
+        userField.getDocument { (docSnap, error) in
+            //if user have an error guard it
+            if let error = error {
+                print("Error fetching user data: \(error.localizedDescription)")
+                return
+            }
+            guard let document = docSnap, document.exists else {
+                print("User document does not exist")
+                return
+            }
+            // Retrieve the fields from the Firestore document
+            let data = document.data()
+        }
+        
+            
+//        //Update if the data were changed
+//        userField.setData(self.loaded_data!, merge: true) { error in
+//            if let error = error {
+//                print("Error updating document: \(error.localizedDescription)")
+//            } else {
+//                print("Document successfully updated")
+//            }
+//        }
+        
+    }
     
     @IBAction func beenBrewButton(_ sender: Any) {
     }
@@ -171,6 +207,9 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         //print ("Entered CellForRowAt at Profile ")
         let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! FriendProfileTVCell
         if (userReviews.count > 0){
+            cell.likeCount = userReview.numLikes ?? 0
+            cell.reviewID = userReviewIDs[indexPath.row]
+            
             cell.cafeName.text = userReview.coffeeShopName
             cell.cafeAdrr.text = userReview.address
             var cafeRanks = userReview.rating
@@ -180,19 +219,13 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                 bean?.image = cafeRanks > index ? UIImage(named: "filled_bean.png") : nil
             }
 
-
             cell.comment.text = userReview.comment
             //import a picture using reviewIDs
             globLoadReviewImage(reviewId: userReviewIDs[indexPath.row]){images in
                 if let images = images, !images.isEmpty {
                     cell.drinkImg.image = images.first ?? UIImage(named: "beantherelogo")// Show first image
-//                         print("IN ARRAY IMAGE REVIEW \(numReviews) IS \(review.drinkImg)")
-//                         numReviews += 1
                 }
             }
-            //cell.drinkImg.image = userReview.drinkImg?.image
-            
-            print("IN CELL IMAGE REVIEW  IS \(cell.drinkImg)")
             makeImageOval(cell.drinkImg)
             //download image from firebase and display it
             downloadImage(cell.drinkImg)
