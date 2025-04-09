@@ -9,8 +9,6 @@ class FriendProfileTVCell: UITableViewCell {
     @IBOutlet weak var drinkImg: UIImageView!
     @IBOutlet weak var cafeName: UILabel!
     @IBOutlet weak var cafeAdrr: UILabel!
-    @IBOutlet weak var cafeRank: UILabel!
-    @IBOutlet weak var cafeTag: UILabel!
     @IBOutlet weak var comment: UILabel!
     
     @IBOutlet weak var likeImg: UIImageView!
@@ -19,5 +17,12 @@ class FriendProfileTVCell: UITableViewCell {
     @IBOutlet weak var bean3: UIImageView!
     @IBOutlet weak var bean4: UIImageView!
     @IBOutlet weak var bean5: UIImageView!
+    
+    @IBOutlet weak var numLikes: UILabel!
+    
+    
+    @IBOutlet weak var friendsComment: UIImageView!
+    @IBOutlet weak var share: UIImageView!
+    
 }
 

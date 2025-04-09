@@ -283,7 +283,9 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
                 "tags": Array(self.selectedTags.keys),
                 "timestamp": Timestamp(date: Date()),
                 "userID": userID,
-                "imageURLs": imageURLs 
+                "imageURLs": imageURLs,
+                "friendsComment": [],
+                "friendsLikes": Int()
             ]
 
             newReviewRef.setData(reviewData) { error in

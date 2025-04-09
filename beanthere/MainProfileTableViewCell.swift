@@ -31,5 +31,23 @@ class MainProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var bean11: UIImageView!
     
     
+    @IBOutlet weak var friendsComment: UIImageView!
+    
+    
+    @IBOutlet weak var share: UIImageView!
+    
+    
+    @IBAction func likeTapRecognizer(recognizer: UITapGestureRecognizer) {
+    }
+    
+    @IBAction func commentTapRecognizer(recognizer: UITapGestureRecognizer) {
+    }
+    
+    @IBAction func shareTapRecognizer(recognizer: UITapGestureRecognizer) {
+    }
+    
+    
+    
+    
 }
 

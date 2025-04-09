@@ -173,8 +173,14 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         if (userReviews.count > 0){
             cell.cafeName.text = userReview.coffeeShopName
             cell.cafeAdrr.text = userReview.address
-//                cell.cafeRank.text = "\(userReview.rating)"
-//                cell.cafeTag.text = userReview.tags.joined(separator: " ")
+            var cafeRanks = userReview.rating
+            //populate the beans given the ranking
+            let beans = [cell.bean1, cell.bean2, cell.bean3, cell.bean4, cell.bean5]
+            for (index, bean) in beans.enumerated() {
+                bean?.image = cafeRanks > index ? UIImage(named: "filled_bean.png") : nil
+            }
+
+
             cell.comment.text = userReview.comment
             //import a picture using reviewIDs
             globLoadReviewImage(reviewId: userReviewIDs[indexPath.row]){images in
