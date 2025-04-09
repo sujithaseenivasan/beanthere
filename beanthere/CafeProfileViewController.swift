@@ -193,12 +193,15 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         
         // update the array, girestore will create the field if needed, and avoid duplicates
         userRef.updateData([
-            "wantToTry": FieldValue.arrayUnion([cafeID])
+            "wantToTry": FieldValue.arrayUnion([cafeID ?? ""])
         ]) { error in
             if let error = error {
                 print("Failed to add cafe to wantToTry: \(error.localizedDescription)")
             } else {
                 print("Cafe added to wantToTry")
+                let alert = UIAlertController(title: "Saved!", message: "Coffee shop saved to Brew Log.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }

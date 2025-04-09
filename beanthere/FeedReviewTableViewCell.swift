@@ -30,4 +30,14 @@ class FeedReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var likeCountLabel: UILabel!
     
     @IBOutlet weak var dateLabel: UILabel!
+    
+    weak var delegate: FeedReviewCellDelegate?
+        var reviewId: String?
+
+        @IBAction func likeButtonTapped(_ sender: UIButton) {
+//            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            
+            guard let reviewId = reviewId else { return }
+            delegate?.didTapLikeButton(for: reviewId)
+        }
 }

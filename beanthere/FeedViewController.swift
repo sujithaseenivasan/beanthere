@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
+class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, FeedReviewCellDelegate {
     
 
     @IBOutlet weak var feedTableView: UITableView!
@@ -30,7 +30,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         
         feedTableView.delegate = self
         feedTableView.dataSource = self
-        feedTableView.rowHeight = 405
+        feedTableView.rowHeight = 300
         fetchFriendReviews()
     }
     
@@ -49,21 +49,65 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         }
     }
     
+    func didTapLikeButton(for reviewId: String) {
+        let reviewRef = db.collection("reviews").document(reviewId)
+
+        reviewRef.getDocument { document, error in
+            guard let document = document, document.exists else {
+                print("Review not found.")
+                return
+            }
+
+            var currentLikes = document.data()?["friendsLikes"] as? Int ?? 0
+            currentLikes += 1
+
+            reviewRef.updateData(["friendsLikes": currentLikes]) { error in
+                if let error = error {
+                    print("Failed to update likes: \(error.localizedDescription)")
+                    return
+                }
+
+                if let index = self.friendReviewData.firstIndex(where: { $0.reviewData["reviewId"] as? String == reviewId }) {
+                    self.friendReviewData[index].reviewData["friendsLikes"] = currentLikes
+                    DispatchQueue.main.async {
+                        self.feedTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                    }
+                }
+            }
+        }
+    }
+
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return friendReviewData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedReviewTableViewCell", for: indexPath) as! FeedReviewTableViewCell
+        
 
         let review = friendReviewData[indexPath.row].reviewData
         let user = friendReviewData[indexPath.row].userData
 
         // Comment
         cell.notesLabel.text = review["comment"] as? String ?? "No Comment"
+        
+        cell.delegate = self
+        cell.reviewId = review["reviewId"] as? String
+        
+        if let likes = review["friendsLikes"] as? Int {
+            cell.likeCountLabel.text = "\(likes) Likes"
+        } else {
+            cell.likeCountLabel.text = "0 Likes"
+        }
+
 
         // User name
-        cell.titleText.text = user?["fullName"] as? String ?? "Unknown"
+        let name = user?["fullName"] as? String ?? "Unknown"
+        let cafeName = user?["coffeeShopName"] as? String ?? ""
+        cell.titleText.text = "\(name) rated \(cafeName)"
+        
+        cell.locationLabel.text = cafeName
 
         // Date
         if let timestamp = review["timestamp"] as? Timestamp {
@@ -103,9 +147,11 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         if let reviewId = review["reviewId"] as? String {
             loadReviewImage(reviewId: reviewId) { images in
                 DispatchQueue.main.async {
-                    if let images = images {
-                        if images.indices.contains(0) { cell.imageOne.image = images[0] }
-                        if images.indices.contains(1) { cell.imageTwo.image = images[1] }
+                    if let images = images, !images.isEmpty {
+                        cell.imageOne.image = images[0]
+                        if images.count > 1 {
+                            cell.imageTwo.image = images[1]
+                        }
                     }
                 }
             }
@@ -164,6 +210,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
                     var review = doc.data()
                     review["reviewId"] = doc.documentID
                     let userId = review["userID"] as? String ?? ""
+                    let coffeeShopId = review["coffeeShopID"] as? String ?? ""
                     
                     group.enter()
                     self.db.collection("users").document(userId).getDocument { userDoc, _ in
@@ -171,10 +218,20 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
                         let first = user["firstName"] as? String ?? ""
                         let last = user["lastName"] as? String ?? ""
                         user["fullName"] = "\(first) \(last)"
-                        dataTuples.append((review, user))
+                        
+            
+                        group.enter()
+                        self.db.collection("coffeeShops").document(coffeeShopId).getDocument { cafeDoc, _ in
+                            let cafeName = cafeDoc?.data()?["name"] as? String ?? ""
+                            user["coffeeShopName"] = cafeName
+                            dataTuples.append((review, user))
+                            group.leave()
+                        }
+                        
                         group.leave()
                     }
                 }
+
                 
                 group.notify(queue: .main) {
                     self.friendReviewData = dataTuples
@@ -197,32 +254,40 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
     }
 
     func loadReviewImage(reviewId: String, completion: @escaping ([UIImage]?) -> Void) {
-        let ref = Storage.storage().reference().child("review_images/\(reviewId)/")
-        ref.listAll { result, error in
-            guard error == nil, let items = result?.items else {
+        let storageRef = Storage.storage().reference().child("review_images/\(reviewId)/")
+
+        storageRef.listAll { (result, error) in
+            if let error = error {
+                print("Error listing images for review \(reviewId): \(error.localizedDescription)")
                 completion(nil)
                 return
             }
 
+            let dispatchGroup = DispatchGroup()
             var images: [UIImage] = []
-            let group = DispatchGroup()
 
-            for item in items {
-                group.enter()
+            for item in result!.items {
+                dispatchGroup.enter()
                 item.downloadURL { url, error in
+                    if let error = error {
+                        print("Error getting image URL for \(item.name): \(error.localizedDescription)")
+                        dispatchGroup.leave()
+                        return
+                    }
+
                     if let url = url {
-                        self.downloadImage(from: url) { img in
-                            if let img = img { images.append(img) }
-                            group.leave()
+                        self.downloadImage(from: url) { image in
+                            if let image = image {
+                                images.append(image)
+                            }
+                            dispatchGroup.leave()
                         }
-                    } else {
-                        group.leave()
                     }
                 }
             }
 
-            group.notify(queue: .main) {
-                completion(images)
+            dispatchGroup.notify(queue: .main) {
+                completion(images.isEmpty ? nil : images)
             }
         }
     }
@@ -236,8 +301,4 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
             }
         }
     }
-
-
-    
-
 }

@@ -1905,14 +1905,14 @@
                                                     <color key="textColor" red="0.2666666667" green="0.14117647059999999" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HCW-bG-8NZ">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee" translatesAutoresizingMaskIntoConstraints="NO" id="HCW-bG-8NZ">
                                                     <rect key="frame" x="92" y="125.99999999999999" width="114" height="39.333333333333329"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="114" id="9Sj-bk-qbL"/>
                                                         <constraint firstAttribute="height" constant="39.333333333333329" id="yWo-5q-Ja7"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GOn-oE-ikU">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coffee" translatesAutoresizingMaskIntoConstraints="NO" id="GOn-oE-ikU">
                                                     <rect key="frame" x="224" y="125.99999999999999" width="114" height="39.333333333333329"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="114" id="MiF-wO-raG"/>
@@ -2014,6 +2014,9 @@
                                                     <buttonConfiguration key="configuration" style="plain">
                                                         <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
                                                     </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="likeButtonTapped:" destination="g75-rL-XvO" eventType="touchUpInside" id="Ket-na-36k"/>
+                                                    </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Likes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Wl-gC-zqP">
                                                     <rect key="frame" x="69" y="232" width="87" height="20"/>
@@ -3118,6 +3121,7 @@
         <image name="bookmark" catalog="system" width="110" height="128"/>
         <image name="bookmark.circle" catalog="system" width="128" height="123"/>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
+        <image name="coffee" width="259" height="194"/>
         <image name="cup.and.heat.waves" catalog="system" width="128" height="116"/>
         <image name="filled_bean" width="48.333332061767578" height="48.333332061767578"/>
         <image name="heart" catalog="system" width="128" height="107"/>
