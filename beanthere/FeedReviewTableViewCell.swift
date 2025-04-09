@@ -25,5 +25,9 @@ class FeedReviewTableViewCell: UITableViewCell {
     
     @IBOutlet var cafeBeanImageViews: [UIImageView]!
     
+    @IBOutlet weak var likeButton: UIButton!
     
+    @IBOutlet weak var likeCountLabel: UILabel!
+    
+    @IBOutlet weak var dateLabel: UILabel!
 }
