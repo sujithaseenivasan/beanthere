@@ -6,6 +6,7 @@
 //
 import UIKit
 import FirebaseAuth
+import FirebaseStorage
 struct UserManager {
     var u_userID: String
     var u_name: String?
@@ -74,6 +75,61 @@ func downloadImage(_ img : UIImageView){
     })
     task.resume()
 }
+
+func downloadImgWithURL(from url: URL, completion: @escaping (UIImage?) -> Void) {
+    DispatchQueue.global().async {
+        if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+            DispatchQueue.main.async {
+                completion(image)
+            }
+        } else {
+            completion(nil)
+        }
+    }
+}
+
+// global load review Image given reviewID
+func globLoadReviewImage(reviewId: String, completion: @escaping ([UIImage]?) -> Void) {
+    let storageRef = Storage.storage().reference().child("review_images/\(reviewId)/")
+
+    storageRef.listAll { (result, error) in
+        if let error = error {
+            print("Error listing images for review \(reviewId): \(error.localizedDescription)")
+            completion(nil)
+            return
+        }
+
+        let dispatchGroup = DispatchGroup()
+        var images: [UIImage] = []
+
+        for item in result!.items {
+            dispatchGroup.enter()
+            item.downloadURL { url, error in
+                if let error = error {
+                    print("Error getting image URL for \(item.name): \(error.localizedDescription)")
+                    dispatchGroup.leave()
+                    return
+                }
+
+                if let url = url {
+                    downloadImgWithURL(from: url) { image in
+                        if let image = image {
+                            print ("REVIEW PICTURES : \(image)")
+                            images.append(image)
+                        }
+                        dispatchGroup.leave()
+                    }
+                }
+                
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            completion(images.isEmpty ? nil : images)
+        }
+    }
+}
+
 
 // function that allows user to change their password through their email
 func changePassword(_ userEmail: String) {

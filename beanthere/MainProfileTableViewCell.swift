@@ -21,14 +21,14 @@ class MainProfileTableViewCell: UITableViewCell {
     
     @IBOutlet weak var numLikes: UILabel!
     
-    @IBOutlet weak var bean1: UIImageView!
-    
     @IBOutlet weak var bean2: UIImageView!
     @IBOutlet weak var bean3: UIImageView!
     
     @IBOutlet weak var bean4: UIImageView!
     
     @IBOutlet weak var bean5: UIImageView!
+    
+    @IBOutlet weak var bean11: UIImageView!
     
     
 }

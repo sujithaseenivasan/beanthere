@@ -12,5 +12,12 @@ class FriendProfileTVCell: UITableViewCell {
     @IBOutlet weak var cafeRank: UILabel!
     @IBOutlet weak var cafeTag: UILabel!
     @IBOutlet weak var comment: UILabel!
+    
+    @IBOutlet weak var likeImg: UIImageView!
+    @IBOutlet weak var bean1: UIImageView!
+    @IBOutlet weak var bean2: UIImageView!
+    @IBOutlet weak var bean3: UIImageView!
+    @IBOutlet weak var bean4: UIImageView!
+    @IBOutlet weak var bean5: UIImageView!
 }
 

@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseStorage
 
-class FriendProfileVC: UIViewController {
+class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSource {
+    
     
     @IBOutlet weak var friendImg: UIImageView!
     @IBOutlet weak var friendName: UILabel!
@@ -17,19 +20,125 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var followersNum: UILabel!
     @IBOutlet weak var followingNum: UILabel!
     
-    @IBOutlet weak var beenNum: UILabel!
-    @IBOutlet weak var wantNum: UILabel!
-    
     @IBOutlet weak var friendReviewTableView: UITableView!
-    var friendID: String!
+    
+    var friendID: String?
     var delegate: UIViewController!
+    
+    let valCellIndetifier = "FriendProfileCellID"
+    // Fake review data
+    var userReviews:[Review] = []
+    var userReviewIDs : [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        downloadImage(self.friendImg)
+        makeImageOval(self.friendImg)
+        
+        friendReviewTableView.delegate = self
+        friendReviewTableView.dataSource = self
+        friendReviewTableView.rowHeight = 150
     }
     
+    //In will appear that is where we load every instance of settings
+    override func viewWillAppear(_ _animated : Bool){
+        super.viewWillAppear(true)
+        // search in firebase if you find the user populate the users information in the swift fields
+        let userField = Firestore.firestore().collection("users").document(friendID!)
+        userField.getDocument { (docSnap, error) in
+            //if user have an error guard it
+            if let error = error {
+                print("Error fetching user data: \(error.localizedDescription)")
+                return
+            }
+            guard let document = docSnap, document.exists else {
+                print("User document does not exist")
+                return
+            }
+            
+            // Retrieve the fields from the Firestore document
+            let data = document.data()
+            self.friendUserName.text = data?["username"] as? String ?? " "
+            
+            self.friendName.text = data?["firstName"] as? String ?? " "
+            self.followersNum.text = "\(data?["friendsList"] as? Int ?? 0)"
+            self.followingNum.text = "\(data?["following"] as? Int ?? 0)"
+            
+            let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
+            //put all the information of currently loaded data in the array of reviews
+            print("ENTERED VIEW WILL APPEAR")
+            self.fetchUserReviews()
+            
+        }
+    }
+    
+    func fetchUserReviews() {
+           //get the user that is currently logged in
+        if let userID = self.friendID {
+            //if user is currently logged in, use thier userID to fetch their document
+            db.collection("users").document(userID).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if let reviewIDs = document.data()?["reviews"] as? [String] {
+                        self.fetchReviewDetails(reviewIDs: reviewIDs)
+                        self.userReviewIDs = reviewIDs
+                    }
+                } else {
+                    print("User document not found")
+                }
+               }
+        } else {
+            print("No user is logged in")
+        }
+    }
+       
+    func fetchReviewDetails(reviewIDs: [String]) {
+        let group = DispatchGroup()
+        var fetchedReviews: [Review] = []
+        var numReviews: Int = 0
+        //get each review id
+        for reviewID in reviewIDs {
+            group.enter()
+            db.collection("reviews").document(reviewID).getDocument { (document, error) in
+                // Document doesn't exist or there's an error
+                guard let document = document, document.exists, let data = document.data() else {
+                    group.leave()
+                    return
+                }
+                //from there get the details of the review with the pictures
+                var review = Review(
+                    coffeeShopID: data["coffeeShopID"] as? String ?? "",
+                    comment: data["comment"] as? String ?? "",
+                    rating: data["rating"] as? Int ?? 0,
+                    tags: data["tags"] as? [String] ?? [],
+                    timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date()
+                )
+                   
+                self.fetchCoffeeShopDetails(for: review.coffeeShopID) { name, address in
+                    review.coffeeShopName = name
+                    review.address = address
+                    fetchedReviews.append(review)
+                    group.leave() // only called here after everything is done
+                }
+            }
+        }
+        group.notify(queue: .main) {
+            self.userReviews = fetchedReviews
+            self.friendReviewTableView.reloadData()
+        }
+    }
+    //helper function that grabs the name and address for a particular coffeeShopID
+    func fetchCoffeeShopDetails(for coffeeShopID: String, completion: @escaping (String?, String?) -> Void) {
+        db.collection("coffeeShops").document(coffeeShopID).getDocument { (document, error) in
+            if let document = document, document.exists, let data = document.data() {
+                let name = data["name"] as? String
+                let address = data["address"] as? String
+                completion(name, address)
+            } else {
+                completion(nil, nil)
+            }
+        }
+    }
     
     @IBAction func followButton(_ sender: Any) {
     }
@@ -51,6 +160,38 @@ class FriendProfileVC: UIViewController {
             tabsVC.defaultTabIndex = 1 // now we are going to "Want to Try" tab
             tabsVC.friendID = self.friendID
         }
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return userReviews.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var userReview = userReviews[indexPath.row]
+        //print ("Entered CellForRowAt at Profile ")
+        let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! FriendProfileTVCell
+        if (userReviews.count > 0){
+            cell.cafeName.text = userReview.coffeeShopName
+            cell.cafeAdrr.text = userReview.address
+//                cell.cafeRank.text = "\(userReview.rating)"
+//                cell.cafeTag.text = userReview.tags.joined(separator: " ")
+            cell.comment.text = userReview.comment
+            //import a picture using reviewIDs
+            globLoadReviewImage(reviewId: userReviewIDs[indexPath.row]){images in
+                if let images = images, !images.isEmpty {
+                    cell.drinkImg.image = images.first ?? UIImage(named: "beantherelogo")// Show first image
+//                         print("IN ARRAY IMAGE REVIEW \(numReviews) IS \(review.drinkImg)")
+//                         numReviews += 1
+                }
+            }
+            //cell.drinkImg.image = userReview.drinkImg?.image
+            
+            print("IN CELL IMAGE REVIEW  IS \(cell.drinkImg)")
+            makeImageOval(cell.drinkImg)
+            //download image from firebase and display it
+            downloadImage(cell.drinkImg)
+        }
+        return cell
     }
 
 }
