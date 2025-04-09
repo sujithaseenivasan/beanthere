@@ -157,20 +157,20 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             cell.suggestedFriendName.text = "\(friend.firstName) \(friend.lastName)"
             cell.suggestedFriendUsername.text = friend.username
             
-//            // load profile picture asynchronously
-//            if let profilePictureUrlString = friend.profilePicture,
-//               let url = URL(string: profilePictureUrlString) {
-//                URLSession.shared.dataTask(with: url) { data, response, error in
-//                    if let data = data, error == nil {
-//                        DispatchQueue.main.async {
-//                            cell.suggestedFriendImage.image = UIImage(data: data)
-//                        }
-//                    }
-//                }.resume()
-//            } else {
-//                cell.suggestedFriendImage.image = UIImage(named: "emptyCircle")
-//            }
-//            
+            // load profile picture asynchronously
+            if let profilePictureUrlString = friend.profilePicture,
+               let url = URL(string: profilePictureUrlString) {
+                URLSession.shared.dataTask(with: url) { data, response, error in
+                    if let data = data, error == nil {
+                        DispatchQueue.main.async {
+                            cell.suggestedFriendImage.image = UIImage(data: data)
+                        }
+                    }
+                }.resume()
+            } else {
+                cell.suggestedFriendImage.image = UIImage(named: "filled_bean")
+            }
+            
             return cell
         } else if collectionView == contactsFriendsCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: contactsFriendCellIdentifier, for: indexPath)
