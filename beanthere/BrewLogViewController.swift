@@ -30,9 +30,17 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
 //        tableView.estimatedRowHeight = 300  // any reasonable guess
         tableView.rowHeight = 100
         
+        tableView.reloadData()
         fetchUserReviews()
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+        fetchUserReviews()
+    }
+
     
     func fetchUserReviews() {
         // Use friendID if passed in, otherwise fallback to current user's UID

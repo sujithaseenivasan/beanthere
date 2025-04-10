@@ -40,9 +40,11 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
                 noFriendsLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
             ])
 
-        
+        feedTableView.reloadData()
+        print("is this being called")
         fetchFriendReviews()
     }
+    
     
     private let noFriendsLabel: UILabel = {
         let label = UILabel()
