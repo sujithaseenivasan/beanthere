@@ -31,8 +31,31 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         feedTableView.delegate = self
         feedTableView.dataSource = self
         feedTableView.rowHeight = 300
+        
+        view.addSubview(noFriendsLabel)
+            NSLayoutConstraint.activate([
+                noFriendsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                noFriendsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+                noFriendsLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
+                noFriendsLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
+            ])
+
+        
         fetchFriendReviews()
     }
+    
+    private let noFriendsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No friend activity yet!"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
+        return label
+    }()
+
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
          if !searchText.isEmpty && !hasPerformedSegue {
@@ -183,6 +206,16 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         userRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 self.friendIDs = document.get("friendsList") as? [String] ?? []
+                DispatchQueue.main.async {
+                    if self.friendIDs.isEmpty {
+                        self.noFriendsLabel.isHidden = false
+                        self.feedTableView.isHidden = true
+                    } else {
+                        self.noFriendsLabel.isHidden = true
+                        self.feedTableView.isHidden = false
+                        self.fetchReviewsFromFriends()
+                    }
+                }
                 self.fetchReviewsFromFriends()
             } else {
                 print("User document does not exist")
