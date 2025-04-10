@@ -365,7 +365,6 @@
                                                         <fontDescription key="titleFontDescription" type="system" pointSize="12"/>
                                                     </buttonConfiguration>
                                                     <connections>
-                                                        <action selector="followSuggestedFriend:" destination="fiW-xl-Gph" eventType="touchUpInside" id="s8w-Xc-VaB"/>
                                                         <action selector="suggestedFriendFollowRequest:" destination="zFD-tt-FZX" eventType="touchUpInside" id="Xap-Ef-xsX"/>
                                                     </connections>
                                                 </button>

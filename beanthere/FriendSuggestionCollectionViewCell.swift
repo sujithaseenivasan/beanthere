@@ -45,7 +45,8 @@ class FriendSuggestionCollectionViewCell: UICollectionViewCell {
                         print("Target friend's requests list updated")
                         // update the button's title to requested
                         DispatchQueue.main.async {
-                            self.suggestedFriendFollowButton.titleLabel?.text = "Requested"
+                            self.suggestedFriendFollowButton.titleLabel?.text = "Sent"
+                            self.suggestedFriendFollowButton.titleLabel?.textAlignment = .center
                         }
                     }
                 }

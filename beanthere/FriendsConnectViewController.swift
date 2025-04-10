@@ -172,7 +172,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             let friend = suggestedFriends[indexPath.row]
             cell.suggestedFriendName.text = "\(friend.firstName) \(friend.lastName)"
             cell.suggestedFriendUsername.text = friend.username
-            
+            cell.friendId = friend.id
             // load profile picture asynchronously
             if let profilePictureUrlString = friend.profilePicture,
                let url = URL(string: profilePictureUrlString) {
