@@ -111,6 +111,14 @@ class UserProfileVC: UIViewController, PassUserInfo {
     @IBAction func LogOutButton(_ sender: Any) {
         globalDidLogOut = true
         wentToProfile = false
+        
+        do {
+            try Auth.auth().signOut()
+            navigationController?.popToRootViewController(animated: true)
+            self.dismiss(animated: true)
+        } catch {
+            print("Sign Out error")
+        }
     }
     //overwrite do the connection  between the 2 screens and the main screen
     override func prepare( for segue: UIStoryboardSegue, sender: Any?){
