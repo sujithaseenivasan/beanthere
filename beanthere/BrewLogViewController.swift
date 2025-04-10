@@ -74,7 +74,8 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
                     comment: data["comment"] as? String ?? "",
                     rating: data["rating"] as? Int ?? 0,
                     tags: data["tags"] as? [String] ?? [],
-                    timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date()
+                    timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
+                    numLikes: 0
                 )
 
                 self.fetchCoffeeShopDetails(for: review.coffeeShopID) { name, address in
