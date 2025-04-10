@@ -74,7 +74,7 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
                 let user = User(id: document.documentID, firstName: firstName, lastName: lastName, username: username)
                 self.allResults.append(user)
             }
-            // NEW: Initially, show all users.
+
             self.filteredResults = self.allResults
             DispatchQueue.main.async {
                 self.friendSearchTableView.reloadData()

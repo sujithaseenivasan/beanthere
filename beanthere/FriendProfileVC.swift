@@ -22,7 +22,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var friendReviewTableView: UITableView!
     
-    var friendID: String = ""
+    var friendID: String?
     var delegate: UIViewController!
     
     let valCellIndetifier = "FriendProfileCellID"
@@ -45,7 +45,12 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
         // search in firebase if you find the user populate the users information in the swift fields
-        let userField = Firestore.firestore().collection("users").document(friendID!)
+        guard let safeFriendID = friendID else {
+            print("friendID was nil. Cannot fetch userField.")
+            return
+        }
+        
+        let userField = Firestore.firestore().collection("users").document(safeFriendID)
         userField.getDocument { (docSnap, error) in
             //if user have an error guard it
             if let error = error {

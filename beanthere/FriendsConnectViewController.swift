@@ -94,13 +94,15 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
                     
                     // iterate over each followed user to retrieve their followers
                     for followId in following {
+                        print(followId)
                         dispatchGroup.enter()
                         db.collection("users").document(followId).getDocument { (followDoc, error) in
                             if let followDoc = followDoc,
                                followDoc.exists,
                                let followData = followDoc.data(),
-                               let followers = followData["followers"] as? [String] {
+                               let followers = followData["friendsList"] as? [String] {
                                 for followerId in followers {
+                                    print(followerId)
                                     // exclude current user and those the current user is already following
                                     if followerId != currentUserId && !self.currUserFollowing.contains(followerId) {
                                         suggestionSet.insert(followerId)
