@@ -578,7 +578,7 @@
                                         <connections>
                                             <outlet property="friendSearchName" destination="Cn3-mj-9v1" id="7wK-4p-b2c"/>
                                             <outlet property="friendSearchUsername" destination="XLf-BP-cWc" id="axw-gn-9m5"/>
-                                            <segue destination="cCL-dh-yzC" kind="show" identifier="SearchFriendProfileSegue" id="hzR-nO-FdB"/>
+                                            <segue destination="cCL-dh-yzC" kind="show" identifier="SearchFriendProfileSegue" id="HlH-I5-mo3"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -787,7 +787,7 @@
             <objects>
                 <viewController id="cCL-dh-yzC" customClass="FriendProfileVC" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mya-Js-bMk">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="864"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="tf0-vW-n6H">
@@ -970,7 +970,7 @@
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gUv-pg-30c">
-                                <rect key="frame" x="0.0" y="515" width="402" height="343"/>
+                                <rect key="frame" x="0.0" y="515" width="402" height="333"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z0x-po-iKM">
@@ -3147,7 +3147,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="7fc-Fy-hqo"/>
-        <segue reference="5Kt-Vn-ezp"/>
+        <segue reference="HlH-I5-mo3"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addFriend" width="20" height="20"/>

@@ -22,13 +22,15 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var friendReviewTableView: UITableView!
     
-    var friendID: String?
+    var friendID = "rd7MrtRHfsaxUpJjxEHyEhlUutg1"
     var delegate: UIViewController!
     
     let valCellIndetifier = "FriendProfileCellID"
     // Fake review data
     var userReviews:[Review] = []
     var userReviewIDs : [String] = []
+    
+    let db = Firestore.firestore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,12 +47,12 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
         // search in firebase if you find the user populate the users information in the swift fields
-        guard let safeFriendID = friendID else {
-            print("friendID was nil. Cannot fetch userField.")
-            return
-        }
+//        guard let safeFriendID = friendID else {
+//            print("friendID was nil. Cannot fetch userField.")
+//            return
+//        }
         
-        let userField = Firestore.firestore().collection("users").document(safeFriendID)
+        let userField = Firestore.firestore().collection("users").document(friendID)
         userField.getDocument { (docSnap, error) in
             //if user have an error guard it
             if let error = error {
@@ -80,21 +82,21 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     func fetchUserReviews() {
            //get the user that is currently logged in
-        if let userID = self.friendID {
+        let userID = self.friendID 
             //if user is currently logged in, use thier userID to fetch their document
-            db.collection("users").document(userID).getDocument { (document, error) in
-                if let document = document, document.exists {
-                    if let reviewIDs = document.data()?["reviews"] as? [String] {
-                        self.fetchReviewDetails(reviewIDs: reviewIDs)
-                        self.userReviewIDs = reviewIDs
-                    }
-                } else {
-                    print("User document not found")
+        db.collection("users").document(userID).getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let reviewIDs = document.data()?["reviews"] as? [String] {
+                    self.fetchReviewDetails(reviewIDs: reviewIDs)
+                    self.userReviewIDs = reviewIDs
                 }
-               }
-        } else {
-            print("No user is logged in")
-        }
+            } else {
+                print("User document not found")
+            }
+           }
+//        } else {
+//            print("No user is logged in")
+//        }
     }
        
     func fetchReviewDetails(reviewIDs: [String]) {

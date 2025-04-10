@@ -118,10 +118,10 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToFriendProfileFromSearch",
+        if segue.identifier == "SearchFriendProfileSegue",
            let profileVC = segue.destination as? FriendProfileVC,
            let user = sender as? User {
-            print(user.id)
+            profileVC.delegate = self
             profileVC.friendID = user.id
         }
     }
