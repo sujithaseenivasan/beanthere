@@ -22,7 +22,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var friendReviewTableView: UITableView!
     
-    var friendID: String?
+    var friendID: String = ""
     var delegate: UIViewController!
     
     let valCellIndetifier = "FriendProfileCellID"

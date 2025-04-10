@@ -121,6 +121,7 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
         if segue.identifier == "goToFriendProfileFromSearch",
            let profileVC = segue.destination as? FriendProfileVC,
            let user = sender as? User {
+            print(user.id)
             profileVC.friendID = user.id
         }
     }
