@@ -111,4 +111,17 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedUser = filteredResults[indexPath.row]
+        performSegue(withIdentifier: "SearchFriendProfileSegue", sender: selectedUser)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToFriendProfileFromSearch",
+           let profileVC = segue.destination as? FriendProfileVC,
+           let user = sender as? User {
+            profileVC.friendID = user.id
+        }
+    }
 }
