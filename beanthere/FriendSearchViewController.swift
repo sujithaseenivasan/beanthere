@@ -38,6 +38,63 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
         
         friendSearchTableView.delegate = self
         friendSearchTableView.dataSource = self
+        
+        friendSearchTableView.reloadData()
+        
+        loadUsers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchFriends.becomeFirstResponder()
+        
+        loadUsers()
+        
+        friendSearchTableView.reloadData()
+        
+    }
+    
+    func loadUsers() {
+        db.collection("users").getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error loading users: \(error)")
+                return
+            }
+            guard let snapshot = snapshot else { return }
+            self.allResults.removeAll()
+            for document in snapshot.documents {
+                let data = document.data()
+                let firstName = data["firstName"] as? String ?? ""
+                let lastName = data["lastName"] as? String ?? ""
+                var username = data["username"] as? String ?? ""
+                // If the username is empty, use firstName+lastName (without spaces).
+                if username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    username = firstName + lastName
+                }
+                let user = User(id: document.documentID, firstName: firstName, lastName: lastName, username: username)
+                self.allResults.append(user)
+            }
+            // NEW: Initially, show all users.
+            self.filteredResults = self.allResults
+            DispatchQueue.main.async {
+                self.friendSearchTableView.reloadData()
+            }
+        }
+    }
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredResults = allResults
+        } else {
+            let lowerQuery = searchText.lowercased()
+            filteredResults = allResults.filter { user in
+                let fullName = "\(user.firstName) \(user.lastName)".lowercased()
+                let usernameLower = user.username.lowercased()
+                return fullName.contains(lowerQuery) || usernameLower.contains(lowerQuery)
+            }
+        }
+        friendSearchTableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,6 +103,11 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: friendSearchCellIdentifier, for: indexPath) as! FriendSearchTableViewCell
+        
+        let searchedUser = filteredResults[indexPath.row]
+        
+        cell.friendSearchName.text = "\(searchedUser.firstName) \(searchedUser.lastName)"
+          cell.friendSearchUsername.text = searchedUser.username
         
         return cell
     }

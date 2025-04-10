@@ -53,7 +53,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
         loadSuggestedFriends()
     }
     
-    func friendsSearchBar(_ searchFriends: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchFriends: UISearchBar, textDidChange searchText: String) {
         if !searchText.isEmpty && !hasPerformedSegue {
             hasPerformedSegue = true
             performSegue(withIdentifier: "FriendSearch", sender: self)
