@@ -43,28 +43,29 @@ class UserProfileVC: UIViewController, PassUserInfo {
     }
     
     //In will appear that is where we load every instance of settings
-    override func viewWillAppear(_ _animated : Bool){
-        super.viewWillAppear(true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         wentToProfile = true
-        print ("THE WENT  PROFILE BOOL VIEWWILLAPPEAR \(wentToProfile)")
+        print("THE WENT PROFILE BOOL VIEWWILLAPPEAR \(wentToProfile)")
         
-        var settingUID = UserManager.shared.u_userID
+        // Use current user's UID from Firebase Auth
+        guard let currentUID = Auth.auth().currentUser?.uid else {
+            print("No authenticated user found.")
+            return
+        }
         
-        // search in firebase if you find the user populate the users information in the swift fields
-        let userField = Firestore.firestore().collection("users").document(settingUID)
+        let userField = Firestore.firestore().collection("users").document(currentUID)
         userField.getDocument { (docSnap, error) in
-            //if user have an error guard it
             if let error = error {
                 print("Error fetching user data: \(error.localizedDescription)")
                 return
             }
+            
             guard let document = docSnap, document.exists else {
                 print("User document does not exist")
                 return
             }
             
-            
-            // Retrieve the fields from the Firestore document
             let data = document.data()
             self.UserName1.text = data?["username"] as? String ?? " "
             self.Email1.text = data?["email"] as? String ?? " "
@@ -74,16 +75,17 @@ class UserProfileVC: UIViewController, PassUserInfo {
             self.Phone1.text = data?["phoneNumber"] as? String ?? " "
             self.Notification1.text = data?["notificationPreferences"] as? String ?? " "
             
-            //put all the information of currently loaded data here
+            // Store the loaded user data if needed later
             self.loaded_data = data
         }
     }
+
     
     //When the viewDisappear pass the data back to the main profile
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         let editUserManager = UserManager(
-            u_userID: UserManager.shared.u_userID,
+            u_userID: Auth.auth().currentUser?.uid ?? "",
             u_name : self.Name1.text,
             u_username: self.UserName1.text,
             u_img: self.UserImage1

@@ -26,13 +26,21 @@ class CreateAccountViewController: UIViewController {
         
         self.passwordField.isSecureTextEntry = true
         self.reenterPasswordField.isSecureTextEntry = true
+    }
+    
+    @IBAction func createAccountButtonPressed(_ sender: Any) {
+        guard let email = emailField.text,
+              let password = passwordField.text else { return }
 
-        Auth.auth().addStateDidChangeListener() {
-            (auth, user) in
-            if user != nil {
-                let userId = user!.uid
-                Firestore.firestore().collection("users").document(userId).setData([
-                    "email": self.emailField.text ?? "",
+        Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+            if let error = error as NSError? {
+                self.errorLabel.text = "\(error.localizedDescription)"
+            } else if let user = authResult?.user {
+                self.errorLabel.text = ""
+
+                // Save additional user info to Firestore
+                Firestore.firestore().collection("users").document(user.uid).setData([
+                    "email": email,
                     "firstName": self.firstNameField.text ?? "",
                     "lastName": self.lastNameField.text ?? "",
                     "phoneNumber": self.phoneNumberField.text ?? "",
@@ -48,34 +56,26 @@ class CreateAccountViewController: UIViewController {
                     if let error = error {
                         print("Error saving user data: \(error.localizedDescription)")
                     } else {
-                        //pass userID to other pages
-                        UserManager.shared.u_userID = user!.uid
+                        UserManager.shared.u_userID = user.uid
                         print("User data saved successfully!")
+
+                        // Clear fields
+                        self.clearFields()
+                        self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
                     }
                 }
-                    
-                
-//                self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
-                self.firstNameField.text = nil
-                self.lastNameField.text = nil
-                self.emailField.text = nil
-                self.phoneNumberField.text = nil
-                self.passwordField.text = nil
-                self.reenterPasswordField.text = nil
             }
         }
     }
-    
-    @IBAction func createAccountButtonPressed(_ sender: Any) {
-        
-        Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) {
-            (authResult, error) in
-            if let error = error as NSError? {
-                self.errorLabel.text = "\(error.localizedDescription)"
-            } else {
-                self.errorLabel.text = ""
-            }
-        }
+
+    func clearFields() {
+        self.firstNameField.text = nil
+        self.lastNameField.text = nil
+        self.emailField.text = nil
+        self.phoneNumberField.text = nil
+        self.passwordField.text = nil
+        self.reenterPasswordField.text = nil
     }
+
 
 }

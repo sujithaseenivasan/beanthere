@@ -43,18 +43,22 @@ override func viewDidLoad() {
     
 
 //In will appear that is where we load every instance of settings
-override func viewWillAppear(_ _animated : Bool){
-    super.viewWillAppear(true)
-    var settingUID = UserManager.shared.u_userID
+override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     
-    // search in firebase if you find the user populate the users information in the swift fields
-    let userField = Firestore.firestore().collection("users").document(settingUID)
+    // Use Firebase Auth to get the currently authenticated user's UID
+    guard let currentUID = Auth.auth().currentUser?.uid else {
+        print("No authenticated user found.")
+        return
+    }
+    
+    let userField = Firestore.firestore().collection("users").document(currentUID)
     userField.getDocument { (docSnap, error) in
-        //if user have an error guard it
         if let error = error {
             print("Error fetching user data: \(error.localizedDescription)")
             return
         }
+        
         guard let document = docSnap, document.exists else {
             print("User document does not exist")
             return
@@ -69,7 +73,7 @@ override func viewWillAppear(_ _animated : Bool){
         self.Phone.text = data?["phoneNumber"] as? String ?? " "
         self.Notification.text = data?["notificationPreferences"] as? String ?? " "
         
-        //put all the information of currently loaded data here
+        // Store all the information of currently loaded data
         self.loaded_data = data
     }
 }
@@ -122,36 +126,59 @@ func didUserInfoChange() -> Bool{
   }
 
 //function 1 for UIImagePickerControllerDelegate (called when user finishes picking a so we wouldn't grab photo from  in here)
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]){
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
-        //allows editing, has to be an image
-        guard let img = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else{return}
-        //get bytes of the image
-        guard let imgData = img.pngData() else {return}
-        //upload bytes of our image data (don't care about metadata
-        storageRef.child("images/\(UserManager.shared.u_userID)file.png").putData(imgData, metadata: nil) { _, error in
+        
+        // Ensure there's a logged-in user
+        guard let currentUID = Auth.auth().currentUser?.uid else {
+            print("No authenticated user found.")
+            return
+        }
+        
+        // Get the edited image
+        guard let img = info[.editedImage] as? UIImage else {
+            print("No edited image found.")
+            return
+        }
+        
+        // Convert image to PNG data
+        guard let imgData = img.pngData() else {
+            print("Failed to convert image to PNG data.")
+            return
+        }
+        
+        let imagePath = "images/\(currentUID)_file.png"
+        
+        // Upload image data to Firebase Storage
+        storageRef.child(imagePath).putData(imgData, metadata: nil) { _, error in
             guard error == nil else {
-                print("failed to upload \(error!.localizedDescription) ")
+                print("Failed to upload image: \(error!.localizedDescription)")
                 return
             }
             
-            //then convert them to download url , get a reference to the url (the path)
-            self.storageRef.child("images/\(UserManager.shared.u_userID)file.png").downloadURL(completion: { url, error in
-                guard let url = url, error == nil else{
-                    print("failed to downloadURL \(error!.localizedDescription) ")
-                    return}
+            // Get download URL after successful upload
+            self.storageRef.child(imagePath).downloadURL { url, error in
+                guard let url = url, error == nil else {
+                    print("Failed to get download URL: \(error!.localizedDescription)")
+                    return
+                }
+                
                 let urlStr = url.absoluteString
-                DispatchQueue.main.async{
+                
+                // Update UI on main thread
+                DispatchQueue.main.async {
                     self.userImage.image = img
                     self.userImage.layer.cornerRadius = self.userImage.frame.width / 2
-                        self.userImage.layer.masksToBounds = true
+                    self.userImage.layer.masksToBounds = true
                 }
+                
                 print("Download URL: \(urlStr)")
-                //save it to userdefaults to be used to download latest image after
+                // Save download URL to UserDefaults
                 UserDefaults.standard.set(urlStr, forKey: "url")
-            })
+            }
         }
     }
+
 
     //function 2 for UIImagePickerControllerDelegate (what happens when the picker is canceled)
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
@@ -160,31 +187,49 @@ func didUserInfoChange() -> Bool{
 
     // function to update the fields when they are being typed in so that if they are changed the changes also reflect in the firebase storage. Save every changes when you exist the page
     @IBAction func SaveChanges(_ sender: Any) {
-        // if the information didn't change exit the function
-        if(!didUserInfoChange()) {return}
-        //now that it changed update update it to firebase
-        let userField = Firestore.firestore().collection("users").document(UserManager.shared.u_userID)
-        //Update if the data were changed
-        userField.setData(self.loaded_data!, merge: true) { error in
+        // Exit early if user info hasn't changed
+        guard didUserInfoChange() else { return }
+
+        // Ensure current user is authenticated
+        guard let currentUID = Auth.auth().currentUser?.uid else {
+            print("No authenticated user found.")
+            return
+        }
+
+        // Ensure we have loaded data to update
+        guard let updatedData = self.loaded_data else {
+            print("No user data loaded to save.")
+            return
+        }
+
+        // Reference Firestore user document
+        let userField = Firestore.firestore().collection("users").document(currentUID)
+
+        // Save the updated data
+        userField.setData(updatedData, merge: true) { error in
             if let error = error {
                 print("Error updating document: \(error.localizedDescription)")
             } else {
                 print("Document successfully updated")
             }
         }
+
+        // Update UserManager and call delegate
         let editUserManager = UserManager(
-            u_userID: UserManager.shared.u_userID,
-            u_name : self.Name.text,
+            u_userID: currentUID,
+            u_name: self.Name.text,
             u_username: self.Username.text,
-            u_email : self.Email.text,
-            u_city : self.City.text,
-            u_phone : self.Phone.text,
-            u_notifications : self.Notification.text,
+            u_email: self.Email.text,
+            u_city: self.City.text,
+            u_phone: self.Phone.text,
+            u_notifications: self.Notification.text,
             u_img: self.userImage
         )
-        delegate!.populateUserInfo(info: editUserManager)
+
+        delegate?.populateUserInfo(info: editUserManager)
         self.navigationController?.popViewController(animated: true)
     }
+
     
     // function for user to change their password
     @IBAction func resetPassword(_ sender: Any) {

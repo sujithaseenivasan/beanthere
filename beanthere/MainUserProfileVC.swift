@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseAuth
 
 
 class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView{
@@ -48,39 +49,39 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     //In will appear that is where we load every instance of settings
-    override func viewWillAppear(_ _animated : Bool){
-        super.viewWillAppear(true)
-        let profileUID = UserManager.shared.u_userID
-        self.userID = profileUID
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        // search in firebase if you find the user populate the users information in the swift fields
-        let userField = Firestore.firestore().collection("users").document(profileUID)
-        userField.getDocument { (docSnap, error) in
-            //if user have an error guard it
-            if let error = error {
-                print("Error fetching user data: \(error.localizedDescription)")
-                return
+        // Make sure there's a logged-in user
+        if let profileUID = Auth.auth().currentUser?.uid {
+            self.userID = profileUID
+            
+            let userField = Firestore.firestore().collection("users").document(profileUID)
+            
+            userField.getDocument { document, error in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    
+                    self.userProfileUsername.text = data?["username"] as? String ?? " "
+                    self.profileName.text = data?["firstName"] as? String ?? " "
+                    self.followersNum.text = "\(data?["friendsList"] as? Int ?? 0)"
+                    self.followingsNum.text = "\(data?["following"] as? Int ?? 0)"
+                    
+                    let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
+                    // You might want to store these review IDs if needed
+                    print("User review IDs: \(reviewIDs)")
+                    
+                    print("ENTERED VIEW WILL APPEAR")
+                    self.fetchUserReviews()
+                } else {
+                    print("User document not found or error: \(error?.localizedDescription ?? "unknown error")")
+                }
             }
-            guard let document = docSnap, document.exists else {
-                print("User document does not exist")
-                return
-            }
-            
-            // Retrieve the fields from the Firestore document
-            let data = document.data()
-            self.userProfileUsername.text = data?["username"] as? String ?? " "
-            
-            self.profileName.text = data?["firstName"] as? String ?? " "
-            self.followersNum.text = "\(data?["friendsList"] as? Int ?? 0)"
-            self.followingsNum.text = "\(data?["following"] as? Int ?? 0)"
-            
-            let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
-            //put all the information of currently loaded data in the array of reviews
-            print("ENTERED VIEW WILL APPEAR")
-            self.fetchUserReviews()
-            
+        } else {
+            print("No authenticated user found")
         }
     }
+
     
     //overwrite do the connection  between the 2 screens and the main screen
     override func prepare( for segue: UIStoryboardSegue, sender: Any?){
