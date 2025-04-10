@@ -113,6 +113,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                     tags: data["tags"] as? [String] ?? [],
                     timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
                     numLikes: data["friendsLikes"] as? Int ?? 0
+                    
                 )
                    
                 self.fetchCoffeeShopDetails(for: review.coffeeShopID) { name, address in
@@ -145,15 +146,15 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     friend and the following numbers for the user*/
     @IBAction func followButton(_ sender: Any) {
         if let button = sender as? UIButton {
-                button.backgroundColor = UIColor.clear
-            }
+            button.backgroundColor = UIColor.clear
+        }
     }
     
     //function that users the users (following) firestore database
     //or the friends followers when clicked.
     //COMEBACK
     func fetchAndUpdateFollowCount(userID: String, following: Bool) {
-       
+        
         let userField = Firestore.firestore().collection("users").document(userID)
         userField.getDocument { (docSnap, error) in
             //if user have an error guard it
@@ -226,6 +227,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                     cell.drinkImg.image = images.first ?? UIImage(named: "beantherelogo")// Show first image
                 }
             }
+        
             makeImageOval(cell.drinkImg)
             //download image from firebase and display it
             downloadImage(cell.drinkImg)

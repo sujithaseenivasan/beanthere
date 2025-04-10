@@ -172,7 +172,6 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     // this function populates the array of reviews that users have so far from firestore fill
     
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            print (" IN COUNT UPDATE ARRAY REVIEWS IN THE ARRAY NOW\(self.userReviews.count)")
             return userReviews.count
         }
         
