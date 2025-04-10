@@ -45,6 +45,12 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         fetchFriendReviews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchFriendReviews()
+        feedTableView.reloadData()
+    }
+    
     
     private let noFriendsLabel: UILabel = {
         let label = UILabel()
