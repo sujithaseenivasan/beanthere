@@ -20,6 +20,8 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
     let db = Firestore.firestore()
     var friendIDs: [String] = []
     var reviews: [[String: Any]] = []
+    var likedReviewIDs: Set<String> = []
+
     
     var friendReviewData: [(reviewData: [String: Any], userData: [String: Any]?)] = []
 
@@ -40,6 +42,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
                 noFriendsLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
             ])
 
+        fetchLikedReviews()
         feedTableView.reloadData()
         print("is this being called")
         fetchFriendReviews()
@@ -47,6 +50,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchLikedReviews()
         fetchFriendReviews()
         feedTableView.reloadData()
     }
@@ -81,27 +85,44 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
     }
     
     func didTapLikeButton(for reviewId: String) {
-        let reviewRef = db.collection("reviews").document(reviewId)
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
 
-        reviewRef.getDocument { document, error in
-            guard let document = document, document.exists else {
-                print("Review not found.")
+        let reviewRef = db.collection("reviews").document(reviewId)
+        let userRef = db.collection("users").document(currentUserId)
+
+        userRef.getDocument { snapshot, error in
+            guard let data = snapshot?.data(), error == nil else {
+                print("Error fetching user: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
 
-            var currentLikes = document.data()?["friendsLikes"] as? Int ?? 0
-            currentLikes += 1
+            var likedReviews = data["likedReviews"] as? [String] ?? []
+            let hasLiked = likedReviews.contains(reviewId)
+            let likeChange = hasLiked ? -1 : 1
 
-            reviewRef.updateData(["friendsLikes": currentLikes]) { error in
+            if hasLiked {
+                likedReviews.removeAll { $0 == reviewId }
+                self.likedReviewIDs.remove(reviewId)
+            } else {
+                likedReviews.append(reviewId)
+                self.likedReviewIDs.insert(reviewId)
+            }
+
+            userRef.updateData(["likedReviews": likedReviews])
+            reviewRef.updateData(["friendsLikes": FieldValue.increment(Int64(likeChange))]) { error in
                 if let error = error {
                     print("Failed to update likes: \(error.localizedDescription)")
                     return
                 }
 
                 if let index = self.friendReviewData.firstIndex(where: { $0.reviewData["reviewId"] as? String == reviewId }) {
-                    self.friendReviewData[index].reviewData["friendsLikes"] = currentLikes
+                    var review = self.friendReviewData[index].reviewData
+                    let currentLikes = (review["friendsLikes"] as? Int ?? 0) + likeChange
+                    review["friendsLikes"] = max(0, currentLikes) // avoid negative values
+                    self.friendReviewData[index].reviewData = review
+
                     DispatchQueue.main.async {
-                        self.feedTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                        self.feedTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
                     }
                 }
             }
@@ -130,6 +151,12 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
             cell.likeCountLabel.text = "\(likes) Likes"
         } else {
             cell.likeCountLabel.text = "0 Likes"
+        }
+
+        if let reviewId = review["reviewId"] as? String {
+            let isLiked = likedReviewIDs.contains(reviewId)
+            let heartSymbol = isLiked ? "heart.fill" : "heart"
+            cell.likeButton.setImage(UIImage(systemName: heartSymbol), for: .normal)
         }
 
 
@@ -280,6 +307,21 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
                 }
             }
     }
+    
+    func fetchLikedReviews() {
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(currentUserId).getDocument { snapshot, error in
+            guard let data = snapshot?.data(), error == nil else {
+                print("Error getting liked reviews")
+                return
+            }
+            self.likedReviewIDs = Set(data["likedReviews"] as? [String] ?? [])
+            DispatchQueue.main.async {
+                self.feedTableView.reloadData()
+            }
+        }
+    }
+
 
 
     //Helpers
