@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseAuth
 
 class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSource {
     
@@ -52,7 +53,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
 //            return
 //        }
         
-        let userField = Firestore.firestore().collection("users").document(friendID)
+        let userField = db.collection("users").document(friendID)
         userField.getDocument { (docSnap, error) in
             //if user have an error guard it
             if let error = error {
@@ -69,8 +70,8 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             self.friendUserName.text = data?["username"] as? String ?? " "
             
             self.friendName.text = data?["firstName"] as? String ?? " "
-            self.followersNum.text = "\(data?["friendsList"] as? Int ?? 0)"
-            self.followingNum.text = "\(data?["following"] as? Int ?? 0)"
+            self.followersNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
+            self.followingNum.text = "\((data?["following"] as? [String])?.count ?? 0)"
             
             let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
             //put all the information of currently loaded data in the array of reviews
@@ -94,9 +95,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                 print("User document not found")
             }
            }
-//        } else {
-//            print("No user is logged in")
-//        }
     }
        
     func fetchReviewDetails(reviewIDs: [String]) {
@@ -152,40 +150,37 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     /*when the follow Button is clicked increase the number of followers for the
     friend and the following numbers for the user*/
     @IBAction func followButton(_ sender: Any) {
+        guard let userUID = Auth.auth().currentUser?.uid else {
+            return
+        }
         if let button = sender as? UIButton {
-            button.backgroundColor = UIColor.clear
+            if(button.titleLabel?.text == "Follow"){
+                button.setTitle("Following", for: .normal)
+                updateFollowingAndFollowers(for: userUID, friendID: friendID, DidFollow: true)
+            }else {
+                button.setTitle("Follow", for: .normal)
+                updateFollowingAndFollowers(for: userUID, friendID: friendID, DidFollow: false)
+                self.followersNum.text = String(Int(self.followersNum.text!)! - 1)
+            }
+            
         }
     }
     
-    //function that users the users (following) firestore database
-    //or the friends followers when clicked.
-    //COMEBACK
-    func fetchAndUpdateFollowCount(userID: String, following: Bool) {
-        
-        let userField = Firestore.firestore().collection("users").document(userID)
-        userField.getDocument { (docSnap, error) in
-            //if user have an error guard it
-            if let error = error {
-                print("Error fetching user data: \(error.localizedDescription)")
-                return
-            }
-            guard let document = docSnap, document.exists else {
-                print("User document does not exist")
-                return
-            }
-            // Retrieve the fields from the Firestore document
-            let data = document.data()
+    //function to update the followers and the followings for the users
+    func updateFollowingAndFollowers(for userID: String, friendID: String, DidFollow: Bool) {
+        let userField = db.collection("users").document(userID)
+        let friendField = db.collection("users").document(friendID)
+        if(DidFollow){
+            self.followersNum.text = String(Int(self.followersNum.text!)! + 1)
+            userField.updateData(["friendsList": FieldValue.arrayUnion([friendID])])
+            friendField.updateData(["followers": FieldValue.arrayUnion([userID])])
+        } else {
+            self.followersNum.text = String(Int(self.followersNum.text!)! - 1)
+            userField.updateData(["friendsList": FieldValue.arrayRemove([friendID])])
+            friendField.updateData(["followers": FieldValue.arrayRemove([userID])])
         }
         
-            
-//        //Update if the data were changed
-//        userField.setData(self.loaded_data!, merge: true) { error in
-//            if let error = error {
-//                print("Error updating document: \(error.localizedDescription)")
-//            } else {
-//                print("Document successfully updated")
-//            }
-//        }
+        
         
     }
     
