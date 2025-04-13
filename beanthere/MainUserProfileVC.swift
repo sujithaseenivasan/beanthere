@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 
-class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView{
+class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView, MainProfileTableViewCellDel{
     
     
     @IBOutlet weak var userProfileImg: UIImageView!
@@ -87,6 +87,12 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         if segue.identifier == userSettingsSegueIdentifier,
            let userProfileVC = segue.destination as? UserProfileVC{
             userProfileVC.delegate =  self
+        } else {
+//            if segue.identifier == "GoToCommentVC",
+//               let commentVC = segue.destination as? CommentPopUpVC,
+//               let comment = sender as? Comment {
+//                commentVC.comment = comment
+//            }
         }
     }
     
@@ -169,6 +175,17 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
            }
        }
     
+    // delegate function to the popUp
+    func didTapCommentButton(in cell: YourCustomCell) {
+            // 1. Get the indexPath of the tapped cell
+            if let indexPath = tableView.indexPath(for: cell) {
+                let selectedComment = commentsArray[indexPath.row]
+                performSegue(withIdentifier: "GoToCommentVC", sender: selectedComment)
+            }
+        }
+        
+ 
+
     // this function populates the array of reviews that users have so far from firestore fill
     
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

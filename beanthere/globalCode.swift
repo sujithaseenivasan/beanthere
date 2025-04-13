@@ -43,6 +43,10 @@ protocol PassUserInfoToProfileView{
     func populateUserInfoToProfileView(info : UserManager)
 }
 
+protocol MainProfileTableViewCellDel: AnyObject {
+    func didTapCommentButton(in cell: MainProfileTableViewCell)
+}
+
 // helper function to make labels oval
 func makeLabelOval(_ label: UILabel) {
     label.layer.cornerRadius = label.frame.size.height / 2
