@@ -248,78 +248,6 @@
                                     <segue destination="yB5-fK-N6W" kind="show" identifier="ViewRequests" id="Rfj-UI-JkF"/>
                                 </connections>
                             </button>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Es6-yp-ya0">
-                                <rect key="frame" x="16" y="459" width="370" height="327"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.98823529480000005" green="0.93725490570000003" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hUg-Eb-DnG">
-                                    <size key="itemSize" width="106" height="155"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ContactsFriendCell" id="rGq-nT-Sp6" customClass="FriendContactsCollectionViewCell" customModule="beanthere" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="106" height="156"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="TZq-Cl-9Te">
-                                            <rect key="frame" x="0.0" y="0.0" width="106" height="156"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bGu-jM-DQB">
-                                                    <rect key="frame" x="19" y="15" width="69" height="69"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Jh-l5-CoV">
-                                                    <rect key="frame" x="33.333333333333343" y="88" width="39.666666666666657" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sz-X3-j1v">
-                                                    <rect key="frame" x="23.000000000000004" y="128" width="60.333333333333343" height="19"/>
-                                                    <color key="tintColor" red="0.39215683940000001" green="0.27843138579999999" blue="0.19607841970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="filled" title="Follow">
-                                                        <fontDescription key="titleFontDescription" type="system" pointSize="12"/>
-                                                    </buttonConfiguration>
-                                                    <connections>
-                                                        <action selector="contactFriendFollowRequest:" destination="rGq-nT-Sp6" eventType="touchUpInside" id="NMF-gw-2lq"/>
-                                                        <action selector="followContactsFriend:" destination="fiW-xl-Gph" eventType="touchUpInside" id="ZRd-W1-eZu"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U67-S1-3hk">
-                                                    <rect key="frame" x="37.666666666666664" y="105" width="30.999999999999993" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="U67-S1-3hk" firstAttribute="centerX" secondItem="TZq-Cl-9Te" secondAttribute="centerX" id="Bqq-JM-he6"/>
-                                                <constraint firstItem="bGu-jM-DQB" firstAttribute="top" secondItem="TZq-Cl-9Te" secondAttribute="top" constant="15" id="PA7-z1-lmw"/>
-                                                <constraint firstItem="9Jh-l5-CoV" firstAttribute="top" secondItem="bGu-jM-DQB" secondAttribute="bottom" constant="4" id="QF9-LZ-cKD"/>
-                                                <constraint firstAttribute="bottom" secondItem="bGu-jM-DQB" secondAttribute="bottom" constant="72" id="QtW-Vw-r7p"/>
-                                                <constraint firstAttribute="bottom" secondItem="3sz-X3-j1v" secondAttribute="bottom" constant="9" id="V3m-oZ-2bh"/>
-                                                <constraint firstAttribute="trailing" secondItem="bGu-jM-DQB" secondAttribute="trailing" constant="18" id="VIr-vy-Iq8"/>
-                                                <constraint firstItem="bGu-jM-DQB" firstAttribute="leading" secondItem="TZq-Cl-9Te" secondAttribute="leading" constant="19" id="a6Y-jY-guR"/>
-                                                <constraint firstItem="3sz-X3-j1v" firstAttribute="top" secondItem="TZq-Cl-9Te" secondAttribute="top" constant="128" id="fPO-q9-QkV"/>
-                                                <constraint firstItem="9Jh-l5-CoV" firstAttribute="centerX" secondItem="TZq-Cl-9Te" secondAttribute="centerX" id="mMw-IQ-1Tu"/>
-                                                <constraint firstItem="3sz-X3-j1v" firstAttribute="centerX" secondItem="TZq-Cl-9Te" secondAttribute="centerX" id="pRw-i8-MDz"/>
-                                                <constraint firstAttribute="bottom" secondItem="U67-S1-3hk" secondAttribute="bottom" constant="36" id="s0U-8i-Zps"/>
-                                            </constraints>
-                                        </collectionViewCellContentView>
-                                        <color key="backgroundColor" red="0.80000001190000003" green="0.6784313917" blue="0.58823531870000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <size key="customSize" width="106" height="156"/>
-                                        <connections>
-                                            <outlet property="contactFriendFollowButton" destination="3sz-X3-j1v" id="uI7-DV-8sT"/>
-                                            <outlet property="contactFriendImage" destination="bGu-jM-DQB" id="LZp-54-T5y"/>
-                                            <outlet property="contactFriendName" destination="9Jh-l5-CoV" id="PGB-ch-BXZ"/>
-                                            <outlet property="contactFriendUsername" destination="U67-S1-3hk" id="WC9-tH-S88"/>
-                                            <segue destination="cCL-dh-yzC" kind="presentation" identifier="contactGoToFriendProfID" id="Odn-FF-Cel"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Follow others on BeanThere to find more friends!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4jh-nB-V0g">
                                 <rect key="frame" x="16" y="306" width="370" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -398,6 +326,85 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MXQ-Wv-V2H">
+                                <rect key="frame" x="80" y="571" width="244" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.39215683940000001" green="0.27843138579999999" blue="0.19607841970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Give access to contacts here"/>
+                            </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Es6-yp-ya0">
+                                <rect key="frame" x="16" y="459" width="370" height="327"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.98823529480000005" green="0.93725490570000003" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hUg-Eb-DnG">
+                                    <size key="itemSize" width="106" height="155"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ContactsFriendCell" id="rGq-nT-Sp6" customClass="FriendContactsCollectionViewCell" customModule="beanthere" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="106" height="156"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="TZq-Cl-9Te">
+                                            <rect key="frame" x="0.0" y="0.0" width="106" height="156"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bGu-jM-DQB">
+                                                    <rect key="frame" x="19" y="15" width="69" height="69"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Jh-l5-CoV">
+                                                    <rect key="frame" x="33.333333333333343" y="88" width="39.666666666666657" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sz-X3-j1v">
+                                                    <rect key="frame" x="23.000000000000004" y="128" width="60.333333333333343" height="19"/>
+                                                    <color key="tintColor" red="0.39215683940000001" green="0.27843138579999999" blue="0.19607841970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="filled" title="Follow">
+                                                        <fontDescription key="titleFontDescription" type="system" pointSize="12"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="contactFriendFollowRequest:" destination="rGq-nT-Sp6" eventType="touchUpInside" id="NMF-gw-2lq"/>
+                                                        <action selector="followContactsFriend:" destination="fiW-xl-Gph" eventType="touchUpInside" id="ZRd-W1-eZu"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U67-S1-3hk">
+                                                    <rect key="frame" x="37.666666666666664" y="105" width="30.999999999999993" height="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="U67-S1-3hk" firstAttribute="centerX" secondItem="TZq-Cl-9Te" secondAttribute="centerX" id="Bqq-JM-he6"/>
+                                                <constraint firstItem="bGu-jM-DQB" firstAttribute="top" secondItem="TZq-Cl-9Te" secondAttribute="top" constant="15" id="PA7-z1-lmw"/>
+                                                <constraint firstItem="9Jh-l5-CoV" firstAttribute="top" secondItem="bGu-jM-DQB" secondAttribute="bottom" constant="4" id="QF9-LZ-cKD"/>
+                                                <constraint firstAttribute="bottom" secondItem="bGu-jM-DQB" secondAttribute="bottom" constant="72" id="QtW-Vw-r7p"/>
+                                                <constraint firstAttribute="bottom" secondItem="3sz-X3-j1v" secondAttribute="bottom" constant="9" id="V3m-oZ-2bh"/>
+                                                <constraint firstAttribute="trailing" secondItem="bGu-jM-DQB" secondAttribute="trailing" constant="18" id="VIr-vy-Iq8"/>
+                                                <constraint firstItem="bGu-jM-DQB" firstAttribute="leading" secondItem="TZq-Cl-9Te" secondAttribute="leading" constant="19" id="a6Y-jY-guR"/>
+                                                <constraint firstItem="3sz-X3-j1v" firstAttribute="top" secondItem="TZq-Cl-9Te" secondAttribute="top" constant="128" id="fPO-q9-QkV"/>
+                                                <constraint firstItem="9Jh-l5-CoV" firstAttribute="centerX" secondItem="TZq-Cl-9Te" secondAttribute="centerX" id="mMw-IQ-1Tu"/>
+                                                <constraint firstItem="3sz-X3-j1v" firstAttribute="centerX" secondItem="TZq-Cl-9Te" secondAttribute="centerX" id="pRw-i8-MDz"/>
+                                                <constraint firstAttribute="bottom" secondItem="U67-S1-3hk" secondAttribute="bottom" constant="36" id="s0U-8i-Zps"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <color key="backgroundColor" red="0.80000001190000003" green="0.6784313917" blue="0.58823531870000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <size key="customSize" width="106" height="156"/>
+                                        <connections>
+                                            <outlet property="contactFriendFollowButton" destination="3sz-X3-j1v" id="uI7-DV-8sT"/>
+                                            <outlet property="contactFriendImage" destination="bGu-jM-DQB" id="LZp-54-T5y"/>
+                                            <outlet property="contactFriendName" destination="9Jh-l5-CoV" id="PGB-ch-BXZ"/>
+                                            <outlet property="contactFriendUsername" destination="U67-S1-3hk" id="WC9-tH-S88"/>
+                                            <segue destination="cCL-dh-yzC" kind="presentation" identifier="contactGoToFriendProfID" id="Odn-FF-Cel"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GT6-xn-H4B"/>
                         <color key="backgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -405,6 +412,7 @@
                     <tabBarItem key="tabBarItem" title="CONNECT" image="person.2" catalog="system" selectedImage="person.2" id="yRG-bi-VSo"/>
                     <connections>
                         <outlet property="contactsFriendsCollection" destination="Es6-yp-ya0" id="5C6-Nd-BaV"/>
+                        <outlet property="giveContactsAccess" destination="MXQ-Wv-V2H" id="rbq-b5-mI0"/>
                         <outlet property="noSuggestedFriendsLabel" destination="4jh-nB-V0g" id="F7F-qn-yrR"/>
                         <outlet property="searchFriends" destination="jaJ-6c-64a" id="haB-vX-sDi"/>
                         <outlet property="suggestFriendsCollection" destination="IvU-To-smJ" id="blX-3A-wXW"/>
@@ -787,7 +795,7 @@
             <objects>
                 <viewController id="cCL-dh-yzC" customClass="FriendProfileVC" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mya-Js-bMk">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="864"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="tf0-vW-n6H">
@@ -970,7 +978,7 @@
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gUv-pg-30c">
-                                <rect key="frame" x="0.0" y="515" width="402" height="333"/>
+                                <rect key="frame" x="0.0" y="515" width="402" height="343"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z0x-po-iKM">
@@ -3147,7 +3155,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="7fc-Fy-hqo"/>
-        <segue reference="HlH-I5-mo3"/>
+        <segue reference="5Kt-Vn-ezp"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addFriend" width="20" height="20"/>

@@ -30,6 +30,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
     
     @IBOutlet weak var noSuggestedFriendsLabel: UILabel!
     
+    @IBOutlet weak var giveContactsAccess: UIButton!
     
     @IBOutlet weak var searchFriends: UISearchBar!
     private var hasPerformedSegue = false
