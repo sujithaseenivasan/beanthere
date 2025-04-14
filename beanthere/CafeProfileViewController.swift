@@ -34,6 +34,19 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
     
     // Fake review data
     var reviews: [(reviewData: [String: Any], userData: [String: Any]?)] = []
+    
+    private let noReviewsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No reviews yet!"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        label.textColor = .gray
+        label.numberOfLines = 0
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //adjust font size to fit into label
@@ -49,6 +62,15 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         // make image fill the UIImageView space
         cafeImage.contentMode = .scaleAspectFill
         cafeImage.clipsToBounds = true
+        
+        view.addSubview(noReviewsLabel)
+        NSLayoutConstraint.activate([
+            noReviewsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noReviewsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 175),
+            noReviewsLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
+            noReviewsLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
+        ])
+
         
         reviewsTableView.delegate = self
         reviewsTableView.dataSource = self
@@ -143,6 +165,14 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
             let reviewCount = fetchedReviews.count
             let averageRating = reviewCount > 0 ? Double(totalRating) / Double(reviewCount) : 0.0
             self.updateCafeRatingDisplay(average: averageRating)
+            
+            if fetchedReviews.isEmpty {
+                self.noReviewsLabel.isHidden = false
+                self.reviewsTableView.isHidden = true
+            } else {
+                self.noReviewsLabel.isHidden = true
+                self.reviewsTableView.isHidden = false
+            }
 
             // Determine most popular cafe tags
             var tagFrequency: [String: Int] = [:]
