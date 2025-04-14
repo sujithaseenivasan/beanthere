@@ -266,7 +266,7 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
             cell.userName.text = "Unknown User"
         }
 
-        loadProfileImage(userId: reviewData["userID"] as! String) { image in
+        FirebaseUtil.loadProfileImage(userId: reviewData["userID"] as! String) { image in
             DispatchQueue.main.async {
                 cell.userProfilePicture.image = image
                 let sideLength = min(cell.userProfilePicture.frame.width, cell.userProfilePicture.frame.height)
@@ -276,7 +276,7 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         }
 
         if let reviewId = reviewData["reviewId"] as? String {
-            loadReviewImage(reviewId: reviewId) { images in
+            FirebaseUtil.loadReviewImage(reviewId: reviewId) { images in
                 DispatchQueue.main.async {
                     if let images = images, !images.isEmpty {
                         cell.imageOne.image = images[0]
@@ -289,155 +289,6 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         }
 
         return cell
-    }
-
-
-
-    func loadProfileImage(userId: String, completion: @escaping (UIImage?) -> Void) {
-        print("loadProfileImage called for userId: \(userId)") // Debugging
-        let storageRef = Storage.storage().reference().child("images/\(userId)file.png")
-        
-        storageRef.downloadURL { url, error in
-            if let error = error {
-                print("Error getting profile image URL: \(error.localizedDescription)")
-                completion(nil)
-                return
-            }
-            
-            if let url = url {
-                print("Profile image URL: \(url)") // Debugging
-                self.downloadImage(from: url, completion: completion)
-            }
-        }
-    }
-
-    func loadReviewImage(reviewId: String, completion: @escaping ([UIImage]?) -> Void) {
-        let storageRef = Storage.storage().reference().child("review_images/\(reviewId)/")
-
-        storageRef.listAll { (result, error) in
-            if let error = error {
-                print("Error listing images for review \(reviewId): \(error.localizedDescription)")
-                completion(nil)
-                return
-            }
-
-            let dispatchGroup = DispatchGroup()
-            var images: [UIImage] = []
-
-            for item in result!.items {
-                dispatchGroup.enter()
-                item.downloadURL { url, error in
-                    if let error = error {
-                        print("Error getting image URL for \(item.name): \(error.localizedDescription)")
-                        dispatchGroup.leave()
-                        return
-                    }
-
-                    if let url = url {
-                        self.downloadImage(from: url) { image in
-                            if let image = image {
-                                images.append(image)
-                            }
-                            dispatchGroup.leave()
-                        }
-                    }
-                }
-            }
-
-            dispatchGroup.notify(queue: .main) {
-                completion(images.isEmpty ? nil : images)
-            }
-        }
-    }
-
-
-
-
-    func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    completion(image)
-                }
-            } else {
-                completion(nil)
-            }
-        }
-    }
-
-    
-}
-
-
-// MARK: - UILabel Padding Extension
-extension UILabel {
-    func padding(left: CGFloat, right: CGFloat) {
-        if let currentConstraints = self.constraints.first(where: { $0.firstAttribute == .width }) {
-            self.removeConstraint(currentConstraints)
-        }
-        let insets = UIEdgeInsets(top: 0, left: left, bottom: 0, right: right)
-        let paddedWidth = self.intrinsicContentSize.width + insets.left + insets.right
-        self.widthAnchor.constraint(greaterThanOrEqualToConstant: paddedWidth).isActive = true
-    }
-}
-struct TagStyler {
-    static func configureTagLabels(_ labels: [UILabel], withTags tags: [String]) {
-        let colors: [UIColor] = [
-            UIColor(named: "TagColor1") ?? .red,
-            UIColor(named: "TagColor2") ?? .blue,
-            UIColor(named: "TagColor3") ?? .green,
-            UIColor(named: "TagColor4") ?? .orange,
-            UIColor(named: "TagColor5") ?? .purple
-        ]
-        
-        if tags.isEmpty {
-            for (index, label) in labels.enumerated() {
-                if index == 0 {
-                    label.text = "No tags yet"
-                    label.isHidden = false
-                    label.backgroundColor = .lightGray
-                    label.textColor = .white
-                    label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-                    label.textAlignment = .center
-                    label.layer.cornerRadius = 12
-                    label.layer.masksToBounds = true
-                    label.sizeToFit()
-                    label.layoutIfNeeded()
-                    label.setContentHuggingPriority(.required, for: .horizontal)
-                    label.setContentCompressionResistancePriority(.required, for: .horizontal)
-                    label.translatesAutoresizingMaskIntoConstraints = false
-                    label.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
-                    label.padding(left: 12, right: 12)
-                } else {
-                    label.text = ""
-                    label.isHidden = true
-                }
-            }
-            return
-        }
-
-        for (index, label) in labels.enumerated() {
-            if index < tags.count {
-                label.text = tags[index]
-                label.isHidden = false
-                label.backgroundColor = colors[index % colors.count]
-                label.textColor = .white
-                label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-                label.textAlignment = .center
-                label.layer.cornerRadius = label.layer.frame.height > 0 ? label.layer.frame.height / 2 : 15
-                label.layer.masksToBounds = true
-                label.sizeToFit()
-                label.layoutIfNeeded()
-                label.setContentHuggingPriority(.required, for: .horizontal)
-                label.setContentCompressionResistancePriority(.required, for: .horizontal)
-                label.translatesAutoresizingMaskIntoConstraints = false
-                label.heightAnchor.constraint(greaterThanOrEqualToConstant: 24).isActive = true
-                label.padding(left: 12, right: 12)
-            } else {
-                label.text = ""
-                label.isHidden = true
-            }
-        }
     }
 }
 

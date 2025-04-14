@@ -191,7 +191,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
 
         // Profile Picture
         if let userID = review["userID"] as? String {
-            loadProfileImage(userId: userID) { image in
+            FirebaseUtil.loadProfileImage(userId: userID) { image in
                 DispatchQueue.main.async {
                     cell.profilePicture.image = image
                     let radius = min(cell.profilePicture.frame.width, cell.profilePicture.frame.height) / 2
@@ -203,7 +203,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
 
         // Review Images
         if let reviewId = review["reviewId"] as? String {
-            loadReviewImage(reviewId: reviewId) { images in
+            FirebaseUtil.loadReviewImage(reviewId: reviewId) { images in
                 DispatchQueue.main.async {
                     if let images = images, !images.isEmpty {
                         cell.imageOne.image = images[0]
@@ -216,18 +216,6 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         }
 
         return cell
-    }
-
-    
-    func formatTimestamp(_ timestamp: Any?) -> String {
-        if let ts = timestamp as? Timestamp {
-            let date = ts.dateValue()
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            formatter.timeStyle = .short
-            return formatter.string(from: date)
-        }
-        return ""
     }
     
     func fetchFriendReviews() {
@@ -322,66 +310,4 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         }
     }
 
-
-
-    //Helpers
-    func loadProfileImage(userId: String, completion: @escaping (UIImage?) -> Void) {
-        let ref = Storage.storage().reference().child("images/\(userId)file.png")
-        ref.downloadURL { url, error in
-            guard let url = url, error == nil else {
-                completion(nil)
-                return
-            }
-            self.downloadImage(from: url, completion: completion)
-        }
-    }
-
-    func loadReviewImage(reviewId: String, completion: @escaping ([UIImage]?) -> Void) {
-        let storageRef = Storage.storage().reference().child("review_images/\(reviewId)/")
-
-        storageRef.listAll { (result, error) in
-            if let error = error {
-                print("Error listing images for review \(reviewId): \(error.localizedDescription)")
-                completion(nil)
-                return
-            }
-
-            let dispatchGroup = DispatchGroup()
-            var images: [UIImage] = []
-
-            for item in result!.items {
-                dispatchGroup.enter()
-                item.downloadURL { url, error in
-                    if let error = error {
-                        print("Error getting image URL for \(item.name): \(error.localizedDescription)")
-                        dispatchGroup.leave()
-                        return
-                    }
-
-                    if let url = url {
-                        self.downloadImage(from: url) { image in
-                            if let image = image {
-                                images.append(image)
-                            }
-                            dispatchGroup.leave()
-                        }
-                    }
-                }
-            }
-
-            dispatchGroup.notify(queue: .main) {
-                completion(images.isEmpty ? nil : images)
-            }
-        }
-    }
-
-    func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                DispatchQueue.main.async { completion(image) }
-            } else {
-                completion(nil)
-            }
-        }
-    }
 }

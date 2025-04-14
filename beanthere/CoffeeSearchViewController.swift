@@ -106,7 +106,7 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         
         // Load image asynchronously
         if let imageUrl = coffeeShop.imageUrl {
-            loadImage(from: imageUrl) { image in
+            FirebaseUtil.loadImage(from: imageUrl) { image in
                 DispatchQueue.main.async {
                     cell.coffeeShopImage.image = image
                 }
@@ -201,22 +201,6 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
             if let destinationVC = segue.destination as? CafeProfileViewController,
                let selectedCoffeeShop = sender as? CoffeeShop {
                 destinationVC.cafeId = selectedCoffeeShop.documentId
-            }
-        }
-    }
-
-
-    func loadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
-        guard let url = URL(string: urlString) else {
-            completion(nil)
-            return
-        }
-
-        DispatchQueue.global().async {
-            if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-                completion(image)
-            } else {
-                completion(nil)
             }
         }
     }
