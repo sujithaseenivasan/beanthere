@@ -332,6 +332,9 @@
                                 <color key="tintColor" red="0.39215683940000001" green="0.27843138579999999" blue="0.19607841970000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Give access to contacts here"/>
+                                <connections>
+                                    <action selector="requestContactsAccess:" destination="fiW-xl-Gph" eventType="touchUpInside" id="1qr-iC-Aq6"/>
+                                </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Es6-yp-ya0">
                                 <rect key="frame" x="16" y="459" width="370" height="327"/>

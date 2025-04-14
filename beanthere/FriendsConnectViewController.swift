@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
+import Contacts
 
 let suggestFriendCellIdentifier = "SuggestedFriendCell"
 let contactsFriendCellIdentifier = "ContactsFriendCell"
@@ -39,6 +40,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
     var selectedFriendId: String = ""
     var currUserFollowing: [String] = []
     
+    var contactsList: [CNContact] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +52,17 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
         contactsFriendsCollection.dataSource = self
         
         searchFriends.delegate = self
-
+        
+        let contactsAuthStatus = CNContactStore.authorizationStatus(for: .contacts)
+        
+        if contactsAuthStatus == .authorized {
+            giveContactsAccess.isHidden = true
+            contactsFriendsCollection.isHidden = false
+        } else {
+            giveContactsAccess.isHidden = false
+            contactsFriendsCollection.isHidden = true
+        }
+        
         loadSuggestedFriends()
     }
     
@@ -208,6 +220,42 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             // performSegue(withIdentifier: "contactGoToFriendProfID", sender: self)
         }
     }
+    
+    
+    @IBAction func requestContactsAccess(_ sender: Any) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            let contactsStore = CNContactStore()
+            let keys = [CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+            let fetchRequest = CNContactFetchRequest(keysToFetch: keys)
+
+            var fetchedContacts: [CNContact] = []
+
+            do {
+                try contactsStore.enumerateContacts(with: fetchRequest) { (contact, _) in
+                    fetchedContacts.append(contact)
+                }
+
+                DispatchQueue.main.async {
+                    self.contactsList = fetchedContacts
+                    print(self.contactsList)
+                    self.giveContactsAccess.isHidden = true
+                    self.contactsFriendsCollection.isHidden = false
+                    self.contactsFriendsCollection.reloadData()
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(
+                        title: "Access to contacts needed",
+                        message: "Please click the button again",
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                    self.present(alert, animated: true)
+                }
+            }
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ViewRequests",
            let nextVC = segue.destination as? FriendRequestsViewController {
