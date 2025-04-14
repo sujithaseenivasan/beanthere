@@ -25,7 +25,6 @@ class BrewTabsViewController: UIViewController {
         let storyboard = UIStoryboard(name: "UserSetting", bundle: nil)
         //load the VCs programatically
         beenVC = storyboard.instantiateViewController(withIdentifier: "BeenViewController") as? BrewLogViewController
-        print("ENTERED BREWTAB3 ")
         wantToTryVC = storyboard.instantiateViewController(withIdentifier: "WantToTryViewController") as? WantToTryViewController
         recsVC = storyboard.instantiateViewController(withIdentifier: "RecommendationViewController") as? RecommendationViewController
         
@@ -50,7 +49,7 @@ class BrewTabsViewController: UIViewController {
             case 1:
                 switchToVC(wantToTryVC)
             case 2:
-            switchToVC(recsVC)
+                switchToVC(recsVC)
             default:
                 break
             }

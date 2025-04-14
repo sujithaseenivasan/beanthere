@@ -103,8 +103,6 @@ class WantToTryViewController: UIViewController, UITableViewDelegate, UITableVie
         return cell
     }
     
-    //TODO: add when you click on a cell to take it to that cafe profile
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCoffeeShop = coffeeShops[indexPath.row]
 

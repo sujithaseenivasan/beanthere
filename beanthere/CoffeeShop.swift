@@ -22,4 +22,15 @@ class CoffeeShop {
         self.description = description
         self.imageUrl = imageUrl
     }
+    
+    convenience init(id: String, data: [String: Any]) {
+        let name = data["name"] as? String ?? "Unnamed"
+        let address = data["address"] as? String ?? "No address"
+        let tags = data["tags"] as? [String] ?? []
+        let description = data["description"] as? String ?? ""
+        let imageUrl = data["image_url"] as? String ?? ""
+
+        self.init(documentId: id, name: name, address: address, tags: tags, description: description, imageUrl: imageUrl)
+    }
+
 }
