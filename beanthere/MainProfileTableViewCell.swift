@@ -36,7 +36,7 @@ class MainProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var share: UIImageView!
     var likeCount: Int = 0
     var reviewID: String = ""
-
+    weak var delegate: MainProfileTableViewCellDel?
     
     
     override func awakeFromNib() {
@@ -74,7 +74,12 @@ class MainProfileTableViewCell: UITableViewCell {
        numLikes.text = "\(likeCount) likes"
     }
     
+    @IBAction func commentButtonTapped(_ sender: UIButton) {
+        delegate?.didTapCommentButton(in: self)
+    }
+    
     @objc func commentTapRecognizer() {
+      
     }
     
     @objc func shareTapRecognizer() {
