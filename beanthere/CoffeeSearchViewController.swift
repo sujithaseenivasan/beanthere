@@ -178,7 +178,7 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
             } else if ratingPosition < average {
                 imageView.image = UIImage(named: "filled_bean.png")
             } else {
-                imageView.image = nil
+                imageView.image = UIImage(named: "unfilled_bean.png")
             }
         }
     }

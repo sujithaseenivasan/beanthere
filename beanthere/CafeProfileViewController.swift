@@ -173,13 +173,13 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
             if Double(i + 1) <= average {
                 imageView.image = UIImage(named: "filled_bean.png")
             } else if Double(i) < average {
-                imageView.image = UIImage(named: "filled_bean.png") // Add half bean later
+                imageView.image = UIImage(named: "filled_bean.png")
             } else {
-                imageView.image = nil
+                imageView.image = UIImage(named: "unfilled_bean.png")
             }
         }
-
     }
+
 
     @IBAction func bookmarkBtnPressed(_ sender: Any) {
         //get the user that is currently logged in
@@ -243,17 +243,20 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
 
         cell.reviewNotes.text = reviewData["comment"] as? String ?? "No Review"
         
-        if let rating = reviewData["rating"] as? Int {
+        if let rating = reviewData["rating"] as? Double {
             let totalBeans = cell.beanImageViews.count
             for i in 0..<totalBeans {
                 let imageView = cell.beanImageViews[i]
-                if i >= totalBeans - rating {
+                if Double(i + 1) <= rating {
+                    imageView.image = UIImage(named: "filled_bean.png")
+                } else if Double(i) < rating {
                     imageView.image = UIImage(named: "filled_bean.png")
                 } else {
-                    imageView.image = nil
+                    imageView.image = UIImage(named: "unfilled_bean.png")
                 }
             }
         }
+
 
         let tags = reviewData["tags"] as? [String] ?? []
 

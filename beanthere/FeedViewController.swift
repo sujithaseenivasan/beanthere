@@ -185,7 +185,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
             let totalBeans = cell.cafeBeanImageViews.count
             for i in 0..<totalBeans {
                 let imageView = cell.cafeBeanImageViews[i]
-                imageView.image = i < rating ? UIImage(named: "filled_bean.png") : nil
+                imageView.image = i < rating ? UIImage(named: "filled_bean.png") : UIImage(named: "unfilled_bean.png")
             }
         }
 
