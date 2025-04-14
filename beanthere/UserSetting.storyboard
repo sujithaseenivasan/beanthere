@@ -1888,15 +1888,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Here are your top recommendations!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w1j-yb-67o">
-                                <rect key="frame" x="67.666666666666657" y="136" width="291.33333333333337" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="RecommendationCell" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6RC-EF-SMA">
-                                <rect key="frame" x="0.0" y="165" width="402" height="675"/>
+                                <rect key="frame" x="0.0" y="135" width="402" height="705"/>
                                 <color key="backgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="402" id="7T1-Gr-4hW"/>
+                                    <constraint firstAttribute="height" constant="705" id="MP7-ck-Z14"/>
+                                </constraints>
                                 <color key="sectionIndexBackgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RecommendationCell" rowHeight="174" id="wLm-3k-JQm" customClass="RecommendationTableViewCell" customModule="beanthere" customModuleProvider="target">
@@ -1948,17 +1946,25 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Here are your top recommendations!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w1j-yb-67o">
+                                <rect key="frame" x="66" y="106" width="291.33333333333331" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="291.32999999999998" id="AQy-0H-n7g"/>
+                                    <constraint firstAttribute="height" constant="21" id="jxb-ak-fDf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zsB-y3-pxw"/>
                         <color key="backgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="zsB-y3-pxw" firstAttribute="trailing" secondItem="w1j-yb-67o" secondAttribute="trailing" constant="43" id="5dl-so-cvt"/>
-                            <constraint firstItem="w1j-yb-67o" firstAttribute="top" secondItem="zsB-y3-pxw" secondAttribute="top" constant="30" id="6QI-Ay-Y3f"/>
-                            <constraint firstItem="6RC-EF-SMA" firstAttribute="top" secondItem="w1j-yb-67o" secondAttribute="bottom" constant="8" symbolic="YES" id="6eg-XX-sQk"/>
-                            <constraint firstItem="6RC-EF-SMA" firstAttribute="leading" secondItem="zsB-y3-pxw" secondAttribute="leading" id="BZB-oS-WrR"/>
-                            <constraint firstItem="w1j-yb-67o" firstAttribute="leading" secondItem="zsB-y3-pxw" secondAttribute="leading" constant="67.666666666666657" id="LSN-KP-Yph"/>
-                            <constraint firstItem="6RC-EF-SMA" firstAttribute="bottom" secondItem="zsB-y3-pxw" secondAttribute="bottom" id="gdH-hf-sqg"/>
-                            <constraint firstItem="6RC-EF-SMA" firstAttribute="trailing" secondItem="zsB-y3-pxw" secondAttribute="trailing" id="m0q-ZW-K3q"/>
+                            <constraint firstItem="6RC-EF-SMA" firstAttribute="leading" secondItem="zsB-y3-pxw" secondAttribute="leading" id="IYL-In-S1m"/>
+                            <constraint firstItem="w1j-yb-67o" firstAttribute="top" secondItem="zsB-y3-pxw" secondAttribute="top" id="TIw-Gz-DB7"/>
+                            <constraint firstItem="w1j-yb-67o" firstAttribute="leading" secondItem="zsB-y3-pxw" secondAttribute="leading" constant="66" id="cJJ-Wo-YFn"/>
+                            <constraint firstItem="6RC-EF-SMA" firstAttribute="top" secondItem="zsB-y3-pxw" secondAttribute="top" constant="29" id="edV-Ny-1ep"/>
+                            <constraint firstItem="zsB-y3-pxw" firstAttribute="trailing" secondItem="w1j-yb-67o" secondAttribute="trailing" constant="44.670000000000002" id="rjM-Py-CRv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="VPs-3M-wze"/>

@@ -18,6 +18,8 @@ class RecommendationTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        cafeImage.contentMode = .scaleAspectFill
+        cafeImage.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
