@@ -1535,7 +1535,7 @@
                                                                     <gestureRecognizers/>
                                                                 </imageView>
                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ni8-BP-1RM">
-                                                                    <rect key="frame" x="42.666666666666671" y="0.0" width="19" height="34.333333333333343"/>
+                                                                    <rect key="frame" x="42.666666666666671" y="0.0" width="19" height="34.333333333333336"/>
                                                                     <state key="normal" title="Button"/>
                                                                     <buttonConfiguration key="configuration" style="plain" image="message" catalog="system" title="">
                                                                         <color key="baseForegroundColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1688,12 +1688,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Pxq-yj-nwI">
-                                <rect key="frame" x="0.0" y="117" width="402" height="693"/>
+                                <rect key="frame" x="0.0" y="62" width="402" height="778"/>
                                 <color key="backgroundColor" red="0.98823529480000005" green="0.93725490570000003" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="693" id="eHd-7M-sHM"/>
-                                    <constraint firstAttribute="width" constant="402" id="gkH-y6-30S"/>
-                                </constraints>
                                 <color key="sectionIndexBackgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BrewLogCell" rowHeight="107" id="LrZ-6D-yT2" customClass="BrewLogCellTableViewCell" customModule="beanthere" customModuleProvider="target">
@@ -1810,10 +1806,10 @@
                         <viewLayoutGuide key="safeArea" id="bg5-GK-Mgd"/>
                         <color key="backgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Pxq-yj-nwI" firstAttribute="top" secondItem="bg5-GK-Mgd" secondAttribute="top" constant="55" id="WEF-kW-8RU"/>
-                            <constraint firstItem="Pxq-yj-nwI" firstAttribute="leading" secondItem="bg5-GK-Mgd" secondAttribute="leading" id="Xhw-Rq-4VA"/>
-                            <constraint firstItem="bg5-GK-Mgd" firstAttribute="bottom" secondItem="Pxq-yj-nwI" secondAttribute="bottom" constant="30" id="drj-mO-mF2"/>
-                            <constraint firstItem="Pxq-yj-nwI" firstAttribute="trailing" secondItem="bg5-GK-Mgd" secondAttribute="trailing" id="seJ-et-qPj"/>
+                            <constraint firstItem="Pxq-yj-nwI" firstAttribute="trailing" secondItem="bg5-GK-Mgd" secondAttribute="trailing" id="9xJ-X8-9lw"/>
+                            <constraint firstItem="Pxq-yj-nwI" firstAttribute="top" secondItem="bg5-GK-Mgd" secondAttribute="top" id="IpM-wO-tAy"/>
+                            <constraint firstItem="Pxq-yj-nwI" firstAttribute="leading" secondItem="bg5-GK-Mgd" secondAttribute="leading" id="fjY-MB-Hei"/>
+                            <constraint firstItem="bg5-GK-Mgd" firstAttribute="bottom" secondItem="Pxq-yj-nwI" secondAttribute="bottom" id="pdt-dm-zka"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Jat-83-68h"/>
@@ -1834,12 +1830,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="cWM-7w-O0m">
-                                <rect key="frame" x="0.0" y="206" width="402" height="577"/>
+                                <rect key="frame" x="0.0" y="106" width="402" height="734"/>
                                 <color key="backgroundColor" red="0.98823529480000005" green="0.93725490570000003" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="402" id="O87-XZ-8vJ"/>
-                                    <constraint firstAttribute="height" constant="577" id="rxr-SR-yfw"/>
-                                </constraints>
                                 <color key="sectionIndexBackgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="WantToTryCell" textLabel="bvC-jS-cgE" detailTextLabel="9ae-zP-cA9" rowHeight="79" style="IBUITableViewCellStyleSubtitle" id="eXs-EN-NeO">
@@ -1873,10 +1865,10 @@
                         <viewLayoutGuide key="safeArea" id="mfq-88-5mF"/>
                         <color key="backgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="cWM-7w-O0m" firstAttribute="trailing" secondItem="mfq-88-5mF" secondAttribute="trailing" id="RMS-7J-sWP"/>
-                            <constraint firstItem="cWM-7w-O0m" firstAttribute="leading" secondItem="mfq-88-5mF" secondAttribute="leading" id="UFw-cp-hlo"/>
-                            <constraint firstItem="mfq-88-5mF" firstAttribute="bottom" secondItem="cWM-7w-O0m" secondAttribute="bottom" constant="57" id="aiI-vP-x6n"/>
-                            <constraint firstItem="cWM-7w-O0m" firstAttribute="top" secondItem="mfq-88-5mF" secondAttribute="top" constant="100" id="dOV-BH-u9J"/>
+                            <constraint firstItem="cWM-7w-O0m" firstAttribute="top" secondItem="mfq-88-5mF" secondAttribute="top" id="hTu-TF-iE1"/>
+                            <constraint firstItem="cWM-7w-O0m" firstAttribute="leading" secondItem="mfq-88-5mF" secondAttribute="leading" id="kh0-da-tXw"/>
+                            <constraint firstItem="cWM-7w-O0m" firstAttribute="trailing" secondItem="mfq-88-5mF" secondAttribute="trailing" id="mLa-yj-pzd"/>
+                            <constraint firstItem="mfq-88-5mF" firstAttribute="bottom" secondItem="cWM-7w-O0m" secondAttribute="bottom" id="us7-6H-IqJ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="V2u-Sp-xai"/>
@@ -2289,7 +2281,7 @@
                                                     <color key="highlightedColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brief description of coffee shop" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gax-Ng-qGa">
-                                                    <rect key="frame" x="24.666666666666657" y="255.33333333333334" width="353" height="15.666666666666657"/>
+                                                    <rect key="frame" x="24.666666666666657" y="255.33333333333334" width="353" height="15.6666666666666"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15.666666666666572" id="GFg-Zr-boF"/>
                                                         <constraint firstAttribute="width" constant="353" id="wIb-Cl-Qpl"/>
@@ -3242,7 +3234,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

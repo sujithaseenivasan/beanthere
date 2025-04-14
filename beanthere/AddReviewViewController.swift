@@ -313,6 +313,30 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
                             print("Review ID added to user's reviews array")
                         }
                     }
+                    
+                    //logic to check if coffee shop exists in "Want to Try" list, and if so remove it
+                    userRef.getDocument(){ (document, error) in
+                        if let document = document, document.exists {
+                            var wantToTry = document.data()?["wantToTry"] as? [String] ?? []
+                            //get coffeeshopID we are trying to add and check if its in our
+                            //wantToTry list
+                            if let shopID = coffeeShopID,
+                               let index = wantToTry.firstIndex(of: shopID) {
+                                wantToTry.remove(at: index)
+                                
+                                userRef.updateData(["wantToTry": wantToTry]) { error in
+                                    if let error = error {
+                                        print("Error removing shop from wantToTry: \(error.localizedDescription)")
+                                    } else {
+                                        print("Successfully removed shop from wantToTry list.")
+                                    }
+                                }
+                            }
+                        } else {
+                            print("User document not found or error fetching it.")
+                        }
+                    }
+                    
                     self.navigationController?.popViewController(animated: true)
                 }
             }

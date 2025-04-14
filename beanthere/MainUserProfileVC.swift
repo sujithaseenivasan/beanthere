@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 
-class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView, MainProfileTableViewCellDel{
+class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView{
     
     
     @IBOutlet weak var userProfileImg: UIImageView!
@@ -176,13 +176,13 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
        }
     
     // delegate function to the popUp
-    func didTapCommentButton(in cell: YourCustomCell) {
-            // 1. Get the indexPath of the tapped cell
-            if let indexPath = tableView.indexPath(for: cell) {
-                let selectedComment = commentsArray[indexPath.row]
-                performSegue(withIdentifier: "GoToCommentVC", sender: selectedComment)
-            }
-        }
+//    func didTapCommentButton(in cell: YourCustomCell) {
+//            // 1. Get the indexPath of the tapped cell
+//            if let indexPath = tableView.indexPath(for: cell) {
+//                let selectedComment = commentsArray[indexPath.row]
+//                performSegue(withIdentifier: "GoToCommentVC", sender: selectedComment)
+//            }
+//        }
         
  
 
