@@ -17,8 +17,14 @@ class LoginViewController: UIViewController {
     
     let segueIdentifier = "homeSegue1"
     
+    @IBOutlet weak var loginTextLabel: UILabel!
+    
+    @IBOutlet weak var alreadyHaveAcctTextLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        loginTextLabel.font = UIFont(name: "Manjari-Regular", size: 32)
+        alreadyHaveAcctTextLabel.font = UIFont(name: "Manjari-Regular", size: 20)
+
         self.passwordTextField.isSecureTextEntry = true
     }
     

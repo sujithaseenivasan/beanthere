@@ -16,10 +16,30 @@
 		7355DC852D764564003260C8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7355DC842D764564003260C8 /* FirebaseStorage */; };
 		7355DC872D764564003260C8 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 7355DC862D764564003260C8 /* FirebaseStorageCombine-Community */; };
 		736902922D8B953A00ACFF58 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736902912D8B953A00ACFF58 /* ImageCell.swift */; };
+		7399FB2F2DAE118200E05EEA /* Lora-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB262DAE118200E05EEA /* Lora-Italic.ttf */; };
+		7399FB302DAE118200E05EEA /* JuliusSansOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB242DAE118200E05EEA /* JuliusSansOne-Regular.ttf */; };
+		7399FB312DAE118200E05EEA /* Lora-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB252DAE118200E05EEA /* Lora-Bold.ttf */; };
+		7399FB322DAE118200E05EEA /* Lora-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB2A2DAE118200E05EEA /* Lora-SemiBoldItalic.ttf */; };
+		7399FB332DAE118200E05EEA /* Manjari-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB2D2DAE118200E05EEA /* Manjari-Thin.ttf */; };
+		7399FB342DAE118200E05EEA /* Lora-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB292DAE118200E05EEA /* Lora-SemiBold.ttf */; };
+		7399FB352DAE118200E05EEA /* Manjari-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB2B2DAE118200E05EEA /* Manjari-Bold.ttf */; };
+		7399FB362DAE118200E05EEA /* Manjari-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB2C2DAE118200E05EEA /* Manjari-Regular.ttf */; };
+		7399FB372DAE118200E05EEA /* Lora-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB272DAE118200E05EEA /* Lora-Medium.ttf */; };
+		7399FB382DAE118200E05EEA /* Lora-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7399FB282DAE118200E05EEA /* Lora-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		736902912D8B953A00ACFF58 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		7399FB242DAE118200E05EEA /* JuliusSansOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JuliusSansOne-Regular.ttf"; sourceTree = "<group>"; };
+		7399FB252DAE118200E05EEA /* Lora-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Bold.ttf"; sourceTree = "<group>"; };
+		7399FB262DAE118200E05EEA /* Lora-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Italic.ttf"; sourceTree = "<group>"; };
+		7399FB272DAE118200E05EEA /* Lora-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Medium.ttf"; sourceTree = "<group>"; };
+		7399FB282DAE118200E05EEA /* Lora-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Regular.ttf"; sourceTree = "<group>"; };
+		7399FB292DAE118200E05EEA /* Lora-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-SemiBold.ttf"; sourceTree = "<group>"; };
+		7399FB2A2DAE118200E05EEA /* Lora-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		7399FB2B2DAE118200E05EEA /* Manjari-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manjari-Bold.ttf"; sourceTree = "<group>"; };
+		7399FB2C2DAE118200E05EEA /* Manjari-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manjari-Regular.ttf"; sourceTree = "<group>"; };
+		7399FB2D2DAE118200E05EEA /* Manjari-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Manjari-Thin.ttf"; sourceTree = "<group>"; };
 		73EDBA652D71021500D1B6E0 /* beanthere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = beanthere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -63,9 +83,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7399FB2E2DAE118200E05EEA /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7399FB242DAE118200E05EEA /* JuliusSansOne-Regular.ttf */,
+				7399FB252DAE118200E05EEA /* Lora-Bold.ttf */,
+				7399FB262DAE118200E05EEA /* Lora-Italic.ttf */,
+				7399FB272DAE118200E05EEA /* Lora-Medium.ttf */,
+				7399FB282DAE118200E05EEA /* Lora-Regular.ttf */,
+				7399FB292DAE118200E05EEA /* Lora-SemiBold.ttf */,
+				7399FB2A2DAE118200E05EEA /* Lora-SemiBoldItalic.ttf */,
+				7399FB2B2DAE118200E05EEA /* Manjari-Bold.ttf */,
+				7399FB2C2DAE118200E05EEA /* Manjari-Regular.ttf */,
+				7399FB2D2DAE118200E05EEA /* Manjari-Thin.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		73EDBA5C2D71021500D1B6E0 = {
 			isa = PBXGroup;
 			children = (
+				7399FB2E2DAE118200E05EEA /* Fonts */,
 				736902912D8B953A00ACFF58 /* ImageCell.swift */,
 				73EDBA672D71021500D1B6E0 /* beanthere */,
 				73EDBA662D71021500D1B6E0 /* Products */,
@@ -155,6 +193,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7399FB2F2DAE118200E05EEA /* Lora-Italic.ttf in Resources */,
+				7399FB302DAE118200E05EEA /* JuliusSansOne-Regular.ttf in Resources */,
+				7399FB312DAE118200E05EEA /* Lora-Bold.ttf in Resources */,
+				7399FB322DAE118200E05EEA /* Lora-SemiBoldItalic.ttf in Resources */,
+				7399FB332DAE118200E05EEA /* Manjari-Thin.ttf in Resources */,
+				7399FB342DAE118200E05EEA /* Lora-SemiBold.ttf in Resources */,
+				7399FB352DAE118200E05EEA /* Manjari-Bold.ttf in Resources */,
+				7399FB362DAE118200E05EEA /* Manjari-Regular.ttf in Resources */,
+				7399FB372DAE118200E05EEA /* Lora-Medium.ttf in Resources */,
+				7399FB382DAE118200E05EEA /* Lora-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
