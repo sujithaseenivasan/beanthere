@@ -147,8 +147,11 @@
                     <navigationItem key="navigationItem" id="jgx-ac-kIh"/>
                     <connections>
                         <outlet property="alreadyHaveAcctTextLabel" destination="YE9-6x-Dmu" id="PkD-CA-iJx"/>
+                        <outlet property="createAccountButton" destination="YUS-F6-IeR" id="6Ij-eU-QeI"/>
                         <outlet property="emailTextField" destination="Vns-af-SVG" id="LiC-Aw-EqB"/>
                         <outlet property="errorLabel" destination="lwJ-Rb-o1b" id="x7G-dB-DjB"/>
+                        <outlet property="forgotPasswordButton" destination="9m1-Xp-ye7" id="n3F-Qy-NDq"/>
+                        <outlet property="loginButton" destination="SaP-pH-BKz" id="Rov-Qi-9hk"/>
                         <outlet property="loginTextLabel" destination="5e5-Em-OKQ" id="O2K-Xl-lXR"/>
                         <outlet property="passwordTextField" destination="98K-B5-Vg6" id="CU5-7x-qSf"/>
                     </connections>
@@ -290,10 +293,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="eOW-4i-SV8"/>
                     <connections>
+                        <outlet property="alreadyHaveAccountButton" destination="z8n-fX-thP" id="HBO-Sq-vw4"/>
+                        <outlet property="createAccountButton" destination="RHO-oq-2L4" id="wX4-qb-A6z"/>
+                        <outlet property="createAccountTextLabel" destination="M6y-iV-pbR" id="0gG-tz-PPo"/>
                         <outlet property="emailField" destination="4hg-rt-wck" id="ItR-ol-o0e"/>
                         <outlet property="errorLabel" destination="doY-21-a3c" id="8pY-90-5h7"/>
                         <outlet property="firstNameField" destination="w2n-6e-ROs" id="5Tz-rg-XF1"/>
                         <outlet property="lastNameField" destination="F5V-cG-6zm" id="C6c-No-gVp"/>
+                        <outlet property="newToBeanthereTextLabel" destination="v4S-zG-Xy6" id="3t7-XU-OhR"/>
                         <outlet property="passwordField" destination="cin-bO-Te0" id="gSC-qj-cGf"/>
                         <outlet property="phoneNumberField" destination="HDN-4U-Pnc" id="HB2-yV-x9O"/>
                         <outlet property="reenterPasswordField" destination="fcU-ou-yXL" id="YwE-FT-MM8"/>
@@ -370,8 +377,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="DNA-ir-Rtv"/>
-        <segue reference="cby-5d-R0P"/>
+        <segue reference="exC-GV-Wvp"/>
+        <segue reference="YYH-35-hXi"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="beantherelogo" width="500" height="500"/>

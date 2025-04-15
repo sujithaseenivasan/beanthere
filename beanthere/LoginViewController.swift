@@ -20,10 +20,22 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginTextLabel: UILabel!
     
     @IBOutlet weak var alreadyHaveAcctTextLabel: UILabel!
+    
+    @IBOutlet weak var forgotPasswordButton: UIButton!
+    
+    @IBOutlet weak var createAccountButton: UIButton!
+    
+    @IBOutlet weak var loginButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loginTextLabel.font = UIFont(name: "Manjari-Regular", size: 32)
         alreadyHaveAcctTextLabel.font = UIFont(name: "Manjari-Regular", size: 20)
+        emailTextField.font = UIFont(name: "Manjari-Regular", size: 16)
+        passwordTextField.font = UIFont(name: "Manjari-Regular", size: 16)
+        forgotPasswordButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 16)
+        createAccountButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 16)
+        loginButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 18)
 
         self.passwordTextField.isSecureTextEntry = true
     }

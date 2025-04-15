@@ -11,6 +11,10 @@ import FirebaseFirestore
 
 class CreateAccountViewController: UIViewController {
     
+    @IBOutlet weak var createAccountTextLabel: UILabel!
+    
+    @IBOutlet weak var newToBeanthereTextLabel: UILabel!
+    
     @IBOutlet weak var firstNameField: UITextField!
     @IBOutlet weak var lastNameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
@@ -18,11 +22,24 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var reenterPasswordField: UITextField!
     
+    @IBOutlet weak var alreadyHaveAccountButton: UIButton!
+    @IBOutlet weak var createAccountButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
 
     let segueIdentifier = "homeSegue2"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        createAccountTextLabel.font = UIFont(name: "Manjari-Regular", size: 32)
+        newToBeanthereTextLabel.font = UIFont(name: "Manjari-Regular", size: 20)
+        firstNameField.font = UIFont(name: "Manjari-Regular", size: 16)
+        lastNameField.font = UIFont(name: "Manjari-Regular", size: 16)
+        emailField.font = UIFont(name: "Manjari-Regular", size: 16)
+        phoneNumberField.font = UIFont(name: "Manjari-Regular", size: 16)
+        passwordField.font = UIFont(name: "Manjari-Regular", size: 16)
+        reenterPasswordField.font = UIFont(name: "Manjari-Regular", size: 16)
+        alreadyHaveAccountButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 16)
+        createAccountButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 18)
         
         self.passwordField.isSecureTextEntry = true
         self.reenterPasswordField.isSecureTextEntry = true

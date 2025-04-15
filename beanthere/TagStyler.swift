@@ -27,7 +27,7 @@ struct TagStyler {
                     label.isHidden = false
                     label.backgroundColor = .lightGray
                     label.textColor = .white
-                    label.font = UIFont.systemFont(ofSize: 10, weight: .light)
+                    label.font = UIFont(name: "Lora-SemiBold", size: 10)
                     label.textAlignment = .center
                     label.layer.cornerRadius = 10
                     label.layer.masksToBounds = true
@@ -52,7 +52,7 @@ struct TagStyler {
                 label.isHidden = false
                 label.backgroundColor = colors[index % colors.count]
                 label.textColor = .white
-                label.font = UIFont.systemFont(ofSize: 10, weight: .light)
+                label.font = UIFont(name: "Lora-SemiBold", size: 10)
                 label.textAlignment = .center
                 label.layer.cornerRadius = label.layer.frame.height > 0 ? label.layer.frame.height / 2 : 10
                 label.layer.masksToBounds = true

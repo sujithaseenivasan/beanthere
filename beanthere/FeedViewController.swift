@@ -12,6 +12,9 @@ import FirebaseStorage
 
 class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, FeedReviewCellDelegate {
     
+    
+    @IBOutlet weak var yourFeedTextLabel: UILabel!
+    
 
     @IBOutlet weak var feedTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -29,6 +32,10 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
+        
+        yourFeedTextLabel.font = UIFont(name: "Lora-Bold", size: 20)
+        
+        searchBar.searchTextField.font = UIFont(name: "Lora-SemiBold", size: 17)
         
         feedTableView.delegate = self
         feedTableView.dataSource = self
@@ -171,7 +178,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         if let timestamp = review["timestamp"] as? Timestamp {
             let formatter = DateFormatter()
             formatter.dateStyle = .medium
-            formatter.timeStyle = .short
+            formatter.timeStyle = .none
             cell.dateLabel.text = formatter.string(from: timestamp.dateValue())
         }
 

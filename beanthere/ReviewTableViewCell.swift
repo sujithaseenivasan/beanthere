@@ -27,16 +27,23 @@ class ReviewTableViewCell: UITableViewCell {
     @IBOutlet weak var beanImageView4: UIImageView!
     @IBOutlet weak var beanImageView5: UIImageView!
         
-        // An array to easily access the beans
-        var beanImageViews: [UIImageView] {
-            return [beanImageView1, beanImageView2, beanImageView3, beanImageView4, beanImageView5]
-        }
+    // An array to easily access the beans
+    var beanImageViews: [UIImageView] {
+        return [beanImageView1, beanImageView2, beanImageView3, beanImageView4, beanImageView5]
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
         
-        override func awakeFromNib() {
-            super.awakeFromNib()
-            // Initial setup for the beans if needed
-            for bean in beanImageViews {
-                bean.image = nil // Start with no beans
-            }
+        userName.font = UIFont(name: "Lora-Bold", size: 20)
+        reviewNotes.font = UIFont(name: "Lora-SemiBold", size: 14)
+        
+        reviewTagLabels.forEach {
+            $0.font = UIFont(name: "Lora-SemiBold", size: 10)
         }
+
+        for bean in beanImageViews {
+            bean.image = nil
+        }
+    }
 }

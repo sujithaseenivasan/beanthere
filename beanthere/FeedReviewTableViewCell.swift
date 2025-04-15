@@ -33,11 +33,25 @@ class FeedReviewTableViewCell: UITableViewCell {
     
     weak var delegate: FeedReviewCellDelegate?
         var reviewId: String?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
-        @IBAction func likeButtonTapped(_ sender: UIButton) {
-//            likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            
-            guard let reviewId = reviewId else { return }
-            delegate?.didTapLikeButton(for: reviewId)
+        titleText.font = UIFont(name: "Lora-Bold", size: 20)
+        notesLabel.font = UIFont(name: "Lora-SemiBold", size: 14)
+        locationLabel.font = UIFont(name: "Lora-SemiBold", size: 15)
+        dateLabel.font = UIFont(name: "Lora-SemiBold", size: 15)
+        likeCountLabel.font = UIFont(name: "Lora-SemiBold", size: 15)
+        
+        reviewTagLabels.forEach {
+            $0.font = UIFont(name: "Lora-SemiBold", size: 10)
         }
+    }
+
+
+    @IBAction func likeButtonTapped(_ sender: UIButton) {
+        
+        guard let reviewId = reviewId else { return }
+        delegate?.didTapLikeButton(for: reviewId)
+    }
 }

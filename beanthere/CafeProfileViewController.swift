@@ -16,6 +16,7 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
 
+    @IBOutlet weak var whatOtherBeanthereUsersSaidTextLabel: UILabel!
     
     @IBOutlet weak var cafeRatingStackView: UIStackView!
     
@@ -49,6 +50,12 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        cafeNameLabel.font = UIFont(name: "Lora-Bold", size: 32)
+        addressLabel.font = UIFont(name: "Lora-SemiBold", size: 14)
+        descriptionLabel.font = UIFont(name: "Lora-Medium", size: 14)
+        whatOtherBeanthereUsersSaidTextLabel.font = UIFont(name: "Lora-Bold", size: 17.5)
+        
         //adjust font size to fit into label
         cafeNameLabel.adjustsFontSizeToFitWidth = true
         cafeNameLabel.minimumScaleFactor = 0.5

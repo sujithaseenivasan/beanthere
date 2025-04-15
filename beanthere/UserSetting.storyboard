@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Map view configurations" minToolsVersion="14.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -210,12 +211,12 @@
                                 <rect key="frame" x="0.0" y="447" width="402" height="411"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dKx-dj-7hE">
-                                        <rect key="frame" x="0.0" y="346" width="322" height="34"/>
+                                        <rect key="frame" x="0.0" y="346" width="317.33333333333331" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8js-c4-Fy8">
-                                        <rect key="frame" x="323" y="347" width="63" height="33"/>
+                                        <rect key="frame" x="318.33333333333331" y="345.66666666666663" width="67.666666666666686" height="34.333333333333314"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain">
                                             <attributedString key="attributedTitle">
@@ -2367,6 +2368,7 @@
                     <connections>
                         <outlet property="feedTableView" destination="mP0-8a-KpX" id="tu4-1a-rvB"/>
                         <outlet property="searchBar" destination="Uvb-aR-lxb" id="S58-Jz-GlY"/>
+                        <outlet property="yourFeedTextLabel" destination="ZXf-vY-AYJ" id="lK5-01-icv"/>
                         <segue destination="Ai3-pE-RHb" kind="show" identifier="coffeeSearchSegue" id="BZh-oz-PXp"/>
                     </connections>
                 </viewController>
@@ -2377,18 +2379,43 @@
         <!--COFFEE MAP-->
         <scene sceneID="BBj-41-dTS">
             <objects>
-                <viewController id="k8T-wp-iO2" sceneMemberID="viewController">
+                <viewController id="k8T-wp-iO2" customClass="CoffeeMapViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nWT-Xv-9vJ">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toplogo" translatesAutoresizingMaskIntoConstraints="NO" id="sne-oY-EU7">
+                                <rect key="frame" x="16" y="62" width="194" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="lbh-S6-eMV"/>
+                                    <constraint firstAttribute="width" constant="194" id="zrl-FO-hx0"/>
+                                </constraints>
+                            </imageView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Qh-IZ-Rch">
+                                <rect key="frame" x="0.0" y="105" width="402" height="686"/>
+                                <standardMapConfiguration key="preferredConfiguration"/>
+                            </mapView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="sna-01-WQl"/>
                         <color key="backgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="sne-oY-EU7" firstAttribute="leading" secondItem="sna-01-WQl" secondAttribute="leading" constant="16" id="633-gO-yu1"/>
+                            <constraint firstItem="8Qh-IZ-Rch" firstAttribute="leading" secondItem="sna-01-WQl" secondAttribute="leading" id="6Fe-D7-cJP"/>
+                            <constraint firstItem="sna-01-WQl" firstAttribute="bottom" secondItem="8Qh-IZ-Rch" secondAttribute="bottom" id="6at-pq-I9l"/>
+                            <constraint firstItem="8Qh-IZ-Rch" firstAttribute="top" secondItem="sne-oY-EU7" secondAttribute="bottom" id="XBS-qk-eSR"/>
+                            <constraint firstItem="sne-oY-EU7" firstAttribute="top" secondItem="sna-01-WQl" secondAttribute="top" id="jQf-S9-vI5"/>
+                            <constraint firstItem="sna-01-WQl" firstAttribute="trailing" secondItem="8Qh-IZ-Rch" secondAttribute="trailing" id="oXq-qQ-uix"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="COFFEE MAP" image="map" catalog="system" selectedImage="map" id="OHd-jw-yuF"/>
+                    <connections>
+                        <outlet property="coffeeMapView" destination="8Qh-IZ-Rch" id="IPn-Xa-R4O"/>
+                        <segue destination="6q9-hf-Pqa" kind="show" identifier="mapToCafeProfileSegue" id="U6m-uK-607"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sZu-eX-n3B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1970" y="-727"/>
+            <point key="canvasLocation" x="-2149" y="-955"/>
         </scene>
         <!--Coffee Search View Controller-->
         <scene sceneID="WQX-6K-gno">
@@ -2437,10 +2464,10 @@
                                                     <color key="textColor" red="0.26666666666666666" green="0.14117647058823529" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="highlightedColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brief description of coffee shop" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gax-Ng-qGa">
-                                                    <rect key="frame" x="24.666666666666657" y="255.33333333333334" width="353" height="15.6666666666666"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brief description of coffee shop" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gax-Ng-qGa">
+                                                    <rect key="frame" x="24.666666666666657" y="210.33333333333334" width="353" height="60.666666666666657"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="15.666666666666572" id="GFg-Zr-boF"/>
+                                                        <constraint firstAttribute="height" constant="60.666667938232422" id="GFg-Zr-boF"/>
                                                         <constraint firstAttribute="width" constant="353" id="wIb-Cl-Qpl"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -2676,11 +2703,11 @@
             <objects>
                 <viewController storyboardIdentifier="CafeProfileViewController" id="6q9-hf-Pqa" customClass="CafeProfileViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CGH-le-AOb">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="864"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ii8-eo-vDq">
-                                <rect key="frame" x="0.0" y="561" width="393" height="318"/>
+                                <rect key="frame" x="0.0" y="499" width="393" height="318"/>
                                 <color key="backgroundColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="318" id="RWe-AP-blq"/>
@@ -2826,13 +2853,13 @@
                                 </prototypes>
                             </tableView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toplogo" translatesAutoresizingMaskIntoConstraints="NO" id="Bse-Rb-sXO">
-                                <rect key="frame" x="24" y="62" width="194" height="43"/>
+                                <rect key="frame" x="24" y="0.0" width="194" height="43"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="lXr-6v-Zf8"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coffee Shop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hYf-p4-TXv">
-                                <rect key="frame" x="25" y="311" width="125" height="34.333333333333314"/>
+                                <rect key="frame" x="25" y="249.00000000000003" width="125" height="34.333333333333343"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34.333333333333314" id="EPl-Va-s27"/>
                                     <constraint firstAttribute="width" constant="125" id="k2t-jj-gZl"/>
@@ -2842,11 +2869,11 @@
                                 <color key="highlightedColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0EY-vd-aus">
-                                <rect key="frame" x="157" y="311" width="2" height="34.333333333333314"/>
+                                <rect key="frame" x="157" y="249.00000000000003" width="2" height="34.333333333333343"/>
                                 <color key="backgroundColor" red="0.2666666667" green="0.14117647059999999" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brief description of coffee shop" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QbA-Os-lbS">
-                                <rect key="frame" x="16" y="353.33333333333331" width="353" height="50"/>
+                                <rect key="frame" x="16" y="291.33333333333331" width="353" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="lDY-Ll-XtI"/>
                                 </constraints>
@@ -2855,19 +2882,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pj8-Qi-Dhr">
-                                <rect key="frame" x="9" y="113" width="389" height="180"/>
+                                <rect key="frame" x="9" y="51" width="389" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="ftF-hX-ccg"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What other Beanthere users said" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vBg-F3-DM6">
-                                <rect key="frame" x="24" y="489.33333333333331" width="249" height="20.333333333333314"/>
+                                <rect key="frame" x="24" y="427.33333333333331" width="249" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qmc-9t-F04">
-                                <rect key="frame" x="282" y="482.33333333333331" width="49.666666666666686" height="34.333333333333314"/>
+                                <rect key="frame" x="282" y="420.33333333333331" width="49.666666666666686" height="34.333333333333314"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="plus.circle.fill" catalog="system" title="">
                                     <color key="baseForegroundColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2877,7 +2904,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KMC-hb-HAc">
-                                <rect key="frame" x="328" y="482.33333333333331" width="49.666666666666686" height="34.333333333333314"/>
+                                <rect key="frame" x="328" y="420.33333333333331" width="49.666666666666686" height="34.333333333333314"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="bookmark.circle" catalog="system">
                                     <color key="baseForegroundColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2887,7 +2914,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ryA-yy-qhn">
-                                <rect key="frame" x="167" y="301" width="129" height="25"/>
+                                <rect key="frame" x="167" y="239" width="129" height="25"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="filled_bean" translatesAutoresizingMaskIntoConstraints="NO" id="sSZ-XU-6ne">
                                         <rect key="frame" x="0.0" y="0.0" width="25.666666666666668" height="25"/>
@@ -2915,7 +2942,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="5ZA-Ni-5so">
-                                <rect key="frame" x="22" y="433.33333333333331" width="358" height="31"/>
+                                <rect key="frame" x="22" y="371.33333333333331" width="358" height="31"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sUV-i2-b6J">
                                         <rect key="frame" x="0.0" y="0.0" width="193" height="31"/>
@@ -2956,7 +2983,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123 Street, Austin, Texas 78705" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VPw-1p-Xuk">
-                                <rect key="frame" x="167" y="327" width="200" height="20.333333333333314"/>
+                                <rect key="frame" x="167" y="265" width="200" height="20.333333333333314"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20.333333333333314" id="MZQ-l5-9hl"/>
                                     <constraint firstAttribute="width" constant="200" id="Z8h-9p-VCk"/>
@@ -3014,6 +3041,7 @@
                         <outlet property="cafeRatingStackView" destination="ryA-yy-qhn" id="WQB-dg-uZD"/>
                         <outlet property="descriptionLabel" destination="QbA-Os-lbS" id="66A-tt-KJF"/>
                         <outlet property="reviewsTableView" destination="ii8-eo-vDq" id="gf2-iO-MA0"/>
+                        <outlet property="whatOtherBeanthereUsersSaidTextLabel" destination="vBg-F3-DM6" id="vc3-iy-dFd"/>
                         <outletCollection property="cafeBeanImageViews" destination="sSZ-XU-6ne" collectionClass="NSMutableArray" id="yaL-zC-bDN"/>
                         <outletCollection property="cafeBeanImageViews" destination="bJi-8r-wXs" collectionClass="NSMutableArray" id="aVa-q7-l1n"/>
                         <outletCollection property="cafeBeanImageViews" destination="xDh-r9-iWd" collectionClass="NSMutableArray" id="fsY-bi-Oxt"/>
@@ -3282,9 +3310,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="Tei-Dd-IdL"/>
                     <connections>
+                        <outlet property="notesTextLabel" destination="g1N-Eg-k5b" id="tp4-pJ-kvd"/>
                         <outlet property="notesTextView" destination="uZk-dQ-heL" id="aBn-iN-mJq"/>
                         <outlet property="photoCollectionView" destination="kFl-dr-fHh" id="hhJ-M4-LRy"/>
+                        <outlet property="photosTextLabel" destination="k7c-NA-pSb" id="f9i-rx-wq4"/>
+                        <outlet property="ratingTextLabel" destination="hjX-k7-HWf" id="kgE-i6-VCW"/>
+                        <outlet property="submitReviewButton" destination="PY4-6J-qri" id="3BB-Qc-Mjr"/>
                         <outlet property="tagCollectionView" destination="tS6-5Q-Tyc" id="Tnc-th-0yW"/>
+                        <outlet property="tagsTextLabel" destination="cKS-an-mIC" id="oct-LM-FBP"/>
+                        <outlet property="uploadPhotoButton" destination="Vhe-dd-KnZ" id="PSt-nE-63I"/>
                         <outletCollection property="ratingButtons" destination="IXt-09-dbN" collectionClass="NSMutableArray" id="DeX-2u-xAh"/>
                         <outletCollection property="ratingButtons" destination="rz6-Kc-fqY" collectionClass="NSMutableArray" id="uO8-rR-Qkh"/>
                         <outletCollection property="ratingButtons" destination="dJq-mm-5uy" collectionClass="NSMutableArray" id="pnH-IL-mwo"/>

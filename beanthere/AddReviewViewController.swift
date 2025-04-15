@@ -15,6 +15,18 @@ let db = Firestore.firestore()
 
 class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    
+    @IBOutlet weak var ratingTextLabel: UILabel!
+    
+    @IBOutlet weak var tagsTextLabel: UILabel!
+    
+    @IBOutlet weak var notesTextLabel: UILabel!
+    @IBOutlet weak var photosTextLabel: UILabel!
+    
+    @IBOutlet weak var uploadPhotoButton: UIButton!
+    
+    @IBOutlet weak var submitReviewButton: UIButton!
+    
     @IBOutlet var ratingButtons: [UIButton]!
     @IBOutlet weak var tagCollectionView: UICollectionView!
     @IBOutlet weak var notesTextView: UITextView!
@@ -38,6 +50,12 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        ratingTextLabel.font = UIFont(name: "Lora-Bold", size: 20)
+        tagsTextLabel.font = UIFont(name: "Lora-Bold", size: 20)
+        notesTextLabel.font = UIFont(name: "Lora-Bold", size: 20)
+        photosTextLabel.font = UIFont(name: "Lora-Bold", size: 20)
+        uploadPhotoButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 16)
+        submitReviewButton.titleLabel?.font = UIFont(name: "Lora-Bold", size: 20)
         tagCollectionView.delegate = self
         tagCollectionView.dataSource = self
         
