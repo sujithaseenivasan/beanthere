@@ -285,7 +285,8 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
                 "userID": userID,
                 "imageURLs": imageURLs,
                 "friendsComment": [],
-                "friendsLikes": Int()
+                "friendsLikes": Int(),
+                "friendsCommentsArr" : [[String]]()
             ]
 
             newReviewRef.setData(reviewData) { error in

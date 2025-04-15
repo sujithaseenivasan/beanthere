@@ -44,7 +44,7 @@ protocol PassUserInfoToProfileView{
 }
 
 protocol MainProfileTableViewCellDel: AnyObject {
-    func didTapCommentButton(in cell: MainProfileTableViewCell)
+    func didTapCommentButton(reviewID: String)
 }
 
 // helper function to make labels oval

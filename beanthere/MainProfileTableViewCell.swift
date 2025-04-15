@@ -46,10 +46,6 @@ class MainProfileTableViewCell: UITableViewCell {
         likeImg.isUserInteractionEnabled = true
         likeImg.addGestureRecognizer(likeTap)
         
-        let commentTap = UITapGestureRecognizer(target: self, action: #selector(commentTapRecognizer))
-        friendsComment.isUserInteractionEnabled = true
-        friendsComment.addGestureRecognizer(commentTap)
-        
         let shareTap = UITapGestureRecognizer(target: self, action: #selector(shareTapRecognizer))
         share.isUserInteractionEnabled = true
         share.addGestureRecognizer(shareTap)
@@ -75,8 +71,12 @@ class MainProfileTableViewCell: UITableViewCell {
     }
     
     @IBAction func commentButtonTapped(_ sender: UIButton) {
-        delegate?.didTapCommentButton(in: self)
+        delegate?.didTapCommentButton(reviewID: reviewID)
+        print ("ENTERED COMMENT BUTTON IN CELL ")
     }
+    
+    
+    
     
     @objc func commentTapRecognizer() {
       

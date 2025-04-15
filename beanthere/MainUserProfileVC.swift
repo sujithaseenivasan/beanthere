@@ -11,7 +11,8 @@ import FirebaseStorage
 import FirebaseAuth
 
 
-class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView{
+class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView, MainProfileTableViewCellDel{
+    
     
     
     @IBOutlet weak var userProfileImg: UIImageView!
@@ -34,6 +35,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     // Fake review data
     var userReviews:[Review] = []
     var userReviewIDs : [String] = []
+    @IBOutlet weak var innerView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,13 +89,20 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         if segue.identifier == userSettingsSegueIdentifier,
            let userProfileVC = segue.destination as? UserProfileVC{
             userProfileVC.delegate =  self
-        } else {
-//            if segue.identifier == "GoToCommentVC",
-//               let commentVC = segue.destination as? CommentPopUpVC,
-//               let comment = sender as? Comment {
-//                commentVC.comment = comment
-//            }
+        } else if segue.identifier == "userCommentSegue",
+               let commentVC = segue.destination as? CommentPopUpVC,
+                  let reviewID = sender as? String {
+            commentVC.delegate = self
+            commentVC.reviewID = reviewID
+            commentVC.modalPresentationStyle = .overCurrentContext
+            self.definesPresentationContext = true
         }
+    }
+    
+    //function that segue to the comments tableview ViewController when the comment button is clicked
+    func didTapCommentButton(reviewID: String) {
+        print("CAME IN DID TAP SEGUE")
+        performSegue(withIdentifier: "userCommentSegue", sender: reviewID)
     }
     
     // Function to change the edited data from UserProfile to MainUserProfileVC
@@ -174,28 +183,18 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                }
            }
        }
-    
-    // delegate function to the popUp
-//    func didTapCommentButton(in cell: YourCustomCell) {
-//            // 1. Get the indexPath of the tapped cell
-//            if let indexPath = tableView.indexPath(for: cell) {
-//                let selectedComment = commentsArray[indexPath.row]
-//                performSegue(withIdentifier: "GoToCommentVC", sender: selectedComment)
-//            }
-//        }
-        
  
 
     // this function populates the array of reviews that users have so far from firestore fill
-    
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return userReviews.count
-        }
+    }
         
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let userReview = userReviews[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! MainProfileTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let userReview = userReviews[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! MainProfileTableViewCell
             if (userReviews.count > 0){
+                cell.delegate = self
                 cell.likeCount = userReview.numLikes ?? 0
                 cell.reviewID = userReviewIDs[indexPath.row]
                 
@@ -217,11 +216,17 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 makeImageOval(cell.drinkImg)
                 //download image from firebase and display it
                 downloadImage(cell.drinkImg)
-                
-                
             }
             return cell
         }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedReviewID = userReviewIDs[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! MainProfileTableViewCell
+        if (userReviews.count > 0){
+            
+        }
+    }
         
         
     }
