@@ -9,6 +9,15 @@ import UIKit
 
 class CommentPopUpVC: UIViewController {
 
+   
+    @IBOutlet weak var commentTableView: UITableView!
+    
+    @IBOutlet weak var commenterName: UILabel!
+    
+    @IBOutlet weak var comment: UILabel!
+    
+    var reviewID: String?
+    
     var delegate: UIViewController?
     override func viewDidLoad() {
         super.viewDidLoad()

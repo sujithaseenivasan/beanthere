@@ -23,7 +23,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var friendReviewTableView: UITableView!
     
-    var friendID = "rd7MrtRHfsaxUpJjxEHyEhlUutg1"
+    var friendID: String?
     var delegate: UIViewController!
     
     let valCellIndetifier = "FriendProfileCellID"
@@ -53,7 +53,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
 //            return
 //        }
         
-        let userField = db.collection("users").document(friendID)
+        let userField = db.collection("users").document(friendID!)
         userField.getDocument { (docSnap, error) in
             //if user have an error guard it
             if let error = error {
@@ -83,7 +83,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     func fetchUserReviews() {
            //get the user that is currently logged in
-        let userID = self.friendID 
+        let userID = self.friendID!
             //if user is currently logged in, use thier userID to fetch their document
         db.collection("users").document(userID).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -156,10 +156,10 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         if let button = sender as? UIButton {
             if(button.titleLabel?.text == "Follow"){
                 button.setTitle("Following", for: .normal)
-                updateFollowingAndFollowers(for: userUID, friendID: friendID, DidFollow: true)
+                updateFollowingAndFollowers(for: userUID, friendID: friendID!, DidFollow: true)
             }else {
                 button.setTitle("Follow", for: .normal)
-                updateFollowingAndFollowers(for: userUID, friendID: friendID, DidFollow: false)
+                updateFollowingAndFollowers(for: userUID, friendID: friendID!, DidFollow: false)
                 self.followersNum.text = String(Int(self.followersNum.text!)! - 1)
             }
             
