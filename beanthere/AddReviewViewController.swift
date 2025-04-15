@@ -302,9 +302,8 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
                 "timestamp": Timestamp(date: Date()),
                 "userID": userID,
                 "imageURLs": imageURLs,
-                "friendsComment": [],
+                "friendsComment": [String](),
                 "friendsLikes": Int(),
-                "friendsCommentsArr" : [[String]]()
             ]
 
             newReviewRef.setData(reviewData) { error in

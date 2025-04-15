@@ -10,8 +10,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
 
-class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSource {
-    
+class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSource, FriendProfileTableViewCellDel {
     
     @IBOutlet weak var friendImg: UIImageView!
     @IBOutlet weak var friendName: UILabel!
@@ -25,6 +24,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     var friendID: String?
     var delegate: UIViewController!
+    var myUserName: String?
     
     let valCellIndetifier = "FriendProfileCellID"
     // Fake review data
@@ -42,16 +42,12 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         friendReviewTableView.delegate = self
         friendReviewTableView.dataSource = self
         friendReviewTableView.rowHeight = 150
+        populateUserName()
     }
     
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
-        // search in firebase if you find the user populate the users information in the swift fields
-//        guard let safeFriendID = friendID else {
-//            print("friendID was nil. Cannot fetch userField.")
-//            return
-//        }
         
         let userField = db.collection("users").document(friendID!)
         userField.getDocument { (docSnap, error) in
@@ -78,6 +74,18 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             print("ENTERED VIEW WILL APPEAR")
             self.fetchUserReviews()
             
+        }
+    }
+    
+    // function that populates the user name
+    func populateUserName(){
+        let userID = Auth.auth().currentUser?.uid ?? ""
+        db.collection("users").document(userID).getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let userName = document.data()?["firstName"] as? String {
+                    self.myUserName = userName
+                }
+            }
         }
     }
     
@@ -199,6 +207,24 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             tabsVC.defaultTabIndex = 1 // now we are going to "Want to Try" tab
             tabsVC.friendID = self.friendID
         }
+        
+        if segue.identifier == "userCommentSegue",
+               let commentVC = segue.destination as? CommentPopUpVC,
+                  let reviewID = sender as? String {
+            print("ENTERED PREPARE FOR SEGUE \(reviewID)")
+            commentVC.delegate = self
+            commentVC.reviewID = reviewID
+            commentVC.userName = self.myUserName
+            print("ENTERED PREPARE FOR SEGUE PASSED \(commentVC.reviewID)")
+
+            commentVC.modalPresentationStyle = .overCurrentContext
+            self.definesPresentationContext = true
+        }
+        
+    }
+    
+    func didTapCommentButton(reviewID: String) {
+        performSegue(withIdentifier: "friendCommentSegue", sender: reviewID)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

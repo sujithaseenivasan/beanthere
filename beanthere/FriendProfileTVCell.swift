@@ -24,6 +24,7 @@ class FriendProfileTVCell: UITableViewCell {
     @IBOutlet weak var friendsComment: UIImageView!
     @IBOutlet weak var share: UIImageView!
     
+    weak var delegate: FriendProfileTableViewCellDel?
     var likeCount: Int = 0
     var reviewID: String = ""
 
@@ -33,10 +34,6 @@ class FriendProfileTVCell: UITableViewCell {
         let likeTap = UITapGestureRecognizer(target: self, action: #selector(likeTapRecognizer))
         likeImg.isUserInteractionEnabled = true
         likeImg.addGestureRecognizer(likeTap)
-        
-        let commentTap = UITapGestureRecognizer(target: self, action: #selector(commentTapRecognizer))
-        friendsComment.isUserInteractionEnabled = true
-        friendsComment.addGestureRecognizer(commentTap)
         
         let shareTap = UITapGestureRecognizer(target: self, action: #selector(shareTapRecognizer))
         share.isUserInteractionEnabled = true
@@ -61,6 +58,12 @@ class FriendProfileTVCell: UITableViewCell {
         
        numLikes.text = "\(likeCount) likes"
     }
+    
+    @IBAction func commentButtonTapped(_ sender: UIButton) {
+        print ("ENTERED COMMENT BUTTON IN CELL ")
+        delegate?.didTapCommentButton(reviewID: reviewID)
+    }
+    
     
     @objc func commentTapRecognizer() {
     }

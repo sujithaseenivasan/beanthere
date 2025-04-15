@@ -92,13 +92,18 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         } else if segue.identifier == "userCommentSegue",
                let commentVC = segue.destination as? CommentPopUpVC,
                   let reviewID = sender as? String {
+            print("ENTERED PREPARE FOR SEGUE \(reviewID)")
             commentVC.delegate = self
             commentVC.reviewID = reviewID
+            commentVC.userName = self.profileName.text ?? ""
+            print("ENTERED PREPARE FOR SEGUE PASSED \(commentVC.reviewID)")
+
             commentVC.modalPresentationStyle = .overCurrentContext
             self.definesPresentationContext = true
         }
     }
     
+   
     //function that segue to the comments tableview ViewController when the comment button is clicked
     func didTapCommentButton(reviewID: String) {
         print("CAME IN DID TAP SEGUE")

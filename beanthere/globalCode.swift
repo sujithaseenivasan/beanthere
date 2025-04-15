@@ -47,6 +47,10 @@ protocol MainProfileTableViewCellDel: AnyObject {
     func didTapCommentButton(reviewID: String)
 }
 
+protocol FriendProfileTableViewCellDel: AnyObject {
+    func didTapCommentButton(reviewID: String)
+}
+
 // helper function to make labels oval
 func makeLabelOval(_ label: UILabel) {
     label.layer.cornerRadius = label.frame.size.height / 2
