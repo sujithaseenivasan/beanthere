@@ -41,6 +41,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
     var currUserFollowing: [String] = []
     
     var contactsList: [CNContact] = []
+    var contactsFriends: [Friend] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +59,11 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
         if contactsAuthStatus == .authorized {
             giveContactsAccess.isHidden = true
             contactsFriendsCollection.isHidden = false
+            
+            print("CONTACTS AUTHORIZED!!!!!")
+            
+            fetchContactsAndLoadFriends()
+            
         } else {
             giveContactsAccess.isHidden = false
             contactsFriendsCollection.isHidden = true
@@ -71,6 +77,101 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             hasPerformedSegue = true
             performSegue(withIdentifier: "FriendSearch", sender: self)
             hasPerformedSegue = false
+        }
+    }
+    
+    func normalizePhoneNumber(_ number: String) -> String {
+        let allowedCharacterSet = CharacterSet.decimalDigits
+        let filteredCharacters = number.unicodeScalars.filter { allowedCharacterSet.contains($0) }
+        return String(String.UnicodeScalarView(filteredCharacters))
+    }
+    
+    func fetchContactsAndLoadFriends() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            let contactsStore = CNContactStore()
+            let keys = [CNContactPhoneNumbersKey] as [CNKeyDescriptor]
+            let fetchRequest = CNContactFetchRequest(keysToFetch: keys)
+            var fetchedContacts: [CNContact] = []
+            
+            do {
+                try contactsStore.enumerateContacts(with: fetchRequest) { (contact, _) in
+                    fetchedContacts.append(contact)
+                }
+                DispatchQueue.main.async {
+                    self.contactsList = fetchedContacts
+                    print("Fetched contacts: \(self.contactsList)")
+                    self.loadContactsFriends()
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(
+                        title: "Contacts Error",
+                        message: "Unable to fetch contacts.",
+                        preferredStyle: .alert
+                    )
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                    self.present(alert, animated: true)
+                }
+            }
+        }
+    }
+
+    
+    func loadContactsFriends() {
+        print("IN LOAD CONTACTS METHOD")
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            return
+        }
+        let db = Firestore.firestore()
+        
+        var phoneNumbersSet = Set<String>()
+        print(contactsList)
+        for contact in contactsList {
+            for phoneNumber in contact.phoneNumbers {
+                let normalizedNumber = normalizePhoneNumber(phoneNumber.value.stringValue)
+                phoneNumbersSet.insert(normalizedNumber)
+            }
+        }
+        
+        let phoneNumbersArr = Array(phoneNumbersSet)
+        
+        print("HERE IS PHONE NUMBER ARRAY")
+        print(phoneNumbersArr)
+        if phoneNumbersArr.isEmpty {
+            return
+        }
+        
+        db.collection("users").whereField("phoneNumber", in: phoneNumbersArr).getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error fetching contacts friends: \(error)")
+                return
+            }
+            guard let documents = snapshot?.documents else { return }
+            
+            // clear out the array before adding new data.
+            // self.contactsFriends.removeAll()
+            
+            for doc in documents {
+                if doc.documentID == currentUserId {
+                    continue
+                }
+                
+                let data = doc.data()
+                let firstName = data["firstName"] as? String ?? ""
+                let lastName = data["lastName"] as? String ?? ""
+                var username = data["username"] as? String ?? ""
+                if username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    username = firstName + lastName
+                }
+                let profilePicture = data["profilePicture"] as? String
+                let friend = Friend(id: doc.documentID,
+                                    firstName: firstName,
+                                    lastName: lastName,
+                                    username: username,
+                                    profilePicture: profilePicture)
+                self.contactsFriends.append(friend)
+            }
+            self.contactsFriendsCollection.reloadData()
         }
     }
     
@@ -173,7 +274,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
                 return suggestedFriends.count
             } else if collectionView == contactsFriendsCollection {
                 // TODO: return logic for contacts friends here
-                return 0
+                return contactsFriends.count
             }
             return 0
     }
@@ -202,8 +303,26 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             
             return cell
         } else if collectionView == contactsFriendsCollection {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: contactsFriendCellIdentifier, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: contactsFriendCellIdentifier, for: indexPath) as! FriendContactsCollectionViewCell
             // TODO: add stuff for contacts cell
+            let friend = contactsFriends[indexPath.row]
+            cell.contactFriendName.text = "\(friend.firstName) \(friend.lastName)"
+            cell.contactFriendUsername.text = friend.username
+            cell.friendId = friend.id
+            // load profile picture asynchronously
+            if let profilePictureUrlString = friend.profilePicture,
+               let url = URL(string: profilePictureUrlString) {
+                URLSession.shared.dataTask(with: url) { data, response, error in
+                    if let data = data, error == nil {
+                        DispatchQueue.main.async {
+                            cell.contactFriendImage.image = UIImage(data: data)
+                        }
+                    }
+                }.resume()
+            } else {
+                cell.contactFriendImage.image = UIImage(named: "filled_bean")
+            }
+            
             return cell
         }
         return UICollectionViewCell()
@@ -217,7 +336,9 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             performSegue(withIdentifier: "suggGoToFriendProfID", sender: self)
         } else if collectionView == contactsFriendsCollection {
             // TODO: handling a selection in contacts collection, set selectedFriendId the same way as above
-            // performSegue(withIdentifier: "contactGoToFriendProfID", sender: self)
+            let selectedFriend = contactsFriends[indexPath.row]
+            selectedFriendId = selectedFriend.id
+            performSegue(withIdentifier: "contactGoToFriendProfID", sender: self)
         }
     }
     
