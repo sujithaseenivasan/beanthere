@@ -69,8 +69,8 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                     
                     self.userProfileUsername.text = data?["username"] as? String ?? " "
                     self.profileName.text = data?["firstName"] as? String ?? " "
-                    self.followersNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
-                    self.followingsNum.text = "\((data?["following"] as? [String])?.count ?? 0)"
+                    self.followersNum.text = "\((data?["followers"] as? [String])?.count ?? 0)"
+                    self.followingsNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
                     let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
                     // You might want to store these review IDs if needed
                     print("User review IDs: \(reviewIDs)")
