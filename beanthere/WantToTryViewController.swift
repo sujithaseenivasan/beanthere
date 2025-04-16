@@ -122,5 +122,34 @@ class WantToTryViewController: UIViewController, UITableViewDelegate, UITableVie
 
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    //allows swipe deleting from the table view
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let shop = coffeeShops[indexPath.row]
+            deleteShop(shopID: shop.documentId) {
+                self.coffeeShops.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        }
+    }
+    
+    //deleting from Firebase
+    func deleteShop(shopID: String, completion: @escaping () -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        let userRef = db.collection("users").document(userID)
+        
+        userRef.updateData([
+            "wantToTry": FieldValue.arrayRemove([shopID])
+        ]) { error in
+            if let error = error {
+                print("Error removing shop: \(error)")
+            } else {
+                print("Successfully removed \(shopID) from 'been'")
+                completion()
+            }
+        }
+    }
+
 
 }

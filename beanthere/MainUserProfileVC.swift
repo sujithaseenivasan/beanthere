@@ -155,6 +155,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                    }
                    //from there get the details of the review with the pictures
                    var review = Review(
+                       reviewID: document.documentID,
                        coffeeShopID: data["coffeeShopID"] as? String ?? "",
                        comment: data["comment"] as? String ?? "",
                        rating: data["rating"] as? Int ?? 0,

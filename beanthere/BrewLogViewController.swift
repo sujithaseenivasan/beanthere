@@ -79,6 +79,7 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
 
                 var review = Review(
+                    reviewID: document.documentID,
                     coffeeShopID: data["coffeeShopID"] as? String ?? "",
                     comment: data["comment"] as? String ?? "",
                     rating: data["rating"] as? Int ?? 0,
@@ -152,5 +153,45 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    //allows swipe deleting from the table view
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let review = reviews[indexPath.row]
+            deleteReview(reviewID: review.reviewID) {
+                self.reviews.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        }
+    }
+    
+    //deleting review from Firebase
+    func deleteReview(reviewID: String, completion: @escaping () -> Void) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        let userRef = db.collection("users").document(userID)
+        let reviewRef = db.collection("reviews").document(reviewID)
+
+        // remove the reviewID from the user's "reviews" array
+        userRef.updateData([
+            "reviews": FieldValue.arrayRemove([reviewID])
+        ]) { error in
+            if let error = error {
+                print("Error removing review ID from user: \(error)")
+            } else {
+                print("Successfully removed review ID from user's reviews array")
+
+                // delete the review document itself
+                reviewRef.delete { error in
+                    if let error = error {
+                        print("Error deleting review document: \(error)")
+                    } else {
+                        print("Review document deleted successfully")
+                        completion()
+                    }
+                }
+            }
+        }
+    }
+
 
 }

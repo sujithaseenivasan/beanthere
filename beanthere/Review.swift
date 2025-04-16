@@ -8,6 +8,7 @@
 import Foundation
 
 struct Review {
+    let reviewID: String
     let coffeeShopID: String
     var coffeeShopName: String?
     var address: String?
