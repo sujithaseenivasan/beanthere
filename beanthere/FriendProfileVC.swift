@@ -19,13 +19,17 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var followersNum: UILabel!
     @IBOutlet weak var followingNum: UILabel!
-    
     @IBOutlet weak var friendReviewTableView: UITableView!
+    @IBOutlet weak var follow: UIButton!
+    @IBOutlet weak var followerDummy: UILabel!
+    @IBOutlet weak var followingDummy: UILabel!
+    @IBOutlet weak var been: UILabel!
+    @IBOutlet weak var wantToTry: UILabel!
+    @IBOutlet weak var recentActivities: UILabel!
     
     var friendID: String?
     var delegate: UIViewController!
     var myUserName: String?
-    
     let valCellIndetifier = "FriendProfileCellID"
     // Fake review data
     var userReviews:[Review] = []
@@ -35,7 +39,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        changeFonts()
         makeImageOval(self.friendImg)
         
         friendReviewTableView.delegate = self
@@ -54,7 +58,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         
         downloadImage(self.friendImg)
         makeImageOval(self.friendImg)
-
         
     }
     
@@ -88,6 +91,20 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             self.fetchUserReviews()
             
         }
+    }
+    
+    //function that changes fonts
+    func changeFonts(){
+        friendName.font = UIFont(name: "Lora-Bold", size: 17)
+        friendUserName.font = UIFont(name: "Lora-Regular", size: 15)
+        followersNum.font = UIFont(name: "Lora-Regular", size: 14)
+        followingNum.font = UIFont(name: "Lora-Regular", size: 14)
+        followerDummy.font = UIFont(name: "Lora-Regular", size: 15)
+        followingDummy.font = UIFont(name: "Lora-Regular", size: 15)
+        been.font = UIFont(name: "Lora-SemiBold", size: 22)
+        wantToTry.font = UIFont(name: "Lora-SemiBold", size: 22)
+        recentActivities.font = UIFont(name: "Lora-SemiBold", size: 17)
+        follow.titleLabel?.font = UIFont(name: "Lora-Bold", size: 15)
     }
     
     // function that populates the user name
@@ -283,6 +300,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         //print ("Entered CellForRowAt at Profile ")
         let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! FriendProfileTVCell
         if (userReviews.count > 0){
+            cell.changeFonts()
             cell.delegate = self
             cell.likeCount = userReview.numLikes ?? 0
             cell.reviewID = userReviewIDs[indexPath.row]

@@ -17,12 +17,12 @@ class FriendProfileTVCell: UITableViewCell {
     @IBOutlet weak var bean3: UIImageView!
     @IBOutlet weak var bean4: UIImageView!
     @IBOutlet weak var bean5: UIImageView!
-    
     @IBOutlet weak var numLikes: UILabel!
-    
-    
     @IBOutlet weak var friendsComment: UIImageView!
     @IBOutlet weak var share: UIImageView!
+    @IBOutlet weak var rankDummy: UILabel!
+    @IBOutlet weak var commentDummy: UILabel!
+    @IBOutlet weak var userRankName: UILabel!
     
     weak var delegate: FriendProfileTableViewCellDel?
     var likeCount: Int = 0
@@ -39,6 +39,18 @@ class FriendProfileTVCell: UITableViewCell {
         share.isUserInteractionEnabled = true
         share.addGestureRecognizer(shareTap)
         
+    }
+
+    // functions to change for fonts
+    func changeFonts(){
+        userRankName.font = UIFont(name: "Lora-SemiBold", size: 14)
+        rankDummy.font = UIFont(name: "Lora-Regular", size: 14)
+        cafeName.font = UIFont(name: "Lora-Bold", size: 14)
+        cafeAdrr.font = UIFont(name: "Lora-Regular", size: 14)
+        commentDummy.font = UIFont(name: "Lora-Regular", size: 14)
+        comment.font = UIFont(name: "Lora-Regular", size: 14)
+        rankDummy.font = UIFont(name: "Lora-Regular", size: 14)
+        numLikes.font = UIFont(name: "Lora-Regular", size: 14)
     }
 
     

@@ -23,18 +23,28 @@ class UserProfileVC: UIViewController, PassUserInfo {
     @IBOutlet weak var City1 : UILabel!
     @IBOutlet weak var Phone1 : UILabel!
     @IBOutlet weak var Notification1 : UILabel!
+    @IBOutlet weak var edit: UIButton!
+    @IBOutlet weak var logOut: UIButton!
+    @IBOutlet weak var nameDummy: UILabel!
+    @IBOutlet weak var usernameDummy: UILabel!
+    @IBOutlet weak var emailDummy: UILabel!
+    @IBOutlet weak var cityDummy: UILabel!
+    @IBOutlet weak var PhoneDummy: UILabel!
+    @IBOutlet weak var notifDummy: UILabel!
     var loaded_data : [String : Any]?
     let editSegue = "editProfileSegue"
     var wentToProfile : Bool = false
     var delegate: PassUserInfoToProfileView?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        //change the fonts
+        changeFonts()
+
         //make image round
         makeImageOval(UserImage1)
         //download image from firebase and display it
         downloadImage(self.UserImage1)
-        
         //TO CHECK IS REPEATED
         UserImage1.contentMode = .scaleAspectFill
         self.UserImage1.layer.cornerRadius = self.UserImage1.frame.width / 2
@@ -101,8 +111,26 @@ class UserProfileVC: UIViewController, PassUserInfo {
         
     }
     
-    //go to edit profile
+    //function that changes all the fonts
+    func changeFonts(){
+        MainName.font = UIFont(name: "Lora-SemiBold", size: 17)
+        Name1.font = UIFont(name: "Lora-SemiBold", size: 17)
+        UserName1.font = UIFont(name: "Lora-SemiBold", size: 17)
+        Email1.font = UIFont(name: "Lora-SemiBold", size: 17)
+        City1.font = UIFont(name: "Lora-SemiBold", size: 17)
+        Phone1.font = UIFont(name: "Lora-SemiBold", size: 17)
+        Notification1.font = UIFont(name: "Lora-SemiBold", size: 17)
+        nameDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        usernameDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        emailDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        cityDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        notifDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        PhoneDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        edit.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
+        logOut.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
+    }
     
+    //go to edit profile
     @IBAction func EditButton(_ sender: Any) {
         wentToProfile = false
         

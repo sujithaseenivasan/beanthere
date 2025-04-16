@@ -16,13 +16,23 @@ import FirebaseStorage
 //Value : Hashable, Content : View
 class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 
-@IBOutlet weak var Username: UITextField!
-@IBOutlet weak var Name: UITextField!
-@IBOutlet weak var userImage: UIImageView!
-@IBOutlet weak var Email: UITextField!
-@IBOutlet weak var City: UITextField!
-@IBOutlet weak var Phone: UITextField!
-@IBOutlet weak var Notification: UITextField!
+    @IBOutlet weak var Username: UITextField!
+    @IBOutlet weak var Name: UITextField!
+    @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var Email: UITextField!
+    @IBOutlet weak var City: UITextField!
+    @IBOutlet weak var Phone: UITextField!
+    @IBOutlet weak var Notification: UITextField!
+    @IBOutlet weak var nameDummy: UILabel!
+    @IBOutlet weak var userNameDummy: UILabel!
+    @IBOutlet weak var emailDummy: UILabel!
+    @IBOutlet weak var cityDummy: UILabel!
+    @IBOutlet weak var notifDummy: UILabel!
+    @IBOutlet weak var phoneDummy: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var save: UIButton!
+    
 var loaded_data : [String : Any]?
 var delegate: PassUserInfo?
 private let storageRef = Storage.storage().reference()
@@ -31,9 +41,9 @@ var didPicChange = false
     
 override func viewDidLoad() {
     super.viewDidLoad()
+    changeFonts()
     //make image round
     makeImageOval(userImage)
-    
     //download image from firebase and display it
     downloadImage(self.userImage)
     
@@ -45,7 +55,6 @@ override func viewDidLoad() {
 //In will appear that is where we load every instance of settings
 override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
     // Use Firebase Auth to get the currently authenticated user's UID
     guard let currentUID = Auth.auth().currentUser?.uid else {
         print("No authenticated user found.")
@@ -77,7 +86,25 @@ override func viewWillAppear(_ animated: Bool) {
         self.loaded_data = data
     }
 }
-
+    //function that changes all the fonts
+    func changeFonts(){
+        Username.font = UIFont(name: "Lora-SemiBold", size: 17)
+        Name.font = UIFont(name: "Lora-SemiBold", size: 17)
+        Email.font = UIFont(name: "Lora-SemiBold", size: 17)
+        City.font = UIFont(name: "Lora-SemiBold", size: 17)
+        Phone.font = UIFont(name: "Lora-SemiBold", size: 17)
+        Notification.font = UIFont(name: "Lora-SemiBold", size: 17)
+        nameDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        userNameDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        emailDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        cityDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        notifDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        phoneDummy.font = UIFont(name: "Lora-Bold", size: 17)
+        editButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
+        resetButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
+        save.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
+    }
+    
 //before going to the hardware first see if the user information was changed
 func didUserInfoChange() -> Bool{
     var changed = false

@@ -16,16 +16,19 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     @IBOutlet weak var userProfileImg: UIImageView!
-    
     @IBOutlet weak var profileName: UILabel!
-    
     @IBOutlet weak var userProfileUsername: UILabel!
-    
     @IBOutlet weak var followersNum: UILabel!
-    
     @IBOutlet weak var followingsNum: UILabel!
-    
     @IBOutlet weak var userReviewsTableView: UITableView!
+    @IBOutlet weak var settings: UIButton!
+    @IBOutlet weak var followerDummy: UILabel!
+    @IBOutlet weak var followingDummy: UILabel!
+    @IBOutlet weak var been: UILabel!
+    @IBOutlet weak var wantToTry: UILabel!
+    @IBOutlet weak var recs: UILabel!
+    @IBOutlet weak var recentActivities: UILabel!
+    
     //firestore instance
     let db = Firestore.firestore()
     var userID : String?
@@ -39,7 +42,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        changeFonts()
         // from firebase download the image and make it round
         downloadImage(self.userProfileImg)
         makeImageOval(self.userProfileImg)
@@ -83,6 +86,21 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
 
+    //function that changes fonts
+    func changeFonts(){
+        profileName.font = UIFont(name: "Lora-Bold", size: 17)
+        userProfileUsername.font = UIFont(name: "Lora-Regular", size: 15)
+        followersNum.font = UIFont(name: "Lora-Regular", size: 14)
+        followingsNum.font = UIFont(name: "Lora-Regular", size: 14)
+        followerDummy.font = UIFont(name: "Lora-Regular", size: 15)
+        followingDummy.font = UIFont(name: "Lora-Regular", size: 15)
+        been.font = UIFont(name: "Lora-SemiBold", size: 22)
+        wantToTry.font = UIFont(name: "Lora-SemiBold", size: 22)
+        recs.font = UIFont(name: "Lora-SemiBold", size: 22)
+        recentActivities.font = UIFont(name: "Lora-SemiBold", size: 17)
+        settings.titleLabel?.font = UIFont(name: "Lora-Bold", size: 15)
+    }
+    
     
     //overwrite do the connection  between the 2 screens and the main screen
     override func prepare( for segue: UIStoryboardSegue, sender: Any?){
@@ -200,6 +218,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let userReview = userReviews[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! MainProfileTableViewCell
             if (userReviews.count > 0){
+                cell.changeFonts()
                 cell.delegate = self
                 cell.likeCount = userReview.numLikes ?? 0
                 cell.reviewID = userReviewIDs[indexPath.row]

@@ -40,6 +40,7 @@ class CommentPopUpVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         commentTableView.delegate = self
         commentTableView.dataSource = self
         commentTableView.rowHeight = 75
+        writtenComment.font = UIFont(name: "Lora-Regular", size: 17)
         
         //create a tap action
         let vcTap = UITapGestureRecognizer(target: self, action: #selector(vcTapRecognizer))
@@ -129,6 +130,8 @@ class CommentPopUpVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let userComment = commentsArr[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: commentCellIdentifier, for: indexPath) as! CommentCell
         if (commentsArr.count > 0){
+            cell.commenterName.font = UIFont(name: "Lora-Regular", size: 13)
+            cell.userComment.font = UIFont(name: "Lora-Regular", size: 17)
             cell.commenterName.text = userComment.name
             cell.userComment.text = userComment.comment
         }
