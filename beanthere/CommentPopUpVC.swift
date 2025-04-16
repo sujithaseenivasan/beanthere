@@ -75,11 +75,6 @@ class CommentPopUpVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         dismiss(animated: true, completion: nil)
     }
     
-//    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(animated)
-//        commentTableView.reloadData()
-//        dismiss(animated: true, completion: nil)
-//    }
     
     // function that inputs a string does string interpolation on it and the ouputs a comment
     func makeComment(_ comment: String) -> Comment {

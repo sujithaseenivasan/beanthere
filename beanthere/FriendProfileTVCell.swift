@@ -61,7 +61,7 @@ class FriendProfileTVCell: UITableViewCell {
     
     @IBAction func commentButtonTapped(_ sender: UIButton) {
         print ("ENTERED COMMENT BUTTON IN CELL ")
-        delegate?.didTapCommentButton(reviewID: reviewID)
+        delegate?.didTapCommentButton2(reviewID: reviewID)
     }
     
     

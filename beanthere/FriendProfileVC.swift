@@ -36,19 +36,30 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        downloadImage(self.friendImg)
         makeImageOval(self.friendImg)
         
         friendReviewTableView.delegate = self
         friendReviewTableView.dataSource = self
         friendReviewTableView.rowHeight = 150
-        populateUserName()
+        
+        // populate the friends picture
+        print("IN FRIEND FRIEND ID IS \(friendID!)")
+//        globLoadUserImage(userId: friendID!){images in
+//            if let images = images {
+//                print ("ENTERED FRIEND IMAGE DOWNLOAD")
+//                self.friendImg.image = images ?? UIImage(named: "beantherelog")
+//            }
+//        }
+        downloadImage(self.friendImg)
+        makeImageOval(self.friendImg)
+
+        
     }
     
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ _animated : Bool){
         super.viewWillAppear(true)
-        
+        populateUserName()
         let userField = db.collection("users").document(friendID!)
         userField.getDocument { (docSnap, error) in
             //if user have an error guard it
@@ -79,11 +90,15 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     // function that populates the user name
     func populateUserName(){
-        let userID = Auth.auth().currentUser?.uid ?? ""
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("No authenticated user found.")
+            return
+        }
         db.collection("users").document(userID).getDocument { (document, error) in
             if let document = document, document.exists {
                 if let userName = document.data()?["firstName"] as? String {
                     self.myUserName = userName
+                    print("MY USERNAME IS INSIDE \(self.myUserName)")
                 }
             }
         }
@@ -98,6 +113,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                 if let reviewIDs = document.data()?["reviews"] as? [String] {
                     self.fetchReviewDetails(reviewIDs: reviewIDs)
                     self.userReviewIDs = reviewIDs
+                    self.friendReviewTableView.reloadData()
                 }
             } else {
                 print("User document not found")
@@ -208,10 +224,11 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             tabsVC.friendID = self.friendID
         }
         
-        if segue.identifier == "userCommentSegue",
+        if segue.identifier == "friendCommentSegue",
                let commentVC = segue.destination as? CommentPopUpVC,
                   let reviewID = sender as? String {
             print("ENTERED PREPARE FOR SEGUE \(reviewID)")
+            print("MY USERNAME IS \(myUserName)")
             commentVC.delegate = self
             commentVC.reviewID = reviewID
             commentVC.userName = self.myUserName
@@ -223,7 +240,8 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func didTapCommentButton(reviewID: String) {
+    func didTapCommentButton2(reviewID: String) {
+        print("ENTERED DID TAP IN FRIEND VC ")
         performSegue(withIdentifier: "friendCommentSegue", sender: reviewID)
     }
     
@@ -236,9 +254,9 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         //print ("Entered CellForRowAt at Profile ")
         let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! FriendProfileTVCell
         if (userReviews.count > 0){
+            cell.delegate = self
             cell.likeCount = userReview.numLikes ?? 0
             cell.reviewID = userReviewIDs[indexPath.row]
-            
             cell.cafeName.text = userReview.coffeeShopName
             cell.cafeAdrr.text = userReview.address
             var cafeRanks = userReview.rating
