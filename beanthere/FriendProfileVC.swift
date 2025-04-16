@@ -128,13 +128,29 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         let storage = Storage.storage()
         print ("THE FRIENDID WE HAVE \(friendID!)")
         print ("THE FRIEND ID PASSED IS \(userId)")
-        let imagePath = "images/\(userId)file.png"
+        let imagePath = "images/\(userId)_file.png"
+        let imagePath2 = "images/\(userId)file.png"
         let imageRef = storage.reference(withPath: imagePath)
+        let imageRef2 = storage.reference(withPath: imagePath2)
 
         imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
             if let error = error {
                 print("Error downloading image: \(error.localizedDescription)")
-                completion(nil)
+                imageRef2.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("Error downloading image: \(error.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    
+                    if let data = data, let image = UIImage(data: data) {
+                        print("Image fetched successfully.")
+                        completion(image)
+                    } else {
+                        print("Failed to convert data to image.")
+                        completion(nil)
+                    }
+                }
                 return
             }
 
@@ -230,7 +246,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             }else {
                 button.setTitle("Follow", for: .normal)
                 updateFollowingAndFollowers(for: userUID, friendID: friendID!, DidFollow: false)
-                self.followersNum.text = String(Int(self.followersNum.text!)! - 1)
             }
             
         }
@@ -240,12 +255,13 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     func updateFollowingAndFollowers(for userID: String, friendID: String, DidFollow: Bool) {
         let userField = db.collection("users").document(userID)
         let friendField = db.collection("users").document(friendID)
+        
         if(DidFollow){
             self.followersNum.text = String(Int(self.followersNum.text!)! + 1)
             userField.updateData(["friendsList": FieldValue.arrayUnion([friendID])])
             friendField.updateData(["followers": FieldValue.arrayUnion([userID])])
         } else {
-            self.followersNum.text = String(Int(self.followersNum.text!)! - 1)
+            self.followersNum.text = String(max((Int(self.followersNum.text!) ?? 0) - 1, 0))
             userField.updateData(["friendsList": FieldValue.arrayRemove([friendID])])
             friendField.updateData(["followers": FieldValue.arrayRemove([userID])])
         }
@@ -306,6 +322,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             cell.reviewID = userReviewIDs[indexPath.row]
             cell.cafeName.text = userReview.coffeeShopName
             cell.cafeAdrr.text = userReview.address
+            cell.userRankName.text = self.friendName.text
             var cafeRanks = userReview.rating
             //populate the beans given the ranking
             let beans = [cell.bean1, cell.bean2, cell.bean3, cell.bean4, cell.bean5]
