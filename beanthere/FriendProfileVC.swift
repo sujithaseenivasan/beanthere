@@ -43,13 +43,15 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         friendReviewTableView.rowHeight = 150
         
         // populate the friends picture
-        print("IN FRIEND FRIEND ID IS \(friendID!)")
-//        globLoadUserImage(userId: friendID!){images in
-//            if let images = images {
-//                print ("ENTERED FRIEND IMAGE DOWNLOAD")
-//                self.friendImg.image = images ?? UIImage(named: "beantherelog")
-//            }
-//        }
+        fetchUserImage(userId: self.friendID!){image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    print("IN FRIEND FRIEND ID IS \(self.friendID!)")
+                    self.friendImg.image = image
+                }
+            }
+        }
+        
         downloadImage(self.friendImg)
         makeImageOval(self.friendImg)
 
@@ -103,6 +105,32 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             }
         }
     }
+    
+    // functions that fetches userImages from firebase
+    func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
+        let storage = Storage.storage()
+        print ("THE FRIENDID WE HAVE \(friendID!)")
+        print ("THE FRIEND ID PASSED IS \(userId)")
+        let imagePath = "images/\(userId)file.png"
+        let imageRef = storage.reference(withPath: imagePath)
+
+        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("Error downloading image: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            if let data = data, let image = UIImage(data: data) {
+                print("Image fetched successfully.")
+                completion(image)
+            } else {
+                print("Failed to convert data to image.")
+                completion(nil)
+            }
+        }
+    }
+    
     
     func fetchUserReviews() {
            //get the user that is currently logged in

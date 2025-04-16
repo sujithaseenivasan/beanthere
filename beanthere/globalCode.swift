@@ -139,49 +139,6 @@ func globLoadReviewImage(reviewId: String, completion: @escaping ([UIImage]?) ->
     }
 }
 
-
-// global load review Image given reviewID
-func globLoadUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
-    let storageRef = Storage.storage().reference().child("images/\(userId)/")
-
-    storageRef.listAll { (result, error) in
-        if let error = error {
-            print("Error listing images for user \(userId): \(error.localizedDescription)")
-            completion(nil)
-            return
-        }
-
-        let dispatchGroup = DispatchGroup()
-        var images: UIImage? = nil
-
-        for item in result!.items {
-            dispatchGroup.enter()
-            item.downloadURL { url, error in
-                if let error = error {
-                    print("Error getting image URL for \(item.name): \(error.localizedDescription)")
-                    dispatchGroup.leave()
-                    return
-                }
-
-                if let url = url {
-                    downloadImgWithURL(from: url) { image in
-                        if let image = image {
-                            print ("USER PICTURES : \(image)")
-                            images = image
-                        }
-                        dispatchGroup.leave()
-                    }
-                }
-                
-            }
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            completion(images)
-        }
-    }
-}
-
 //function that given the reviewID and their new liked image it populates it
 func populateReviewLikes (reviewID: String, likeNum : Int){
     let reviewRef = Firestore.firestore().collection("reviews").document(reviewID)

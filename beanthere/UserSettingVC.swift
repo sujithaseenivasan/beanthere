@@ -147,7 +147,7 @@ func didUserInfoChange() -> Bool{
             return
         }
         
-        let imagePath = "images/\(currentUID)_file.png"
+        let imagePath = "images/\(currentUID)file.png"
         
         // Upload image data to Firebase Storage
         storageRef.child(imagePath).putData(imgData, metadata: nil) { _, error in
