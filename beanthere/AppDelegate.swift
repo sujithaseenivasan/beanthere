@@ -16,6 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
+        let backButtonAppearance = UIBarButtonItem.appearance()
+        backButtonAppearance.setTitleTextAttributes([
+            .foregroundColor: UIColor(hex: "#44241C"),
+            .font: UIFont(name: "Lora-Medium", size: 16)!
+        ], for: .normal)
+        UINavigationBar.appearance().tintColor = UIColor(hex: "#44241C")
+        
         return true
     }
 
