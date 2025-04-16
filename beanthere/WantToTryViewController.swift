@@ -97,9 +97,11 @@ class WantToTryViewController: UIViewController, UITableViewDelegate, UITableVie
         //the coffee shop name label
         cell.textLabel?.text = shop.name
         cell.textLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
+        cell.textLabel?.textColor = UIColor(hex: "#44241C")
         //the address label
         cell.detailTextLabel?.text = shop.address
         cell.detailTextLabel?.font = UIFont(name: "Lora-Medium", size: 15)
+        cell.detailTextLabel?.textColor = UIColor(hex: "#44241C")
         
         return cell
     }

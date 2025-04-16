@@ -24,6 +24,7 @@ class RecommendationViewController: UIViewController, UITableViewDelegate, UITab
         fetchRecommendations()
         //rankLabel.font = UIFont(name: "Lora-Medium", size: 15)
         topLabel.font = UIFont(name: "Lora-Bold", size: 16)
+        topLabel.textColor = UIColor(hex: "#44241C")
     }
     
 

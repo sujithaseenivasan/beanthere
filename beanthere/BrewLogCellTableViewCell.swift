@@ -25,6 +25,10 @@ class BrewLogCellTableViewCell: UITableViewCell {
         // Initialization code
         //coffeeShopName.font = UIFont(name: "Lora-Bold", size: 20)
         notes.font = UIFont(name: "Lora-Medium", size: 15)
+        notes.numberOfLines = 0
+        notes.adjustsFontSizeToFitWidth = true
+        notes.minimumScaleFactor = 0.5
+        notes.lineBreakMode = .byWordWrapping
         addressLabel.font = UIFont(name: "Lora", size: 15)
         coffeeShopName.font = UIFont(name: "Lora-SemiBold", size: 17)
         commentLabel.font = UIFont(name: "Lora-Medium", size: 15)
