@@ -12,6 +12,8 @@ class RecommendationViewController: UIViewController, UITableViewDelegate, UITab
     
     // array to hold the final CoffeeShop objects
     var coffeeShops: [CoffeeShop] = []
+    
+    let spinner = UIActivityIndicatorView(style: .medium)
 
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -21,10 +23,29 @@ class RecommendationViewController: UIViewController, UITableViewDelegate, UITab
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 200
-        fetchRecommendations()
-        //rankLabel.font = UIFont(name: "Lora-Medium", size: 15)
+        //fetchRecommendations()
+        
         topLabel.font = UIFont(name: "Lora-Bold", size: 16)
         topLabel.textColor = UIColor(hex: "#44241C")
+        
+        //spinner
+        spinner.hidesWhenStopped = true
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(spinner)
+
+        // center it in the view
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        spinner.startAnimating()
+        coffeeShops = []
+        tableView.reloadData()
+        fetchRecommendations()
     }
     
 
@@ -144,7 +165,7 @@ class RecommendationViewController: UIViewController, UITableViewDelegate, UITab
         }
 
         group.notify(queue: .main) {
-            // TODO: could reload UI here or check if the table is empty
+            self.spinner.stopAnimating()
             self.tableView.reloadData()
             print("Fetched all recommended coffee shops.")
         }
