@@ -20,6 +20,7 @@ class BrewTabsViewController: UIViewController {
     var defaultTabIndex: Int = 0
     var friendID: String?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let storyboard = UIStoryboard(name: "UserSetting", bundle: nil)
@@ -34,13 +35,64 @@ class BrewTabsViewController: UIViewController {
             wantToTryVC.friendID = friendID
             // Optional: recsVC.friendID = friendID
         }
-
         
+        //customize segmented control
+        segmentedControl.removeBorders()
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(hex: "#44241C"),
+            .font: UIFont(name: "Lora-SemiBold", size: 17)!
+        ]
+        let normalAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(hex: "#44241C").withAlphaComponent(0.6),
+            .font: UIFont(name: "Lora-SemiBold", size: 17)!
+        ]
+        segmentedControl.setTitleTextAttributes(normalAttributes, for: .normal)
+        segmentedControl.setTitleTextAttributes(selectedAttributes, for: .selected)
+
+        // Set default tab
         segmentedControl.selectedSegmentIndex = defaultTabIndex
         segmentChanged(segmentedControl)
-        
+
+        // Add underline for selected segment
+        addUnderlineForSelectedSegment()
+
         
     }
+    
+    private var underlineTag: Int { return 999 }
+    
+    func addUnderlineForSelectedSegment() {
+        // Remove existing underline if any
+        segmentedControl.viewWithTag(underlineTag)?.removeFromSuperview()
+
+        // Get title for selected segment
+        guard let title = segmentedControl.titleForSegment(at: segmentedControl.selectedSegmentIndex) else { return }
+
+        // Measure title size with selected font
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 16) // Match your selected font
+        ]
+        let titleSize = (title as NSString).size(withAttributes: attributes)
+
+        // Calculate position
+        let segmentWidth = segmentedControl.bounds.width / CGFloat(segmentedControl.numberOfSegments)
+        let segmentX = CGFloat(segmentedControl.selectedSegmentIndex) * segmentWidth
+        let centerX = segmentX + (segmentWidth / 2)
+        
+        let underlineWidth = titleSize.width
+        let underlineHeight: CGFloat = 2.0
+        let underlineX = centerX - (underlineWidth / 2)
+        let underlineY = segmentedControl.bounds.height - underlineHeight
+
+        let underline = UIView(frame: CGRect(x: underlineX, y: underlineY, width: underlineWidth, height: underlineHeight))
+        underline.backgroundColor = UIColor(hex: "#44241C")
+        underline.tag = underlineTag
+        segmentedControl.addSubview(underline)
+    }
+
+
+    
+    
     
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -53,6 +105,8 @@ class BrewTabsViewController: UIViewController {
             default:
                 break
             }
+        
+        addUnderlineForSelectedSegment()
     }
     
     func switchToVC(_ vc: UIViewController) {
@@ -73,4 +127,13 @@ class BrewTabsViewController: UIViewController {
         currentVC = vc
     }
 
+}
+
+extension UISegmentedControl {
+    func removeBorders() {
+        setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
+        setBackgroundImage(UIImage(), for: .selected, barMetrics: .default)
+        setBackgroundImage(UIImage(), for: .highlighted, barMetrics: .default)
+        setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+    }
 }

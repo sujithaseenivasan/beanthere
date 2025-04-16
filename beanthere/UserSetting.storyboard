@@ -1859,7 +1859,9 @@
                                             <outlet property="bean4" destination="b4N-q7-L4l" id="6JJ-Se-a2r"/>
                                             <outlet property="bean5" destination="CUM-G4-ATV" id="eMI-AJ-7ZQ"/>
                                             <outlet property="coffeeShopName" destination="mxb-oQ-UQJ" id="Cdb-LM-TO9"/>
+                                            <outlet property="commentLabel" destination="jZp-9z-XhI" id="qr2-SU-eOr"/>
                                             <outlet property="notes" destination="jWP-rR-kgb" id="9LA-Li-GyU"/>
+                                            <outlet property="rankLabel" destination="C6i-Ab-Bkq" id="IJg-ai-iQt"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -2032,6 +2034,7 @@
                     <navigationItem key="navigationItem" id="VPs-3M-wze"/>
                     <connections>
                         <outlet property="tableView" destination="6RC-EF-SMA" id="3Lc-P5-gwY"/>
+                        <outlet property="topLabel" destination="w1j-yb-67o" id="eUa-RO-m20"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2py-J6-XIv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3423,7 +3426,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="underPageBackgroundColor">
             <color red="0.70980392156862748" green="0.71764705882352942" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

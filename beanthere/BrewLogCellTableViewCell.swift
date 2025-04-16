@@ -18,9 +18,18 @@ class BrewLogCellTableViewCell: UITableViewCell {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var coffeeShopName: UILabel!
     
+    @IBOutlet weak var commentLabel: UILabel!
+    @IBOutlet weak var rankLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        //coffeeShopName.font = UIFont(name: "Lora-Bold", size: 20)
+        notes.font = UIFont(name: "Lora-Medium", size: 15)
+        addressLabel.font = UIFont(name: "Lora", size: 15)
+        coffeeShopName.font = UIFont(name: "Lora-SemiBold", size: 17)
+        commentLabel.font = UIFont(name: "Lora-Medium", size: 15)
+        rankLabel.font = UIFont(name: "Lora-Medium", size: 15)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

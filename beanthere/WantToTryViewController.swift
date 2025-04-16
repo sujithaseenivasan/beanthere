@@ -96,10 +96,11 @@ class WantToTryViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCell(withIdentifier: "WantToTryCell", for: indexPath)
         //the coffee shop name label
         cell.textLabel?.text = shop.name
-        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+        cell.textLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
         //the address label
         cell.detailTextLabel?.text = shop.address
-        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 14)
+        cell.detailTextLabel?.font = UIFont(name: "Lora-Medium", size: 15)
+        
         return cell
     }
     

@@ -20,6 +20,10 @@ class RecommendationTableViewCell: UITableViewCell {
         // Initialization code
         cafeImage.contentMode = .scaleAspectFill
         cafeImage.clipsToBounds = true
+        
+        coffeeShopName.font = UIFont(name: "Lora-SemiBold", size: 17)
+        address.font = UIFont(name: "Lora-Medium", size: 15)
+        //rankLabel.font = UIFont(name: "Lora-Medium", size: 15)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

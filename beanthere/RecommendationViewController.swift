@@ -13,6 +13,7 @@ class RecommendationViewController: UIViewController, UITableViewDelegate, UITab
     // array to hold the final CoffeeShop objects
     var coffeeShops: [CoffeeShop] = []
 
+    @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -21,6 +22,8 @@ class RecommendationViewController: UIViewController, UITableViewDelegate, UITab
         tableView.delegate = self
         tableView.rowHeight = 200
         fetchRecommendations()
+        //rankLabel.font = UIFont(name: "Lora-Medium", size: 15)
+        topLabel.font = UIFont(name: "Lora-Bold", size: 16)
     }
     
 
