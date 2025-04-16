@@ -158,7 +158,7 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let review = reviews[indexPath.row]
-            deleteReview(reviewID: review.reviewID) {
+            deleteReview(reviewID: review.reviewID, coffeeShopID: review.coffeeShopID) {
                 self.reviews.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             }
@@ -166,32 +166,43 @@ class BrewLogViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     //deleting review from Firebase
-    func deleteReview(reviewID: String, completion: @escaping () -> Void) {
+    func deleteReview(reviewID: String, coffeeShopID: String, completion: @escaping () -> Void) {
         guard let userID = Auth.auth().currentUser?.uid else { return }
         let userRef = db.collection("users").document(userID)
         let reviewRef = db.collection("reviews").document(reviewID)
+        let coffeeShopRef = db.collection("coffeeShops").document(coffeeShopID)
 
-        // remove the reviewID from the user's "reviews" array
+        // Step 1: Remove review ID from user's reviews array
         userRef.updateData([
             "reviews": FieldValue.arrayRemove([reviewID])
         ]) { error in
             if let error = error {
                 print("Error removing review ID from user: \(error)")
-            } else {
-                print("Successfully removed review ID from user's reviews array")
+                return
+            }
 
-                // delete the review document itself
+            // Step 2: Remove review ID from coffee shop's reviews array
+            coffeeShopRef.updateData([
+                "reviews": FieldValue.arrayRemove([reviewID])
+            ]) { error in
+                if let error = error {
+                    print("Error removing review ID from coffee shop: \(error)")
+                    return
+                }
+
+                // Step 3: Delete the review document itself
                 reviewRef.delete { error in
                     if let error = error {
                         print("Error deleting review document: \(error)")
                     } else {
-                        print("Review document deleted successfully")
+                        print("Review successfully deleted from Firestore")
                         completion()
                     }
                 }
             }
         }
     }
+
 
 
 }
