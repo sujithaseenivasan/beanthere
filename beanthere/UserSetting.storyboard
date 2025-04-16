@@ -211,12 +211,12 @@
                                 <rect key="frame" x="0.0" y="447" width="402" height="411"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dKx-dj-7hE">
-                                        <rect key="frame" x="0.0" y="346" width="322.66666666666669" height="34"/>
+                                        <rect key="frame" x="0.0" y="346" width="317.33333333333331" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8js-c4-Fy8">
-                                        <rect key="frame" x="323.66666666666669" y="347" width="62.333333333333314" height="33"/>
+                                        <rect key="frame" x="318.33333333333331" y="345.66666666666663" width="67.666666666666686" height="34.333333333333314"/>
                                         <color key="backgroundColor" red="0.0" green="0.45882352939999999" blue="0.89019607840000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain">
@@ -1764,11 +1764,11 @@
                                 <color key="backgroundColor" red="0.98823529480000005" green="0.93725490570000003" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <color key="sectionIndexBackgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BrewLogCell" rowHeight="107" id="LrZ-6D-yT2" customClass="BrewLogCellTableViewCell" customModule="beanthere" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="402" height="107"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BrewLogCell" rowHeight="122" id="LrZ-6D-yT2" customClass="BrewLogCellTableViewCell" customModule="beanthere" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="402" height="122"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LrZ-6D-yT2" id="HTx-Gt-Klr">
-                                            <rect key="frame" x="0.0" y="0.0" width="402" height="107"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="402" height="122"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coffee Shop Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mxb-oQ-UQJ">
@@ -1785,6 +1785,10 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ranks:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C6i-Ab-Bkq">
                                                     <rect key="frame" x="20" y="54" width="49" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="49" id="OCB-01-1HD"/>
+                                                        <constraint firstAttribute="height" constant="18" id="qLB-Gy-zKT"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" red="0.2666666667" green="0.14117647059999999" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1795,8 +1799,11 @@
                                                     <color key="textColor" red="0.2666666667" green="0.14117647059999999" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="fill in here" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jWP-rR-kgb">
-                                                    <rect key="frame" x="101" y="73" width="281" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="fill in here" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jWP-rR-kgb">
+                                                    <rect key="frame" x="101" y="73" width="281" height="45"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="281" id="SUU-0p-sjJ"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.2666666667" green="0.14117647059999999" blue="0.10980392160000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1845,6 +1852,7 @@
                                                 <constraint firstItem="K0a-VS-Zyj" firstAttribute="leading" secondItem="C2A-kW-wp9" secondAttribute="trailing" constant="3" id="B3S-gQ-q31"/>
                                                 <constraint firstItem="pCa-Hu-XgT" firstAttribute="top" secondItem="HTx-Gt-Klr" secondAttribute="top" constant="54" id="Coe-1N-EBs"/>
                                                 <constraint firstItem="C6i-Ab-Bkq" firstAttribute="leading" secondItem="HTx-Gt-Klr" secondAttribute="leading" constant="20" symbolic="YES" id="Dwh-Uu-lj8"/>
+                                                <constraint firstAttribute="bottom" secondItem="jWP-rR-kgb" secondAttribute="bottom" constant="4" id="H08-Uh-3ce"/>
                                                 <constraint firstItem="CUM-G4-ATV" firstAttribute="top" secondItem="HTx-Gt-Klr" secondAttribute="top" constant="54" id="HWw-58-mWm"/>
                                                 <constraint firstItem="8aT-sc-we1" firstAttribute="top" secondItem="HTx-Gt-Klr" secondAttribute="top" constant="35" id="KKr-4j-GHP"/>
                                                 <constraint firstItem="8aT-sc-we1" firstAttribute="leading" secondItem="HTx-Gt-Klr" secondAttribute="leading" constant="20" symbolic="YES" id="MGv-lj-Ml3"/>
@@ -1858,7 +1866,6 @@
                                                 <constraint firstItem="C2A-kW-wp9" firstAttribute="leading" secondItem="C6i-Ab-Bkq" secondAttribute="trailing" constant="8" symbolic="YES" id="nDw-0R-ywq"/>
                                                 <constraint firstItem="mxb-oQ-UQJ" firstAttribute="leading" secondItem="HTx-Gt-Klr" secondAttribute="leading" constant="20" symbolic="YES" id="uNP-wW-l8Z"/>
                                                 <constraint firstItem="mxb-oQ-UQJ" firstAttribute="top" secondItem="HTx-Gt-Klr" secondAttribute="top" constant="11" id="y9Z-Ng-QGc"/>
-                                                <constraint firstAttribute="bottom" secondItem="jWP-rR-kgb" secondAttribute="bottom" constant="16" id="zCc-6e-e7k"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -3434,10 +3441,10 @@
             <color red="0.82352941176470584" green="0.67450980392156867" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="underPageBackgroundColor">
             <color red="0.70980392156862748" green="0.71764705882352942" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
