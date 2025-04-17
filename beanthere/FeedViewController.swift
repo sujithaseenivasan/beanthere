@@ -51,7 +51,6 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
 
         fetchLikedReviews()
         feedTableView.reloadData()
-        print("is this being called")
         fetchFriendReviews()
     }
     

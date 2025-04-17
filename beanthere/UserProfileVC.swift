@@ -139,9 +139,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
     // set logout variable to true
     
     @IBAction func LogOutButton(_ sender: Any) {
-        globalDidLogOut = true
-        wentToProfile = false
-        
         do {
             try Auth.auth().signOut()
             navigationController?.popToRootViewController(animated: true)

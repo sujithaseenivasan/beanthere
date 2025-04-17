@@ -75,7 +75,6 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="loginPressed:" destination="8y0-HL-B3j" eventType="touchUpInside" id="ldi-EM-68x"/>
-                                    <segue destination="bby-yU-wo2" kind="presentation" identifier="homeSegue1" modalPresentationStyle="fullScreen" id="DNA-ir-Rtv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUS-F6-IeR">
@@ -154,6 +153,7 @@
                         <outlet property="loginButton" destination="SaP-pH-BKz" id="Rov-Qi-9hk"/>
                         <outlet property="loginTextLabel" destination="5e5-Em-OKQ" id="O2K-Xl-lXR"/>
                         <outlet property="passwordTextField" destination="98K-B5-Vg6" id="CU5-7x-qSf"/>
+                        <segue destination="bby-yU-wo2" kind="presentation" identifier="homeSegue1" modalPresentationStyle="fullScreen" id="Mim-3s-xyL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PHs-6f-wgK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -252,7 +252,6 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="createAccountButtonPressed:" destination="il6-v8-m3d" eventType="touchUpInside" id="xjy-ds-nCz"/>
-                                    <segue destination="bby-yU-wo2" kind="presentation" identifier="homeSegue2" modalPresentationStyle="fullScreen" id="exC-GV-Wvp"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6y-iV-pbR">
@@ -304,6 +303,7 @@
                         <outlet property="passwordField" destination="cin-bO-Te0" id="gSC-qj-cGf"/>
                         <outlet property="phoneNumberField" destination="HDN-4U-Pnc" id="HB2-yV-x9O"/>
                         <outlet property="reenterPasswordField" destination="fcU-ou-yXL" id="YwE-FT-MM8"/>
+                        <segue destination="bby-yU-wo2" kind="presentation" identifier="homeSegue2" modalPresentationStyle="fullScreen" id="d7F-Qx-52E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pww-Uf-IN8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -370,15 +370,16 @@
         <!--UITabBarID-->
         <scene sceneID="AYC-Hh-ehq">
             <objects>
-                <viewControllerPlaceholder storyboardName="UserSetting" referencedIdentifier="UITabBarID" id="bby-yU-wo2" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="UserSetting" referencedIdentifier="UITabBarID" id="bby-yU-wo2" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="dY5-3g-uxd"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b7h-F6-n1p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1750" y="156"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="she-BZ-BEy"/>
-        <segue reference="DNA-ir-Rtv"/>
+        <segue reference="d7F-Qx-52E"/>
         <segue reference="YYH-35-hXi"/>
     </inferredMetricsTieBreakers>
     <resources>

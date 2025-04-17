@@ -40,45 +40,56 @@ class CreateAccountViewController: UIViewController {
         reenterPasswordField.font = UIFont(name: "Manjari-Regular", size: 16)
         alreadyHaveAccountButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 16)
         createAccountButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 18)
+        errorLabel.font = UIFont(name: "Manjari-Regular", size: 16)
+        
         
         self.passwordField.isSecureTextEntry = true
         self.reenterPasswordField.isSecureTextEntry = true
+        
+        // Listener to check if a user has logged in and initiate segue
+        Auth.auth().addStateDidChangeListener() {
+            (auth, user) in
+            if user != nil {
+                self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
+                self.clearFields()
+            }
+        }
     }
     
     @IBAction func createAccountButtonPressed(_ sender: Any) {
         guard let email = emailField.text,
               let password = passwordField.text else { return }
 
-        Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
-            if let error = error as NSError? {
-                self.errorLabel.text = "\(error.localizedDescription)"
-            } else if let user = authResult?.user {
-                self.errorLabel.text = ""
+        if reenterPasswordField.text != passwordField.text {
+            self.errorLabel.text = "Passwords do not match."
+        } else {
+            Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+                if let error = error as NSError? {
+                    self.errorLabel.text = "\(error.localizedDescription)"
+                } else if let user = authResult?.user {
+                    self.errorLabel.text = ""
 
-                // Save additional user info to Firestore
-                Firestore.firestore().collection("users").document(user.uid).setData([
-                    "email": email,
-                    "firstName": self.firstNameField.text ?? "",
-                    "lastName": self.lastNameField.text ?? "",
-                    "phoneNumber": self.phoneNumberField.text ?? "",
-                    "homeCity": "",
-                    "notificationPreferences": NSNull(),
-                    "profilePicture": NSNull(),
-                    "friendsList": [],
-                    "followers": [],
-                    "requests": [],
-                    "requested": [],
-                    "reviews": []
-                ]) { error in
-                    if let error = error {
-                        print("Error saving user data: \(error.localizedDescription)")
-                    } else {
-                        UserManager.shared.u_userID = user.uid
-                        print("User data saved successfully!")
-
-                        // Clear fields
-                        self.clearFields()
-                        self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
+                    // Save additional user info to Firestore
+                    Firestore.firestore().collection("users").document(user.uid).setData([
+                        "email": email,
+                        "firstName": self.firstNameField.text ?? "",
+                        "lastName": self.lastNameField.text ?? "",
+                        "phoneNumber": self.phoneNumberField.text ?? "",
+                        "homeCity": "",
+                        "notificationPreferences": NSNull(),
+                        "profilePicture": NSNull(),
+                        "friendsList": [],
+                        "followers": [],
+                        "requests": [],
+                        "requested": [],
+                        "reviews": []
+                    ]) { error in
+                        if let error = error {
+                            print("Error saving user data: \(error.localizedDescription)")
+                        } else {
+                            UserManager.shared.u_userID = user.uid
+                            print("User data saved successfully!")
+                        }
                     }
                 }
             }

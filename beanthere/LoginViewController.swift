@@ -27,6 +27,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginButton: UIButton!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loginTextLabel.font = UIFont(name: "Manjari-Regular", size: 32)
@@ -36,24 +37,31 @@ class LoginViewController: UIViewController {
         forgotPasswordButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 16)
         createAccountButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 16)
         loginButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 18)
+        errorLabel.font = UIFont(name: "Manjari-Regular", size: 16)
 
         self.passwordTextField.isSecureTextEntry = true
+        
+        // Listener to check if a user has logged in and initiate segue
+        Auth.auth().addStateDidChangeListener() {
+            (auth, user) in
+            if user != nil {
+                self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
+                self.clearFields()
+            }
+        }
     }
     
     @IBAction func loginPressed(_ sender: Any) {
-        Auth.auth().signIn(withEmail: emailTextField.text!,
-                           password: passwordTextField.text!) {
-            (authResult, error) in
-            if let error = error as NSError? {
-                self.errorLabel.text = "\(error.localizedDescription)"
-            } else if let user = authResult?.user {
-                //since you are logged in set up the logOut bool to false
-                globalDidLogOut = false
-                self.errorLabel.text = ""
-                UserManager.shared.u_userID = user.uid
-                self.clearFields()
-                self.performSegue(withIdentifier: self.segueIdentifier, sender: nil)
-                
+        if emailTextField.text != "" && passwordTextField.text != "" {
+            Auth.auth().signIn(withEmail: emailTextField.text!,
+                               password: passwordTextField.text!) {
+                (authResult, error) in
+                if let error = error as NSError? {
+                    self.errorLabel.text = "\(error.localizedDescription)"
+                } else {
+                    //since you are logged in set up the logOut bool to false
+                    self.errorLabel.text = ""
+                }
             }
         }
     }
