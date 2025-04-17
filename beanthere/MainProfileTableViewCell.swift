@@ -59,7 +59,7 @@ class MainProfileTableViewCell: UITableViewCell {
     @objc func likeTapRecognizer() {
         if likeImg.image == UIImage(systemName: "heart") {
             likeImg.image = UIImage(systemName: "heart.fill")
-            likeImg.tintColor = .red
+            likeImg.tintColor = .brown
             likeCount += 1
             populateReviewLikes (reviewID: reviewID, likeNum : likeCount)
         } else {

@@ -309,6 +309,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         performSegue(withIdentifier: "friendCommentSegue", sender: reviewID)
     }
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userReviews.count
     }
