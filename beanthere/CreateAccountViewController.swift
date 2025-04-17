@@ -71,7 +71,9 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     @IBAction func createAccountButtonPressed(_ sender: Any) {
         guard let email = emailField.text,
               let password = passwordField.text else { return }
-
+        let tempFirstName = firstNameField.text ?? ""
+        let tempLastName = lastNameField.text ?? ""
+        let tempPhoneNumber = phoneNumberField.text ?? ""
         if reenterPasswordField.text != passwordField.text {
             self.errorLabel.text = "Passwords do not match."
         } else {
@@ -80,13 +82,14 @@ class CreateAccountViewController: UIViewController, UITextFieldDelegate {
                     self.errorLabel.text = "\(error.localizedDescription)"
                 } else if let user = authResult?.user {
                     self.errorLabel.text = ""
-
+                    print ("IN CREATE THIS IS THE FIRST NAME OF THE USER \(self.firstNameField.text)")
+                    print ("IN CREATE THIS IS THE FIRST EMAIL OF THE USER \(email)")
                     // Save additional user info to Firestore
                     Firestore.firestore().collection("users").document(user.uid).setData([
                         "email": email,
-                        "firstName": self.firstNameField.text ?? "",
-                        "lastName": self.lastNameField.text ?? "",
-                        "phoneNumber": self.phoneNumberField.text ?? "",
+                        "firstName":tempFirstName,
+                        "lastName": tempLastName,
+                        "phoneNumber": tempPhoneNumber,
                         "homeCity": "",
                         "notificationPreferences": NSNull(),
                         "profilePicture": NSNull(),
