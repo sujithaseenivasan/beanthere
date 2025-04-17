@@ -112,7 +112,8 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: friendSearchCellIdentifier, for: indexPath) as! FriendSearchTableViewCell
-        
+        cell.friendSearchName.font = UIFont(name: "Manjari-Bold", size: 18)
+        cell.friendSearchUsername.font = UIFont(name: "Manjari-Regular", size: 14)
         let searchedUser = filteredResults[indexPath.row]
         
         cell.friendSearchName.text = "\(searchedUser.firstName) \(searchedUser.lastName)"

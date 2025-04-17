@@ -18,6 +18,10 @@ class FriendRequestTableViewCell: UITableViewCell {
     
     @IBOutlet weak var friendRequestUsername: UILabel!
     
+    @IBOutlet weak var friendRequestConfirmButton: UIButton!
+    
+    @IBOutlet weak var friendRequestDeleteButton: UIButton!
+    
     var friendId: String?
     
     weak var delegate: FriendRequestCellDelegate?

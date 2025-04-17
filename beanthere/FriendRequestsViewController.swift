@@ -33,6 +33,8 @@ class FriendRequestsViewController: UIViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        friendRequestsHeaderLabel.font = UIFont(name: "Manjari-Bold", size: 20)
+        
         friendRequestsTable.delegate = self
         friendRequestsTable.dataSource = self
         
@@ -102,6 +104,11 @@ class FriendRequestsViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: friendRequestCellIdentifier, for: indexPath) as! FriendRequestTableViewCell
+        
+        cell.friendRequestName.font = UIFont(name: "Manjari-Bold", size: 18)
+        cell.friendRequestUsername.font = UIFont(name: "Manjari-Regular", size: 14)
+        cell.friendRequestConfirmButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 16)
+        cell.friendRequestDeleteButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 16)
         
         let friend = requests[indexPath.row]
         cell.friendRequestName.text = "\(friend.firstName) \(friend.lastName)"

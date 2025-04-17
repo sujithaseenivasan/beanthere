@@ -20,21 +20,6 @@ class FriendSuggestionCollectionViewCell: UICollectionViewCell {
     
     var friendId: String?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        
-        contentView.layer.cornerRadius = 10
-        contentView.layer.masksToBounds = true
-        
-        DispatchQueue.main.async {
-            self.suggestedFriendImage.layer.cornerRadius = 20
-            self.suggestedFriendImage.layer.masksToBounds = true
-            self.suggestedFriendFollowButton.layer.cornerRadius = 5
-            self.suggestedFriendFollowButton.layer.masksToBounds = true
-        }
-    }
-    
     @IBAction func suggestedFriendFollowRequest(_ sender: Any) {
         guard let friendId = friendId, let currUserId = Auth.auth().currentUser?.uid else {
             return
@@ -62,6 +47,7 @@ class FriendSuggestionCollectionViewCell: UICollectionViewCell {
                         DispatchQueue.main.async {
                             self.suggestedFriendFollowButton.titleLabel?.text = "Sent"
                             self.suggestedFriendFollowButton.titleLabel?.textAlignment = .center
+                            self.suggestedFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
                         }
                     }
                 }
