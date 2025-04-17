@@ -37,10 +37,6 @@ class MainProfileTableViewCell: UITableViewCell {
         likeImg.isUserInteractionEnabled = true
         likeImg.addGestureRecognizer(likeTap)
         
-        let shareTap = UITapGestureRecognizer(target: self, action: #selector(shareTapRecognizer))
-        share.isUserInteractionEnabled = true
-        share.addGestureRecognizer(shareTap)
-        
     }
 
     // functions to change for fonts
@@ -76,17 +72,6 @@ class MainProfileTableViewCell: UITableViewCell {
         print ("ENTERED COMMENT BUTTON IN CELL ")
         delegate?.didTapCommentButton(reviewID: reviewID)
     }
-    
-    
-    
-    
-    @objc func commentTapRecognizer() {
-      
-    }
-    
-    @objc func shareTapRecognizer() {
-    }
-    
     
     
     
