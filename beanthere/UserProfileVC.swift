@@ -31,6 +31,7 @@ class UserProfileVC: UIViewController, PassUserInfo {
     @IBOutlet weak var cityDummy: UILabel!
     @IBOutlet weak var PhoneDummy: UILabel!
     @IBOutlet weak var notifDummy: UILabel!
+    var userID : String?
     var loaded_data : [String : Any]?
     let editSegue = "editProfileSegue"
     var wentToProfile : Bool = false
@@ -63,6 +64,7 @@ class UserProfileVC: UIViewController, PassUserInfo {
             print("No authenticated user found.")
             return
         }
+        self.userID = currentUID
         
         let userField = Firestore.firestore().collection("users").document(currentUID)
         userField.getDocument { (docSnap, error) in
@@ -89,8 +91,18 @@ class UserProfileVC: UIViewController, PassUserInfo {
             self.Phone1.text = data?["phoneNumber"] as? String ?? " "
             self.Notification1.text = data?["notificationPreferences"] as? String ?? " "
             
+            self.fetchUserImage(userId: self.userID!){ image in
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.UserImage1.image = image
+                    }
+                }else {
+                    self.UserImage1.image = nil
+                }
+            }
             // Store the loaded user data if needed later
             self.loaded_data = data
+            
         }
     }
 
@@ -169,9 +181,47 @@ class UserProfileVC: UIViewController, PassUserInfo {
         self.City1.text = info.u_city
         self.Phone1.text = info.u_phone
         self.Notification1.text = info.u_notifications
-        self.UserImage1.image = info.u_img.image
-        downloadImage(self.UserImage1)
+       // downloadImage(self.UserImage1)
         
+    }
+    
+    // functions that fetches userImages from firebase
+    func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
+        let storage = Storage.storage()
+        let imagePath = "images/\(userId)_file.png"
+        let imagePath2 = "images/\(userId)file.png"
+        let imageRef = storage.reference(withPath: imagePath)
+        let imageRef2 = storage.reference(withPath: imagePath2)
+
+        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("Error downloading image: \(error.localizedDescription)")
+                imageRef2.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("Error downloading image: \(error.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    
+                    if let data = data, let image = UIImage(data: data) {
+                        print("Image fetched 2successfully.")
+                        completion(image)
+                    } else {
+                        print("Failed2 to convert data to image.")
+                        completion(nil)
+                    }
+                }
+                return
+            }
+
+            if let data = data, let image = UIImage(data: data) {
+                print("Image fetched successfully.")
+                completion(image)
+            } else {
+                print("Failed to convert data to image.")
+                completion(nil)
+            }
+        }
     }
     
     

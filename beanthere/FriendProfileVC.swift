@@ -128,8 +128,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     // functions that fetches userImages from firebase
     func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
         let storage = Storage.storage()
-        print ("THE FRIENDID WE HAVE \(friendID!)")
-        print ("THE FRIEND ID PASSED IS \(userId)")
         let imagePath = "images/\(userId)_file.png"
         let imagePath2 = "images/\(userId)file.png"
         let imageRef = storage.reference(withPath: imagePath)
@@ -165,7 +163,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             }
         }
     }
-    
+
     
     func fetchUserReviews() {
            //get the user that is currently logged in

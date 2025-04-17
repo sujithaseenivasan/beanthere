@@ -84,6 +84,16 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                     print("User document not found or error: \(error?.localizedDescription ?? "unknown error")")
                 }
             }
+            fetchUserImage(userId: self.userID!){image in
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.userProfileImg.image = image
+                    }
+                }else {
+                    self.userProfileImg.image = nil
+                }
+            }
+            
         } else {
             print("No authenticated user found")
         }
@@ -133,12 +143,47 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     // Function to change the edited data from UserProfile to MainUserProfileVC
     func populateUserInfoToProfileView(info: UserManager) {
-        print("WENT IN FUNCTION SEGUE IN MAIN PROFILE")
-        self.userProfileUsername.text = info.u_username
-        self.profileName.text = info.u_name
-        self.userProfileImg.image = info.u_img.image
-        downloadImage(self.userProfileImg)
     }
+    
+    // functions that fetches userImages from firebase
+    func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
+        let storage = Storage.storage()
+        let imagePath = "images/\(userId)_file.png"
+        let imagePath2 = "images/\(userId)file.png"
+        let imageRef = storage.reference(withPath: imagePath)
+        let imageRef2 = storage.reference(withPath: imagePath2)
+
+        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("Error downloading image: \(error.localizedDescription)")
+                imageRef2.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("Error downloading image: \(error.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    
+                    if let data = data, let image = UIImage(data: data) {
+                        print("Image fetched 2successfully.")
+                        completion(image)
+                    } else {
+                        print("Failed2 to convert data to image.")
+                        completion(nil)
+                    }
+                }
+                return
+            }
+
+            if let data = data, let image = UIImage(data: data) {
+                print("Image fetched successfully.")
+                completion(image)
+            } else {
+                print("Failed to convert data to image.")
+                completion(nil)
+            }
+        }
+    }
+
     
     //function that fetchs all the users reviews and places them into our table View and our
     //array of reviews

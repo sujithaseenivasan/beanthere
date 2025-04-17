@@ -45,7 +45,7 @@ override func viewDidLoad() {
     //make image round
     makeImageOval(userImage)
     //download image from firebase and display it
-    downloadImage(self.userImage)
+   // downloadImage(self.userImage)
     
     userImage.contentMode = .scaleAspectFill
     userImage.clipsToBounds = true
@@ -73,6 +73,16 @@ override func viewWillAppear(_ animated: Bool) {
             return
         }
         
+        self.fetchUserImage(userId: currentUID){ image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.userImage.image = image
+                }
+            }else {
+                self.userImage.image = nil
+            }
+        }
+        
         // Retrieve the fields from the Firestore document
         let data = document.data()
         let firstName = data?["firstName"] as? String ?? ""
@@ -90,6 +100,46 @@ override func viewWillAppear(_ animated: Bool) {
         self.loaded_data = data
     }
 }
+    // functions that fetches userImages from firebase
+    func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
+        let storage = Storage.storage()
+        let imagePath = "images/\(userId)_file.png"
+        let imagePath2 = "images/\(userId)file.png"
+        let imageRef = storage.reference(withPath: imagePath)
+        let imageRef2 = storage.reference(withPath: imagePath2)
+
+        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("Error downloading image: \(error.localizedDescription)")
+                imageRef2.getData(maxSize: 5 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("Error downloading image: \(error.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    
+                    if let data = data, let image = UIImage(data: data) {
+                        print("Image fetched 2successfully.")
+                        completion(image)
+                    } else {
+                        print("Failed2 to convert data to image.")
+                        completion(nil)
+                    }
+                }
+                return
+            }
+
+            if let data = data, let image = UIImage(data: data) {
+                print("Image fetched successfully.")
+                completion(image)
+            } else {
+                print("Failed to convert data to image.")
+                completion(nil)
+            }
+        }
+    }
+
+    
     //function that changes all the fonts
     func changeFonts(){
         Username.font = UIFont(name: "Lora-SemiBold", size: 17)
@@ -266,7 +316,9 @@ func didUserInfoChange() -> Bool{
     @IBAction func resetPassword(_ sender: Any) {
         changePassword((Auth.auth().currentUser!.email)!)
     }
+    
 }
+
     
     
 

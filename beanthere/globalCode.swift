@@ -139,6 +139,7 @@ func globLoadReviewImage(reviewId: String, completion: @escaping ([UIImage]?) ->
     }
 }
 
+
 //function that given the reviewID and their new liked image it populates it
 func populateReviewLikes (reviewID: String, likeNum : Int){
     let reviewRef = Firestore.firestore().collection("reviews").document(reviewID)
