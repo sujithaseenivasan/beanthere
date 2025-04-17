@@ -9,7 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class CreateAccountViewController: UIViewController {
+class CreateAccountViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var createAccountTextLabel: UILabel!
     
@@ -42,6 +42,9 @@ class CreateAccountViewController: UIViewController {
         createAccountButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 18)
         errorLabel.font = UIFont(name: "Manjari-Regular", size: 16)
         
+        for field in [firstNameField, lastNameField, emailField, phoneNumberField, passwordField, reenterPasswordField] {
+            field?.delegate = self
+        }
         
         self.passwordField.isSecureTextEntry = true
         self.reenterPasswordField.isSecureTextEntry = true
@@ -54,6 +57,15 @@ class CreateAccountViewController: UIViewController {
                 self.clearFields()
             }
         }
+    }
+    
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     @IBAction func createAccountButtonPressed(_ sender: Any) {

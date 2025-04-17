@@ -8,7 +8,7 @@
 import UIKit
 import FirebaseFirestore
 
-class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     let tableCellIdentifier = "CoffeeSearchCell"
@@ -28,6 +28,7 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         searchBar.text = initialSearchText
         searchBar.delegate = self
+        searchBar.searchTextField.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 310
@@ -35,6 +36,14 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         tableView.reloadData()
     }
     
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

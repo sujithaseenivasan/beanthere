@@ -13,7 +13,7 @@ import PhotosUI
 
 let db = Firestore.firestore()
 
-class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
     
     @IBOutlet weak var ratingTextLabel: UILabel!
@@ -62,10 +62,24 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
         
+        notesTextView.delegate = self
+        
         updateCollectionViewHeight()
         updateButtonImages()
         styleTextView()
         stylePhotoCollectionView()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" { // Detect "Return"
+            textView.resignFirstResponder()
+            return false // Don't insert newline
+        }
+        return true
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     func stylePhotoCollectionView() {

@@ -10,7 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, FeedReviewCellDelegate {
+class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, FeedReviewCellDelegate, UITextFieldDelegate {
     
     
     @IBOutlet weak var yourFeedTextLabel: UILabel!
@@ -52,6 +52,16 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         fetchLikedReviews()
         feedTableView.reloadData()
         fetchFriendReviews()
+        searchBar.searchTextField.delegate = self
+    }
+    
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
