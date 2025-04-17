@@ -66,9 +66,12 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             userField.getDocument { document, error in
                 if let document = document, document.exists {
                     let data = document.data()
+                    let firstName = data?["firstName"] as? String ?? ""
+                    let lastName = data?["lastName"] as? String ?? ""
+                    var tempUserName: String = "@" + firstName + lastName
                     
-                    self.userProfileUsername.text = data?["username"] as? String ?? " "
-                    self.profileName.text = data?["firstName"] as? String ?? " "
+                    self.userProfileUsername.text = tempUserName
+                    self.profileName.text = firstName
                     self.followersNum.text = "\((data?["followers"] as? [String])?.count ?? 0)"
                     self.followingsNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
                     let reviewIDs: [String] = data?["reviews"] as? [String] ?? []

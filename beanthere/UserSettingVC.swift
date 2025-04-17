@@ -75,9 +75,13 @@ override func viewWillAppear(_ animated: Bool) {
         
         // Retrieve the fields from the Firestore document
         let data = document.data()
-        self.Username.text = data?["username"] as? String ?? " "
+        let firstName = data?["firstName"] as? String ?? ""
+        let lastName = data?["lastName"] as? String ?? ""
+        var tempUserName: String = "@" + firstName  + lastName
+        
+        self.Username.text = tempUserName
         self.Email.text = data?["email"] as? String ?? " "
-        self.Name.text = data?["firstName"] as? String ?? " "
+        self.Name.text = firstName
         self.City.text = data?["homeCity"] as? String ?? " "
         self.Phone.text = data?["phoneNumber"] as? String ?? " "
         self.Notification.text = data?["notificationPreferences"] as? String ?? " "
