@@ -115,12 +115,13 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     
     //overwrite do the connection  between the 2 screens and the main screen
-    override func prepare( for segue: UIStoryboardSegue, sender: Any?){
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == userSettingsSegueIdentifier,
-           let userProfileVC = segue.destination as? UserProfileVC{
-            userProfileVC.delegate =  self
+           let userProfileVC = segue.destination as? UserProfileVC {
+            userProfileVC.delegate = self
+
         } else if segue.identifier == "userCommentSegue",
-               let commentVC = segue.destination as? CommentPopUpVC,
+                  let commentVC = segue.destination as? CommentPopUpVC,
                   let reviewID = sender as? String {
             print("ENTERED PREPARE FOR SEGUE \(reviewID)")
             commentVC.delegate = self
@@ -130,8 +131,17 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
 
             commentVC.modalPresentationStyle = .overCurrentContext
             self.definesPresentationContext = true
+
+        } else if segue.identifier == "recsSegue",
+                  let brewTabsVC = segue.destination as? BrewTabsViewController {
+            brewTabsVC.defaultTabIndex = 2
+        }
+        else if segue.identifier == "wantToTrySegue",
+                let brewTabsVC = segue.destination as? BrewTabsViewController {
+            brewTabsVC.defaultTabIndex = 1
         }
     }
+
     
    
     //function that segue to the comments tableview ViewController when the comment button is clicked
