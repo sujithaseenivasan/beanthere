@@ -40,7 +40,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         changeFonts()
-        makeImageOval(self.friendImg)
         
         friendReviewTableView.delegate = self
         friendReviewTableView.dataSource = self
@@ -53,10 +52,10 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                     print("IN FRIEND FRIEND ID IS \(self.friendID!)")
                     self.friendImg.image = image
                 }
+            }else {
+                self.friendImg.image = nil
             }
         }
-        
-        downloadImage(self.friendImg)
         makeImageOval(self.friendImg)
         
     }
@@ -144,10 +143,10 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                     }
                     
                     if let data = data, let image = UIImage(data: data) {
-                        print("Image fetched successfully.")
+                        print("Image fetched 2successfully.")
                         completion(image)
                     } else {
-                        print("Failed to convert data to image.")
+                        print("Failed2 to convert data to image.")
                         completion(nil)
                     }
                 }
