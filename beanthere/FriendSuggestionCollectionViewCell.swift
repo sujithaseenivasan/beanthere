@@ -20,15 +20,19 @@ class FriendSuggestionCollectionViewCell: UICollectionViewCell {
     
     var friendId: String?
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
         
         contentView.layer.cornerRadius = 10
         contentView.layer.masksToBounds = true
-        suggestedFriendImage.layer.cornerRadius = 20
-        suggestedFriendImage.layer.masksToBounds = true
-        suggestedFriendFollowButton.layer.cornerRadius = 5
-        suggestedFriendFollowButton.layer.masksToBounds = true
+        
+        DispatchQueue.main.async {
+            self.suggestedFriendImage.layer.cornerRadius = 20
+            self.suggestedFriendImage.layer.masksToBounds = true
+            self.suggestedFriendFollowButton.layer.cornerRadius = 5
+            self.suggestedFriendFollowButton.layer.masksToBounds = true
+        }
     }
     
     @IBAction func suggestedFriendFollowRequest(_ sender: Any) {

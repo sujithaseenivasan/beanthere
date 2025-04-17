@@ -24,6 +24,20 @@ class FriendContactsCollectionViewCell: UICollectionViewCell {
     
     var friendId: String?
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        contentView.layer.cornerRadius = 10
+        contentView.layer.masksToBounds = true
+        
+        DispatchQueue.main.async {
+            self.contactFriendImage.layer.cornerRadius = 20
+            self.contactFriendImage.layer.masksToBounds = true
+            self.contactFriendFollowButton.layer.cornerRadius = 5
+            self.contactFriendFollowButton.layer.masksToBounds = true
+        }
+    }
+    
     @IBAction func contactFriendFollowRequest(_ sender: Any) {
         guard let friendId = friendId, let currUserId = Auth.auth().currentUser?.uid else {
             return
