@@ -225,6 +225,11 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
+    
     func fetchFriendReviews() {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
 
@@ -255,7 +260,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
     
     func fetchReviewsFromFriends() {
         guard !friendIDs.isEmpty else { return }
-        
+
         db.collection("reviews")
             .whereField("userID", in: friendIDs)
             .order(by: "timestamp", descending: true)
@@ -264,44 +269,46 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
                     print("Error: \(error?.localizedDescription ?? "No reviews found.")")
                     return
                 }
-                
+
                 let reviewDocs = documents
-                var dataTuples: [(reviewData: [String: Any], userData: [String: Any]?)] = []
+                var dataTuples = Array<(reviewData: [String: Any], userData: [String: Any]?)>(
+                    repeating: ([:], nil),
+                    count: reviewDocs.count
+                )
+
                 let group = DispatchGroup()
-                
-                for doc in reviewDocs {
+
+                for (i, doc) in reviewDocs.enumerated() {
                     var review = doc.data()
                     review["reviewId"] = doc.documentID
                     let userId = review["userID"] as? String ?? ""
                     let coffeeShopId = review["coffeeShopID"] as? String ?? ""
-                    
+
                     group.enter()
                     self.db.collection("users").document(userId).getDocument { userDoc, _ in
                         var user = userDoc?.data() ?? [:]
                         let first = user["firstName"] as? String ?? ""
                         let last = user["lastName"] as? String ?? ""
                         user["fullName"] = "\(first) \(last)"
-                        
-            
+
                         group.enter()
                         self.db.collection("coffeeShops").document(coffeeShopId).getDocument { cafeDoc, _ in
                             let cafeName = cafeDoc?.data()?["name"] as? String ?? ""
                             user["coffeeShopName"] = cafeName
-                            dataTuples.append((review, user))
+                            dataTuples[i] = (review, user)
                             group.leave()
                         }
-                        
+
                         group.leave()
                     }
                 }
-
-                
                 group.notify(queue: .main) {
                     self.friendReviewData = dataTuples
                     self.feedTableView.reloadData()
                 }
             }
     }
+
     
     func fetchLikedReviews() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }

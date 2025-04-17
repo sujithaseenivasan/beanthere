@@ -168,6 +168,7 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
         
         return cell
     }
+
     
     func updateBeanRatingDisplay(for imageViews: [UIImageView], average: Double) {
         for (index, imageView) in imageViews.enumerated() {
@@ -185,6 +186,7 @@ class CoffeeSearchViewController: UIViewController, UITableViewDelegate, UITable
 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let selectedCoffeeShop = filteredResults[indexPath.row]
 
         let storyboard = UIStoryboard(name: "UserSetting", bundle: nil)
