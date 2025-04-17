@@ -23,7 +23,12 @@ struct Friend {
 
 class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UISearchBarDelegate {
     
+    @IBOutlet weak var viewRequestsLabel: UIButton!
     
+    @IBOutlet weak var suggestedForYouLabel: UILabel!
+    
+    
+    @IBOutlet weak var fromYourContactsLabel: UILabel!
     @IBOutlet weak var suggestFriendsCollection: UICollectionView!
     
     @IBOutlet weak var contactsFriendsCollection: UICollectionView!

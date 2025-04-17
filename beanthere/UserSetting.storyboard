@@ -543,10 +543,13 @@
                     <tabBarItem key="tabBarItem" title="CONNECT" image="person.2" catalog="system" selectedImage="person.2" id="yRG-bi-VSo"/>
                     <connections>
                         <outlet property="contactsFriendsCollection" destination="Es6-yp-ya0" id="5C6-Nd-BaV"/>
+                        <outlet property="fromYourContactsLabel" destination="hBA-ly-dC3" id="cGX-4L-MbH"/>
                         <outlet property="giveContactsAccess" destination="MXQ-Wv-V2H" id="rbq-b5-mI0"/>
                         <outlet property="noSuggestedFriendsLabel" destination="4jh-nB-V0g" id="F7F-qn-yrR"/>
                         <outlet property="searchFriends" destination="jaJ-6c-64a" id="haB-vX-sDi"/>
                         <outlet property="suggestFriendsCollection" destination="IvU-To-smJ" id="blX-3A-wXW"/>
+                        <outlet property="suggestedForYouLabel" destination="pyi-IG-7w0" id="Vlc-Qs-VXB"/>
+                        <outlet property="viewRequestsLabel" destination="NYe-TD-diC" id="cWe-zI-Fdw"/>
                         <segue destination="UMS-Ne-M74" kind="show" identifier="FriendSearch" id="hFG-vz-wHz"/>
                     </connections>
                 </viewController>
@@ -649,6 +652,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="iBB-bx-FPe"/>
                     <connections>
+                        <outlet property="friendRequestsHeaderLabel" destination="zNT-Sz-YRK" id="JPx-zd-NG2"/>
                         <outlet property="friendRequestsTable" destination="8Y6-1r-x5c" id="eMT-lB-Y2Y"/>
                     </connections>
                 </viewController>

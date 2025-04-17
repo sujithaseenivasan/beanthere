@@ -20,6 +20,8 @@ let friendRequestCellIdentifier = "FriendRequestCell"
 
 class FriendRequestsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FriendRequestCellDelegate {
 
+    @IBOutlet weak var friendRequestsHeaderLabel: UILabel!
+    
     @IBOutlet weak var friendRequestsTable: UITableView!
     
     var delegate: UIViewController!
