@@ -77,9 +77,13 @@ class UserProfileVC: UIViewController, PassUserInfo {
             }
             
             let data = document.data()
-            self.UserName1.text = data?["username"] as? String ?? " "
+            let firstName = data?["firstName"] as? String ?? ""
+            let lastName = data?["lastName"] as? String ?? ""
+            var tempUserName: String = "@" + firstName + lastName
+            
+            self.UserName1.text = tempUserName
             self.Email1.text = data?["email"] as? String ?? " "
-            self.Name1.text = data?["firstName"] as? String ?? " "
+            self.Name1.text = firstName
             self.MainName.text = self.Name1.text
             self.City1.text = data?["homeCity"] as? String ?? " "
             self.Phone1.text = data?["phoneNumber"] as? String ?? " "

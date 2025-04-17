@@ -35,10 +35,6 @@ class FriendProfileTVCell: UITableViewCell {
         likeImg.isUserInteractionEnabled = true
         likeImg.addGestureRecognizer(likeTap)
         
-        let shareTap = UITapGestureRecognizer(target: self, action: #selector(shareTapRecognizer))
-        share.isUserInteractionEnabled = true
-        share.addGestureRecognizer(shareTap)
-        
     }
 
     // functions to change for fonts
@@ -54,11 +50,12 @@ class FriendProfileTVCell: UITableViewCell {
     }
 
     
+    
     //When tapped figure out if there likeImg if it is red if it is add numLiked, and save it in firestore
     @objc func likeTapRecognizer() {
         if likeImg.image == UIImage(systemName: "heart") {
             likeImg.image = UIImage(systemName: "heart.fill")
-            likeImg.tintColor = .red
+            likeImg.tintColor = .brown
             likeCount += 1
             populateReviewLikes (reviewID: reviewID, likeNum : likeCount)
         } else {
@@ -75,13 +72,5 @@ class FriendProfileTVCell: UITableViewCell {
         print ("ENTERED COMMENT BUTTON IN CELL ")
         delegate?.didTapCommentButton2(reviewID: reviewID)
     }
-    
-    
-    @objc func commentTapRecognizer() {
-    }
-    
-    @objc func shareTapRecognizer() {
-    }
-    
 }
 

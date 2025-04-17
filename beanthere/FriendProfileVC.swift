@@ -78,9 +78,12 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             
             // Retrieve the fields from the Firestore document
             let data = document.data()
-            self.friendUserName.text = data?["username"] as? String ?? " "
+            let firstName = data?["firstName"] as? String ?? ""
+            let lastName = data?["lastName"] as? String ?? ""
+            var tempUserName: String = "@" + firstName + lastName
             
-            self.friendName.text = data?["firstName"] as? String ?? " "
+            self.friendUserName.text = tempUserName
+            self.friendName.text = firstName
             self.followersNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
             self.followingNum.text = "\((data?["following"] as? [String])?.count ?? 0)"
             
@@ -305,6 +308,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         print("ENTERED DID TAP IN FRIEND VC ")
         performSegue(withIdentifier: "friendCommentSegue", sender: reviewID)
     }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userReviews.count
