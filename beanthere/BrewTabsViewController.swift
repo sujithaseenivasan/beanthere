@@ -33,7 +33,9 @@ class BrewTabsViewController: UIViewController {
         if let friendID = self.friendID {
             beenVC.friendID = friendID
             wantToTryVC.friendID = friendID
-            // Optional: recsVC.friendID = friendID
+            
+            //remove the "Recs" tab if viewing a friend's brewlog
+            segmentedControl.removeSegment(at: 2, animated: false)
         }
         
         //customize segmented control
@@ -70,7 +72,7 @@ class BrewTabsViewController: UIViewController {
 
         // Measure title size with selected font
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 16) // Match your selected font
+            .font: UIFont(name: "Lora-SemiBold", size: 17)! // Match your selected font
         ]
         let titleSize = (title as NSString).size(withAttributes: attributes)
 
@@ -101,7 +103,10 @@ class BrewTabsViewController: UIViewController {
             case 1:
                 switchToVC(wantToTryVC)
             case 2:
+            // Only switch to recsVC if it’s still in the control
+            if segmentedControl.numberOfSegments > 2 {
                 switchToVC(recsVC)
+            }
             default:
                 break
             }

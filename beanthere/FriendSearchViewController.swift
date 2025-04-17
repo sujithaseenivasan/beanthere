@@ -17,7 +17,7 @@ struct User {
     var username: String
 }
 
-class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
+class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     @IBOutlet weak var friendSearchTableView: UITableView!
     
@@ -35,9 +35,9 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
         
         searchFriends.text = initialSearchText
         searchFriends.delegate = self
-        
         friendSearchTableView.delegate = self
         friendSearchTableView.dataSource = self
+        
         
         friendSearchTableView.reloadData()
         
@@ -52,6 +52,15 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
         
         friendSearchTableView.reloadData()
         
+    }
+    
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     func loadUsers() {
