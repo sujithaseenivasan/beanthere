@@ -325,6 +325,25 @@
             <point key="canvasLocation" x="-1004.4776119402984" y="1754.691075514874"/>
         </scene>
         <!--CONNECT-->
+        <scene sceneID="Ybq-Am-onU">
+            <objects>
+                <navigationController id="hrW-gn-OAV" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="CONNECT" image="person.2" catalog="system" id="wcy-BZ-QOj">
+                        <color key="badgeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DmX-sK-Lk0">
+                        <rect key="frame" x="0.0" y="62" width="402" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="fiW-xl-Gph" kind="relationship" relationship="rootViewController" id="sw5-9y-YyY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mgr-we-pjg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-849" y="286"/>
+        </scene>
+        <!--CONNECT-->
         <scene sceneID="vhF-pW-xRY">
             <objects>
                 <viewController id="fiW-xl-Gph" customClass="FriendsConnectViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
@@ -449,7 +468,7 @@
                                             <outlet property="suggestedFriendImage" destination="IHJ-qK-O7x" id="RAj-Ls-pqk"/>
                                             <outlet property="suggestedFriendName" destination="Vea-67-2ne" id="KVJ-hm-dzt"/>
                                             <outlet property="suggestedFriendUsername" destination="haL-ai-P5N" id="hXv-Lc-2Nj"/>
-                                            <segue destination="cCL-dh-yzC" kind="presentation" identifier="suggGoToFriendProfID" modalPresentationStyle="fullScreen" id="5Kt-Vn-ezp"/>
+                                            <segue destination="cCL-dh-yzC" kind="push" identifier="suggGoToFriendProfID" id="5Kt-Vn-ezp"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -531,7 +550,7 @@
                                             <outlet property="contactFriendImage" destination="bGu-jM-DQB" id="LZp-54-T5y"/>
                                             <outlet property="contactFriendName" destination="9Jh-l5-CoV" id="PGB-ch-BXZ"/>
                                             <outlet property="contactFriendUsername" destination="U67-S1-3hk" id="WC9-tH-S88"/>
-                                            <segue destination="cCL-dh-yzC" kind="presentation" identifier="contactGoToFriendProfID" id="Odn-FF-Cel"/>
+                                            <segue destination="cCL-dh-yzC" kind="push" identifier="contactGoToFriendProfID" id="Odn-FF-Cel"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -541,6 +560,7 @@
                         <color key="backgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="CONNECT" image="person.2" catalog="system" selectedImage="person.2" id="yRG-bi-VSo"/>
+                    <navigationItem key="navigationItem" id="Qwx-qf-8RH"/>
                     <connections>
                         <outlet property="contactsFriendsCollection" destination="Es6-yp-ya0" id="5C6-Nd-BaV"/>
                         <outlet property="fromYourContactsLabel" destination="hBA-ly-dC3" id="cGX-4L-MbH"/>
@@ -550,19 +570,19 @@
                         <outlet property="suggestFriendsCollection" destination="IvU-To-smJ" id="blX-3A-wXW"/>
                         <outlet property="suggestedForYouLabel" destination="pyi-IG-7w0" id="Vlc-Qs-VXB"/>
                         <outlet property="viewRequestsLabel" destination="NYe-TD-diC" id="cWe-zI-Fdw"/>
-                        <segue destination="UMS-Ne-M74" kind="presentation" identifier="FriendSearch" modalPresentationStyle="fullScreen" id="hFG-vz-wHz"/>
+                        <segue destination="UMS-Ne-M74" kind="push" identifier="FriendSearch" id="hFG-vz-wHz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQL-eE-obp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-797.01492537313425" y="250.57208237986268"/>
+            <point key="canvasLocation" x="-52" y="327"/>
         </scene>
         <!--Friend Requests View Controller-->
         <scene sceneID="5D8-u3-NFr">
             <objects>
                 <viewController id="yB5-fK-N6W" customClass="FriendRequestsViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dxM-mr-kuD">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="864"/>
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="beantherelogosecondary" translatesAutoresizingMaskIntoConstraints="NO" id="qkP-HV-Ahj">
@@ -658,7 +678,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rTG-Sm-lRR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2.9850746268656714" y="260.86956521739131"/>
+            <point key="canvasLocation" x="1119" y="261"/>
         </scene>
         <!--Friend Search View Controller-->
         <scene sceneID="21b-ne-OZa">
@@ -733,12 +753,12 @@
                     <connections>
                         <outlet property="friendSearchTableView" destination="9q8-lK-1Ke" id="IY3-SW-tFu"/>
                         <outlet property="searchFriends" destination="WVD-GC-4NG" id="mNA-Rw-j47"/>
-                        <segue destination="cCL-dh-yzC" kind="presentation" identifier="SearchFriendProfileSegue" modalPresentationStyle="fullScreen" id="NAa-Fj-8AE"/>
+                        <segue destination="cCL-dh-yzC" kind="push" identifier="SearchFriendProfileSegue" id="NAa-Fj-8AE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xb2-V1-Wwp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="961" y="261"/>
+            <point key="canvasLocation" x="1866" y="261"/>
         </scene>
         <!--User ProfileVC-->
         <scene sceneID="Oni-4u-Zrq">
@@ -749,7 +769,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Chris" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yz8-pS-38D">
-                                <rect key="frame" x="181" y="315.33333333333337" width="40" height="20.333333333333314"/>
+                                <rect key="frame" x="181" y="359.33333333333337" width="40" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -942,7 +962,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="tf0-vW-n6H">
-                                <rect key="frame" x="16" y="251" width="370" height="235"/>
+                                <rect key="frame" x="16" y="357" width="370" height="235"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="3Yv-TI-JKS">
                                         <rect key="frame" x="28.666666666666657" y="0.0" width="313" height="120.33333333333333"/>
@@ -1057,7 +1077,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="94" translatesAutoresizingMaskIntoConstraints="NO" id="5kQ-Bf-OUX">
-                                                        <rect key="frame" x="0.0" y="38.333333333333371" width="359" height="34.333333333333343"/>
+                                                        <rect key="frame" x="0.0" y="38.333333333333314" width="359" height="34.333333333333343"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bookmark" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="4ud-xI-9XT">
                                                                 <rect key="frame" x="0.0" y="0.33333333333333215" width="17.333333333333332" height="34"/>
@@ -1107,21 +1127,21 @@
                                 </subviews>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toplogo" translatesAutoresizingMaskIntoConstraints="NO" id="cZb-Td-kwQ">
-                                <rect key="frame" x="16" y="0.0" width="204" height="47"/>
+                                <rect key="frame" x="16" y="106" width="204" height="47"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="47" id="EaD-gp-mn5"/>
                                     <constraint firstAttribute="width" constant="204" id="Fci-HK-ajZ"/>
                                 </constraints>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EoF-UT-RwV">
-                                <rect key="frame" x="111" y="47" width="180" height="180"/>
+                                <rect key="frame" x="111" y="153" width="180" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="Kvv-oh-6cu"/>
                                     <constraint firstAttribute="width" constant="180" id="hkg-hH-Efi"/>
                                 </constraints>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gUv-pg-30c">
-                                <rect key="frame" x="0.0" y="512" width="402" height="346"/>
+                                <rect key="frame" x="0.0" y="618" width="402" height="157"/>
                                 <color key="backgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z0x-po-iKM">
@@ -1347,7 +1367,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u0F-4i-YmZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="phz-UV-snc"/>
             </objects>
-            <point key="canvasLocation" x="1929.8507462686566" y="260.86956521739131"/>
+            <point key="canvasLocation" x="3152" y="286"/>
         </scene>
         <!--Main User ProfileVC-->
         <scene sceneID="6Ou-zm-ayU">
@@ -2457,7 +2477,9 @@
                             <constraint firstItem="sna-01-WQl" firstAttribute="trailing" secondItem="8Qh-IZ-Rch" secondAttribute="trailing" id="oXq-qQ-uix"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="COFFEE MAP" image="map" catalog="system" selectedImage="map" id="OHd-jw-yuF"/>
+                    <tabBarItem key="tabBarItem" title="COFFEE MAP" image="map" catalog="system" selectedImage="map" id="OHd-jw-yuF">
+                        <color key="badgeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="coffeeMapView" destination="8Qh-IZ-Rch" id="IPn-Xa-R4O"/>
                         <segue destination="6q9-hf-Pqa" kind="show" identifier="mapToCafeProfileSegue" id="U6m-uK-607"/>
@@ -2713,16 +2735,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.52123391630000004" green="0.33098942040000001" blue="0.2316958606" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="tintColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" systemColor="tintColor"/>
                         <color key="barTintColor" red="0.52156862745098043" green="0.32941176470588235" blue="0.23137254901960785" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="selectedImageTintColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Zf7-aX-ixn" kind="relationship" relationship="viewControllers" id="5Xn-Fr-GQ8"/>
-                        <segue destination="fiW-xl-Gph" kind="relationship" relationship="viewControllers" id="eBZ-sO-4NU"/>
-                        <segue destination="k8T-wp-iO2" kind="relationship" relationship="viewControllers" id="Lg6-b9-gCN"/>
-                        <segue destination="Jqw-CM-vNF" kind="relationship" relationship="viewControllers" id="u0r-VO-MCo"/>
-                        <segue destination="d7J-hx-RBV" kind="relationship" relationship="viewControllers" id="3JV-YV-tzi"/>
+                        <segue destination="Zf7-aX-ixn" kind="relationship" relationship="viewControllers" id="9U1-t7-f0Q"/>
+                        <segue destination="hrW-gn-OAV" kind="relationship" relationship="viewControllers" id="c93-FM-Hph"/>
+                        <segue destination="k8T-wp-iO2" kind="relationship" relationship="viewControllers" id="BXZ-71-1RP"/>
+                        <segue destination="Jqw-CM-vNF" kind="relationship" relationship="viewControllers" id="sUB-t4-EeK"/>
+                        <segue destination="d7J-hx-RBV" kind="relationship" relationship="viewControllers" id="mcU-sy-383"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mDC-fu-clP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2733,7 +2755,9 @@
         <scene sceneID="cb4-a8-g18">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="d7J-hx-RBV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="PROFILE" image="person.crop.circle.fill" catalog="system" selectedImage="person.crop.circle.fill" id="ULV-Ys-Yml"/>
+                    <tabBarItem key="tabBarItem" title="PROFILE" image="person.crop.circle.fill" catalog="system" selectedImage="person.crop.circle.fill" id="ULV-Ys-Yml">
+                        <color key="badgeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="C7i-8g-aBA">
                         <rect key="frame" x="0.0" y="62" width="402" height="44"/>
@@ -3112,7 +3136,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Zf7-aX-ixn" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="FEED" image="house" catalog="system" selectedImage="house" id="bWd-k5-AkR">
-                        <color key="badgeColor" red="0.52156862745098043" green="0.32941176470588235" blue="0.23137254901960785" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="badgeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PJy-yi-66n">
@@ -3135,7 +3159,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kDH-YN-JJa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-916.41791044776119" y="-1239.1304347826085"/>
+            <point key="canvasLocation" x="-849" y="-729"/>
         </scene>
         <!--Add Review View Controller-->
         <scene sceneID="lYd-ey-mY1">
@@ -3384,7 +3408,9 @@
         <scene sceneID="ZRJ-N0-2IT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jqw-CM-vNF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="BREW LOG" image="cup.and.heat.waves" catalog="system" selectedImage="cup.and.heat.waves" id="7wG-9s-938"/>
+                    <tabBarItem key="tabBarItem" title="BREW LOG" image="cup.and.heat.waves" catalog="system" selectedImage="cup.and.heat.waves" id="7wG-9s-938">
+                        <color key="badgeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ldk-VP-hqa">
                         <rect key="frame" x="0.0" y="62" width="402" height="44"/>
@@ -3438,9 +3464,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="e0c-LS-16S"/>
+        <segue reference="5d5-e3-k4S"/>
         <segue reference="NAa-Fj-8AE"/>
-        <segue reference="9jf-lb-Ex5"/>
+        <segue reference="jVx-qO-yZE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addFriend" width="20" height="20"/>
