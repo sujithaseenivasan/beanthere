@@ -44,8 +44,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
 
         //make image round
         makeImageOval(UserImage1)
-        //download image from firebase and display it
-        downloadImage(self.UserImage1)
         //TO CHECK IS REPEATED
         UserImage1.contentMode = .scaleAspectFill
         self.UserImage1.layer.cornerRadius = self.UserImage1.frame.width / 2
@@ -181,8 +179,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
         self.City1.text = info.u_city
         self.Phone1.text = info.u_phone
         self.Notification1.text = info.u_notifications
-       // downloadImage(self.UserImage1)
-        
     }
     
     // functions that fetches userImages from firebase

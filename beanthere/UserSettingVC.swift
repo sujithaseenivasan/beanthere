@@ -44,9 +44,6 @@ override func viewDidLoad() {
     changeFonts()
     //make image round
     makeImageOval(userImage)
-    //download image from firebase and display it
-   // downloadImage(self.userImage)
-    
     userImage.contentMode = .scaleAspectFill
     userImage.clipsToBounds = true
 }

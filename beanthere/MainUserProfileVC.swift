@@ -44,7 +44,6 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         super.viewDidLoad()
         changeFonts()
         // from firebase download the image and make it round
-        downloadImage(self.userProfileImg)
         makeImageOval(self.userProfileImg)
         
         userReviewsTableView.delegate = self
