@@ -46,6 +46,14 @@ override func viewDidLoad() {
     makeImageOval(userImage)
     userImage.contentMode = .scaleAspectFill
     userImage.clipsToBounds = true
+    
+    editButton.titleLabel?.numberOfLines = 1
+    editButton.titleLabel?.lineBreakMode = .byTruncatingTail
+    editButton.titleLabel?.adjustsFontSizeToFitWidth = true
+    editButton.titleLabel?.baselineAdjustment = .alignCenters
+    editButton.setTitle("Edit profile", for: .normal)
+
+
 }
     
 
