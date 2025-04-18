@@ -329,26 +329,36 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
 //            cell.suggestedFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
             cell.friendId = friend.id
             // load profile picture asynchronously
-            if let profilePictureUrlString = friend.profilePicture,
-               let url = URL(string: profilePictureUrlString) {
-                URLSession.shared.dataTask(with: url) { data, response, error in
-                    if let data = data, error == nil {
-                        DispatchQueue.main.async {
-                            cell.suggestedFriendImage.image = UIImage(data: data)
-//                            cell.suggestedFriendImage.contentMode = .scaleAspectFill
-                            cell.suggestedFriendImage.layer.cornerRadius = (cell.suggestedFriendImage.bounds.width / 2) + 3
-                            cell.suggestedFriendImage.clipsToBounds = true
-                            cell.suggestedFriendImage.layer.masksToBounds = true
-                        }
-                    }
-                }.resume()
-            } else {
-                cell.suggestedFriendImage.image = UIImage(named: "filled_bean")
-//                cell.suggestedFriendImage.contentMode = .scaleAspectFill
+//            if let profilePictureUrlString = friend.profilePicture,
+//               let url = URL(string: profilePictureUrlString) {
+//                URLSession.shared.dataTask(with: url) { data, response, error in
+//                    if let data = data, error == nil {
+//                        DispatchQueue.main.async {
+//                            cell.suggestedFriendImage.image = UIImage(data: data)
+////                            cell.suggestedFriendImage.contentMode = .scaleAspectFill
+//                            cell.suggestedFriendImage.layer.cornerRadius = (cell.suggestedFriendImage.bounds.width / 2) + 3
+//                            cell.suggestedFriendImage.clipsToBounds = true
+//                            cell.suggestedFriendImage.layer.masksToBounds = true
+//                        }
+//                    }
+//                }.resume()
+//            } else {
+//                cell.suggestedFriendImage.image = UIImage(named: "filled_bean")
+////                cell.suggestedFriendImage.contentMode = .scaleAspectFill
+//                cell.suggestedFriendImage.layer.cornerRadius = (cell.suggestedFriendImage.bounds.width / 2) + 3
+//                cell.suggestedFriendImage.clipsToBounds = true
+//                cell.suggestedFriendImage.layer.masksToBounds = true
+//            }
+            
+            FirebaseUtil.loadProfileImage(userId: friend.id) { image in DispatchQueue.main.async {
+                let img = image ?? UIImage(named: "filled_bean")
+                cell.suggestedFriendImage.image = img
+                cell.suggestedFriendImage.contentMode = .scaleAspectFill
                 cell.suggestedFriendImage.layer.cornerRadius = (cell.suggestedFriendImage.bounds.width / 2) + 3
                 cell.suggestedFriendImage.clipsToBounds = true
-                cell.suggestedFriendImage.layer.masksToBounds = true
+                }
             }
+            
             // ADDED FOR DEMO
             let alreadySent = currUserRequested.contains(friend.id)
             cell.suggestedFriendFollowButton.setTitle(alreadySent ? "Sent" : "Follow", for: .normal)
@@ -369,26 +379,36 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
 //            cell.contactFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
             cell.friendId = friend.id
             // load profile picture asynchronously
-            if let profilePictureUrlString = friend.profilePicture,
-               let url = URL(string: profilePictureUrlString) {
-                URLSession.shared.dataTask(with: url) { data, response, error in
-                    if let data = data, error == nil {
-                        DispatchQueue.main.async {
-                            cell.contactFriendImage.image = UIImage(data: data)
-//                            cell.contactFriendImage.contentMode = .scaleAspectFill
-                            cell.contactFriendImage.layer.cornerRadius = (cell.contactFriendImage.bounds.width / 2) + 3
-                            cell.contactFriendImage.clipsToBounds = true
-                            cell.contactFriendImage.layer.masksToBounds = true
-                        }
-                    }
-                }.resume()
-            } else {
-                cell.contactFriendImage.image = UIImage(named: "filled_bean")
-//                cell.contactFriendImage.contentMode = .scaleAspectFill
+//            if let profilePictureUrlString = friend.profilePicture,
+//               let url = URL(string: profilePictureUrlString) {
+//                URLSession.shared.dataTask(with: url) { data, response, error in
+//                    if let data = data, error == nil {
+//                        DispatchQueue.main.async {
+//                            cell.contactFriendImage.image = UIImage(data: data)
+////                            cell.contactFriendImage.contentMode = .scaleAspectFill
+//                            cell.contactFriendImage.layer.cornerRadius = (cell.contactFriendImage.bounds.width / 2) + 3
+//                            cell.contactFriendImage.clipsToBounds = true
+//                            cell.contactFriendImage.layer.masksToBounds = true
+//                        }
+//                    }
+//                }.resume()
+//            } else {
+//                cell.contactFriendImage.image = UIImage(named: "filled_bean")
+////                cell.contactFriendImage.contentMode = .scaleAspectFill
+//                cell.contactFriendImage.layer.cornerRadius = (cell.contactFriendImage.bounds.width / 2) + 3
+//                cell.contactFriendImage.clipsToBounds = true
+//                cell.contactFriendImage.layer.masksToBounds = true
+//            }
+            
+            FirebaseUtil.loadProfileImage(userId: friend.id) { image in DispatchQueue.main.async {
+                let img = image ?? UIImage(named: "filled_bean")
+                cell.contactFriendImage.image = img
+                cell.contactFriendImage.contentMode = .scaleAspectFill
                 cell.contactFriendImage.layer.cornerRadius = (cell.contactFriendImage.bounds.width / 2) + 3
                 cell.contactFriendImage.clipsToBounds = true
-                cell.contactFriendImage.layer.masksToBounds = true
+                }
             }
+            
             // ADDED FOR DEMO
             let alreadySent = currUserRequested.contains(friend.id)
             cell.contactFriendFollowButton.setTitle(alreadySent ? "Sent" : "Follow", for: .normal)
