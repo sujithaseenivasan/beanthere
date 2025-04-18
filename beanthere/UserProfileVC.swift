@@ -124,12 +124,12 @@ class UserProfileVC: UIViewController, PassUserInfo {
     
     //function that changes all the fonts
     func changeFonts(){
-        MainName.font = UIFont(name: "Lora-SemiBold", size: 17)
-        Name1.font = UIFont(name: "Lora-SemiBold", size: 17)
-        UserName1.font = UIFont(name: "Lora-SemiBold", size: 17)
-        Email1.font = UIFont(name: "Lora-SemiBold", size: 17)
-        City1.font = UIFont(name: "Lora-SemiBold", size: 17)
-        Phone1.font = UIFont(name: "Lora-SemiBold", size: 17)
+        MainName.font = UIFont(name: "Lora-SemiBold", size: 15)
+        Name1.font = UIFont(name: "Lora-Regular", size: 15)
+        UserName1.font = UIFont(name: "Lora-Regular", size: 15)
+        Email1.font = UIFont(name: "Lora-Regular", size: 15)
+        City1.font = UIFont(name: "Lora-Regular", size: 15)
+        Phone1.font = UIFont(name: "Lora-Regular", size: 15)
         nameDummy.font = UIFont(name: "Lora-Bold", size: 17)
         usernameDummy.font = UIFont(name: "Lora-Bold", size: 17)
         emailDummy.font = UIFont(name: "Lora-Bold", size: 17)
