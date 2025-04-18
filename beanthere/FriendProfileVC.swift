@@ -84,12 +84,26 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             
             self.friendUserName.text = tempUserName
             self.friendName.text = firstName
-            self.followersNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
-            self.followingNum.text = "\((data?["following"] as? [String])?.count ?? 0)"
+            self.followersNum.text = "\((data?["followers"] as? [String])?.count ?? 0)"
+            self.followingNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
             
             let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
             //put all the information of currently loaded data in the array of reviews
             print("ENTERED VIEW WILL APPEAR")
+            // updates the follow button
+            if let userUID = Auth.auth().currentUser?.uid , let data = data {
+                var text = "Follow" // default
+                    if let followers = data["followers"] as? [String], followers.contains(userUID) {
+                        text = "Following"
+                    } else if let requested = data["requests"] as? [String], requested.contains(userUID) {
+                        text = "Requested"
+                    }
+                    self.follow.setTitle(text, for: .normal)
+                
+            }
+            
+
+            
             self.fetchUserReviews()
             
         }
@@ -236,34 +250,40 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     /*when the follow Button is clicked increase the number of followers for the
     friend and the following numbers for the user*/
     @IBAction func followButton(_ sender: Any) {
+        follow.titleLabel?.font = UIFont(name: "Lora-Bold", size: 15)
         guard let userUID = Auth.auth().currentUser?.uid else {
             return
         }
         if let button = sender as? UIButton {
             if(button.titleLabel?.text == "Follow"){
-                button.setTitle("Following", for: .normal)
-                updateFollowingAndFollowers(for: userUID, friendID: friendID!, DidFollow: true)
-            }else {
+                updateFollowingAndFollowers(for: userUID, friendID: friendID!, DidFollow: 0)
+                button.setTitle("Requested", for: .normal)
+            }else if (button.titleLabel?.text == "Following"){
+                updateFollowingAndFollowers(for: userUID, friendID: friendID!, DidFollow: 1)
                 button.setTitle("Follow", for: .normal)
-                updateFollowingAndFollowers(for: userUID, friendID: friendID!, DidFollow: false)
+            } else {
+                updateFollowingAndFollowers(for: userUID, friendID: friendID!, DidFollow: 2)
+                button.setTitle("Follow", for: .normal)
             }
             
         }
     }
     
     //function to update the followers and the followings for the users
-    func updateFollowingAndFollowers(for userID: String, friendID: String, DidFollow: Bool) {
+    func updateFollowingAndFollowers(for userID: String, friendID: String, DidFollow: Int) {
         let userField = db.collection("users").document(userID)
         let friendField = db.collection("users").document(friendID)
         
-        if(DidFollow){
-            self.followersNum.text = String(Int(self.followersNum.text!)! + 1)
-            userField.updateData(["friendsList": FieldValue.arrayUnion([friendID])])
-            friendField.updateData(["followers": FieldValue.arrayUnion([userID])])
-        } else {
+        if(DidFollow == 0){
+            userField.updateData(["requested": FieldValue.arrayUnion([friendID])])
+            friendField.updateData(["requests": FieldValue.arrayUnion([userID])])
+        } else if (DidFollow == 1){
             self.followersNum.text = String(max((Int(self.followersNum.text!) ?? 0) - 1, 0))
             userField.updateData(["friendsList": FieldValue.arrayRemove([friendID])])
             friendField.updateData(["followers": FieldValue.arrayRemove([userID])])
+        }else {
+            userField.updateData(["requested": FieldValue.arrayRemove([friendID])])
+            friendField.updateData(["requests": FieldValue.arrayRemove([userID])])
         }
         
         
