@@ -295,9 +295,10 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                         cell.drinkImg.image = images.first ?? UIImage(named: "beantherelog")// Show first image
                     }
                 }
+                if (cell.drinkImg.image == nil){
+                    cell.drinkImg.image = self.userProfileImg.image
+                }
                 makeImageOval(cell.drinkImg)
-                //download image from firebase and display it
-                downloadImage(cell.drinkImg)
             }
             return cell
         }
