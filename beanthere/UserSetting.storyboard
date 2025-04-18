@@ -459,13 +459,13 @@
                                                 <constraint firstItem="hlS-6c-wfi" firstAttribute="centerX" secondItem="oDJ-xR-5pD" secondAttribute="centerX" id="24d-GO-0u5"/>
                                                 <constraint firstAttribute="bottom" secondItem="hlS-6c-wfi" secondAttribute="bottom" constant="8" id="4jP-ie-RFb"/>
                                                 <constraint firstAttribute="trailing" secondItem="IHJ-qK-O7x" secondAttribute="trailing" constant="17" id="52Y-Gb-T6s"/>
-                                                <constraint firstItem="haL-ai-P5N" firstAttribute="top" secondItem="Vea-67-2ne" secondAttribute="bottom" id="8eU-NQ-rfw"/>
                                                 <constraint firstItem="hlS-6c-wfi" firstAttribute="top" secondItem="oDJ-xR-5pD" secondAttribute="top" constant="130" id="8sy-DP-wX5"/>
                                                 <constraint firstItem="Vea-67-2ne" firstAttribute="top" secondItem="IHJ-qK-O7x" secondAttribute="bottom" constant="8" symbolic="YES" id="96q-UB-tVV"/>
                                                 <constraint firstItem="IHJ-qK-O7x" firstAttribute="top" secondItem="oDJ-xR-5pD" secondAttribute="top" constant="12" id="O5G-hc-m1x"/>
                                                 <constraint firstAttribute="bottom" secondItem="IHJ-qK-O7x" secondAttribute="bottom" constant="76" id="PFD-Mt-MO1"/>
                                                 <constraint firstItem="IHJ-qK-O7x" firstAttribute="leading" secondItem="oDJ-xR-5pD" secondAttribute="leading" constant="18" id="XPT-Yb-jB1"/>
                                                 <constraint firstItem="haL-ai-P5N" firstAttribute="centerX" secondItem="oDJ-xR-5pD" secondAttribute="centerX" id="ZEX-vF-clh"/>
+                                                <constraint firstAttribute="bottom" secondItem="haL-ai-P5N" secondAttribute="bottom" constant="33" id="fPQ-hI-zzZ"/>
                                                 <constraint firstItem="Vea-67-2ne" firstAttribute="centerX" secondItem="oDJ-xR-5pD" secondAttribute="centerX" id="jbd-0j-5Wa"/>
                                                 <constraint firstItem="hlS-6c-wfi" firstAttribute="top" secondItem="haL-ai-P5N" secondAttribute="bottom" constant="6" id="mhb-m6-KqK"/>
                                             </constraints>
@@ -2587,7 +2587,7 @@
         <scene sceneID="WQX-6K-gno">
             <objects>
                 <viewController id="Ai3-pE-RHb" customClass="CoffeeSearchViewController" customModule="beanthere" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="3Ec-kH-Vit">
+                    <view key="view" contentMode="scaleToFill" id="3Ec-kH-Vit">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -2602,8 +2602,8 @@
                                     <constraint firstAttribute="height" constant="43" id="Pre-4f-3hF"/>
                                 </constraints>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="vii-Wg-bys">
-                                <rect key="frame" x="0.0" y="220" width="402" height="654"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="vii-Wg-bys">
+                                <rect key="frame" x="0.0" y="282" width="402" height="592"/>
                                 <color key="backgroundColor" red="0.9999672771" green="0.93620538710000001" blue="0.88758033510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.99215686319999996" green="0.94117647410000005" blue="0.89019608500000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <prototypes>
@@ -2788,8 +2788,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="khX-GH-6v9">
-                                <rect key="frame" x="182.66666666666666" y="418.33333333333337" width="36.666666666666657" height="37.333333333333314"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="khX-GH-6v9">
+                                <rect key="frame" x="182.66666666666666" y="384.66666666666669" width="36.666666666666657" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Vi3-nZ-FKL"/>
@@ -3583,10 +3583,10 @@
             <color red="0.82352941176470584" green="0.67450980392156867" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="underPageBackgroundColor">
             <color red="0.70980392156862748" green="0.71764705882352942" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
