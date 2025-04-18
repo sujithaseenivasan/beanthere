@@ -80,7 +80,7 @@ class FriendRequestsViewController: UIViewController, UITableViewDelegate, UITab
                             
                             // use first+last name if username is empty
                             if username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                username = firstName + lastName
+                                username = "@" + firstName + lastName
                             }
                             
                             let friend = FriendRequest(id: friendId, firstName: firstName, lastName: lastName, username: username)

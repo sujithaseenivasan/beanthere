@@ -48,6 +48,8 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
     var contactsList: [CNContact] = []
     var contactsFriends: [Friend] = []
     
+    private var currUserRequested: [String] = [] // ADDED FOR DEMO
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -80,6 +82,31 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
         
         loadSuggestedFriends()
     }
+    
+    // ADDED FOR THE DEMO
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      fetchCurrentUserRequests()
+    }
+    
+    private func fetchCurrentUserRequests() {
+      guard let uid = Auth.auth().currentUser?.uid else { return }
+      Firestore.firestore()
+        .collection("users")
+        .document(uid)
+        .getDocument { snap, _ in
+          if let data = snap?.data(),
+             let req = data["requested"] as? [String] {
+            self.currUserRequested = req
+          } else {
+            self.currUserRequested = []
+          }
+          self.suggestFriendsCollection.reloadData()
+          self.contactsFriendsCollection.reloadData()
+        }
+    }
+    
+    // END ADDED FOR DEMO
     
     func searchBar(_ searchFriends: UISearchBar, textDidChange searchText: String) {
         if !searchText.isEmpty && !hasPerformedSegue {
@@ -170,7 +197,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
                 let lastName = data["lastName"] as? String ?? ""
                 var username = data["username"] as? String ?? ""
                 if username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    username = firstName + lastName
+                    username = "@" + firstName + lastName
                 }
                 let profilePicture = data["profilePicture"] as? String
                 let friend = Friend(id: doc.documentID,
@@ -253,7 +280,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
                                     
                                     // if the username is empty, combine first and last name
                                     if username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                        username = firstName + lastName
+                                        username = "@" + firstName + lastName
                                     }
                                     
                                     let profilePicture = friendData["profilePicture"] as? String
@@ -299,7 +326,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             cell.suggestedFriendUsername.text = friend.username
             cell.suggestedFriendUsername.font = UIFont(name: "Manjari-Regular", size: 12)
             cell.suggestedFriendUsername.textColor = UIColor.black.withAlphaComponent(0.5)
-            cell.suggestedFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
+//            cell.suggestedFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
             cell.friendId = friend.id
             // load profile picture asynchronously
             if let profilePictureUrlString = friend.profilePicture,
@@ -309,7 +336,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
                         DispatchQueue.main.async {
                             cell.suggestedFriendImage.image = UIImage(data: data)
 //                            cell.suggestedFriendImage.contentMode = .scaleAspectFill
-                            cell.suggestedFriendImage.layer.cornerRadius = (cell.suggestedFriendImage.bounds.width / 2) + 5
+                            cell.suggestedFriendImage.layer.cornerRadius = (cell.suggestedFriendImage.bounds.width / 2) + 3
                             cell.suggestedFriendImage.clipsToBounds = true
                             cell.suggestedFriendImage.layer.masksToBounds = true
                         }
@@ -318,11 +345,16 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             } else {
                 cell.suggestedFriendImage.image = UIImage(named: "filled_bean")
 //                cell.suggestedFriendImage.contentMode = .scaleAspectFill
-                cell.suggestedFriendImage.layer.cornerRadius = (cell.suggestedFriendImage.bounds.width / 2) + 5
+                cell.suggestedFriendImage.layer.cornerRadius = (cell.suggestedFriendImage.bounds.width / 2) + 3
                 cell.suggestedFriendImage.clipsToBounds = true
                 cell.suggestedFriendImage.layer.masksToBounds = true
             }
-            
+            // ADDED FOR DEMO
+            let alreadySent = currUserRequested.contains(friend.id)
+            cell.suggestedFriendFollowButton.setTitle(alreadySent ? "Sent" : "Follow", for: .normal)
+            cell.suggestedFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
+            cell.suggestedFriendFollowButton.isEnabled = !alreadySent
+            // END ADDED FOR DEMO
             return cell
         } else if collectionView == contactsFriendsCollection {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: contactsFriendCellIdentifier, for: indexPath) as! FriendContactsCollectionViewCell
@@ -334,7 +366,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             cell.contactFriendUsername.text = friend.username
             cell.contactFriendUsername.font = UIFont(name: "Manjari-Regular", size: 12)
             cell.contactFriendUsername.textColor = UIColor.black.withAlphaComponent(0.5)
-            cell.contactFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
+//            cell.contactFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
             cell.friendId = friend.id
             // load profile picture asynchronously
             if let profilePictureUrlString = friend.profilePicture,
@@ -344,7 +376,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
                         DispatchQueue.main.async {
                             cell.contactFriendImage.image = UIImage(data: data)
 //                            cell.contactFriendImage.contentMode = .scaleAspectFill
-                            cell.contactFriendImage.layer.cornerRadius = (cell.contactFriendImage.bounds.width / 2) + 5
+                            cell.contactFriendImage.layer.cornerRadius = (cell.contactFriendImage.bounds.width / 2) + 3
                             cell.contactFriendImage.clipsToBounds = true
                             cell.contactFriendImage.layer.masksToBounds = true
                         }
@@ -353,11 +385,17 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             } else {
                 cell.contactFriendImage.image = UIImage(named: "filled_bean")
 //                cell.contactFriendImage.contentMode = .scaleAspectFill
-                cell.contactFriendImage.layer.cornerRadius = (cell.contactFriendImage.bounds.width / 2) + 5
+                cell.contactFriendImage.layer.cornerRadius = (cell.contactFriendImage.bounds.width / 2) + 3
                 cell.contactFriendImage.clipsToBounds = true
                 cell.contactFriendImage.layer.masksToBounds = true
             }
-            
+            // ADDED FOR DEMO
+            let alreadySent = currUserRequested.contains(friend.id)
+            cell.contactFriendFollowButton.setTitle(alreadySent ? "Sent" : "Follow", for: .normal)
+            cell.contactFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
+            cell.contactFriendFollowButton.isEnabled = !alreadySent
+         
+//            // END ADDED FOR DEMO
             return cell
         }
         return UICollectionViewCell()

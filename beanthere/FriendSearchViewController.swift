@@ -78,7 +78,7 @@ class FriendSearchViewController: UIViewController, UISearchBarDelegate, UITable
                 var username = data["username"] as? String ?? ""
                 // If the username is empty, use firstName+lastName (without spaces).
                 if username.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    username = firstName + lastName
+                    username = "@" + firstName + lastName
                 }
                 let user = User(id: document.documentID, firstName: firstName, lastName: lastName, username: username)
                 self.allResults.append(user)

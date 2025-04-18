@@ -19,6 +19,16 @@ class FriendSuggestionCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var suggestedFriendFollowButton: UIButton!
     
     var friendId: String?
+//    
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        suggestedFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
+//    }
+//    
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        suggestedFriendFollowButton.titleLabel?.font = UIFont(name: "Manjari-Regular", size: 12)
+//    }
     
     @IBAction func suggestedFriendFollowRequest(_ sender: Any) {
         guard let friendId = friendId, let currUserId = Auth.auth().currentUser?.uid else {

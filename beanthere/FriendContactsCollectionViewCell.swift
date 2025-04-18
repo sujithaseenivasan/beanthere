@@ -24,6 +24,17 @@ class FriendContactsCollectionViewCell: UICollectionViewCell {
     
     var friendId: String?
     
+//    override func awakeFromNib() {
+//        super.awakeFromNib()
+//        
+//        let font = UIFont(name: "Manjari‑Regular", size: 12)!
+//        let title = contactFriendFollowButton.title(for: .normal) ?? "Follow"
+//        let attr = NSAttributedString(string: title, attributes: [.font: font])
+//        contactFriendFollowButton.setAttributedTitle(attr, for: .normal)
+//    }
+//
+    
+
     @IBAction func contactFriendFollowRequest(_ sender: Any) {
         guard let friendId = friendId, let currUserId = Auth.auth().currentUser?.uid else {
             return
