@@ -13,7 +13,7 @@ class FirebaseUtil {
     static let db = Firestore.firestore()
 
     static func loadProfileImage(userId: String, completion: @escaping (UIImage?) -> Void) {
-        let ref = Storage.storage().reference().child("images/\(userId)file.png")
+        let ref = Storage.storage().reference().child("images/\(userId)_file.png")
         ref.downloadURL { url, error in
             guard let url = url, error == nil else {
                 completion(nil)
