@@ -60,18 +60,24 @@ class CoffeeMapViewController: UIViewController, MKMapViewDelegate {
         guard !(annotation is MKUserLocation) else { return nil }
 
         let identifier = "CoffeeShopPin"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
 
         if annotationView == nil {
             annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
             annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            
+            // Set the pin color using your asset color
+            if let tagColor = UIColor(named: "TagColor5") {
+                annotationView?.markerTintColor = tagColor
+            }
         } else {
             annotationView?.annotation = annotation
         }
 
         return annotationView
     }
+
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         guard let cafeID = view.annotation?.subtitle else { return }

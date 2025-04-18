@@ -81,9 +81,15 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
         
         reviewsTableView.delegate = self
         reviewsTableView.dataSource = self
-        reviewsTableView.rowHeight = 150
+        reviewsTableView.rowHeight = 250
         
         fetchCafeData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchCafeData()
+        reviewsTableView.reloadData()
     }
     
     func fetchCafeData() {
@@ -92,7 +98,7 @@ class CafeProfileViewController: UIViewController, UITableViewDelegate, UITableV
             return
         }
 
-        print("Fetching data for cafeId: \(cafeId)") // Debugging
+        print("Fetching data for cafeId: \(cafeId)")
 
         db.collection("coffeeShops").document(cafeId).getDocument { (document, error) in
             if let error = error {

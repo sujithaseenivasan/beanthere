@@ -39,7 +39,7 @@ class FeedViewController: UIViewController, UISearchBarDelegate, UITableViewDele
         
         feedTableView.delegate = self
         feedTableView.dataSource = self
-        feedTableView.rowHeight = 300
+        feedTableView.rowHeight = 310
         
         view.addSubview(noFriendsLabel)
             NSLayoutConstraint.activate([

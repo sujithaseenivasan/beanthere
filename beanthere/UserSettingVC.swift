@@ -22,12 +22,10 @@ class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var Email: UITextField!
     @IBOutlet weak var City: UITextField!
     @IBOutlet weak var Phone: UITextField!
-    @IBOutlet weak var Notification: UITextField!
     @IBOutlet weak var nameDummy: UILabel!
     @IBOutlet weak var userNameDummy: UILabel!
     @IBOutlet weak var emailDummy: UILabel!
     @IBOutlet weak var cityDummy: UILabel!
-    @IBOutlet weak var notifDummy: UILabel!
     @IBOutlet weak var phoneDummy: UILabel!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
@@ -99,7 +97,6 @@ override func viewWillAppear(_ animated: Bool) {
         self.Name.text = firstName
         self.City.text = data?["homeCity"] as? String ?? " "
         self.Phone.text = data?["phoneNumber"] as? String ?? " "
-        self.Notification.text = data?["notificationPreferences"] as? String ?? " "
         
         // Store all the information of currently loaded data
         self.loaded_data = data
@@ -152,12 +149,10 @@ override func viewWillAppear(_ animated: Bool) {
         Email.font = UIFont(name: "Lora-SemiBold", size: 17)
         City.font = UIFont(name: "Lora-SemiBold", size: 17)
         Phone.font = UIFont(name: "Lora-SemiBold", size: 17)
-        Notification.font = UIFont(name: "Lora-SemiBold", size: 17)
         nameDummy.font = UIFont(name: "Lora-Bold", size: 17)
         userNameDummy.font = UIFont(name: "Lora-Bold", size: 17)
         emailDummy.font = UIFont(name: "Lora-Bold", size: 17)
         cityDummy.font = UIFont(name: "Lora-Bold", size: 17)
-        notifDummy.font = UIFont(name: "Lora-Bold", size: 17)
         phoneDummy.font = UIFont(name: "Lora-Bold", size: 17)
         editButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
         resetButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
@@ -189,10 +184,7 @@ func didUserInfoChange() -> Bool{
         self.loaded_data!["phoneNumber"] = self.Phone.text
         changed = true
     }
-    if self.loaded_data!["notificationPreferences"] as? String != self.Notification.text {
-        self.loaded_data!["notificationPreferences"] = self.Notification.text
-        changed = true
-    }
+    
     if(didPicChange){
         changed = true
     }
@@ -308,7 +300,6 @@ func didUserInfoChange() -> Bool{
             u_email: self.Email.text,
             u_city: self.City.text,
             u_phone: self.Phone.text,
-            u_notifications: self.Notification.text,
             u_img: self.userImage
         )
 

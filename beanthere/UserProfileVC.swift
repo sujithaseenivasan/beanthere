@@ -22,7 +22,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
     @IBOutlet weak var Email1 : UILabel!
     @IBOutlet weak var City1 : UILabel!
     @IBOutlet weak var Phone1 : UILabel!
-    @IBOutlet weak var Notification1 : UILabel!
     @IBOutlet weak var edit: UIButton!
     @IBOutlet weak var logOut: UIButton!
     @IBOutlet weak var nameDummy: UILabel!
@@ -30,7 +29,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
     @IBOutlet weak var emailDummy: UILabel!
     @IBOutlet weak var cityDummy: UILabel!
     @IBOutlet weak var PhoneDummy: UILabel!
-    @IBOutlet weak var notifDummy: UILabel!
     var userID : String?
     var loaded_data : [String : Any]?
     let editSegue = "editProfileSegue"
@@ -87,7 +85,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
             self.MainName.text = self.Name1.text
             self.City1.text = data?["homeCity"] as? String ?? " "
             self.Phone1.text = data?["phoneNumber"] as? String ?? " "
-            self.Notification1.text = data?["notificationPreferences"] as? String ?? " "
             
             self.fetchUserImage(userId: self.userID!){ image in
                 if let image = image {
@@ -133,12 +130,10 @@ class UserProfileVC: UIViewController, PassUserInfo {
         Email1.font = UIFont(name: "Lora-SemiBold", size: 17)
         City1.font = UIFont(name: "Lora-SemiBold", size: 17)
         Phone1.font = UIFont(name: "Lora-SemiBold", size: 17)
-        Notification1.font = UIFont(name: "Lora-SemiBold", size: 17)
         nameDummy.font = UIFont(name: "Lora-Bold", size: 17)
         usernameDummy.font = UIFont(name: "Lora-Bold", size: 17)
         emailDummy.font = UIFont(name: "Lora-Bold", size: 17)
         cityDummy.font = UIFont(name: "Lora-Bold", size: 17)
-        notifDummy.font = UIFont(name: "Lora-Bold", size: 17)
         PhoneDummy.font = UIFont(name: "Lora-Bold", size: 17)
         edit.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
         logOut.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
@@ -178,7 +173,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
         self.Name1.text = info.u_name
         self.City1.text = info.u_city
         self.Phone1.text = info.u_phone
-        self.Notification1.text = info.u_notifications
     }
     
     // functions that fetches userImages from firebase
