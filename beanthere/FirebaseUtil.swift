@@ -34,31 +34,29 @@ class FirebaseUtil {
             }
 
             let dispatchGroup = DispatchGroup()
-            var images: [UIImage] = []
 
-            for item in result!.items {
+            let sortedItems = result!.items.sorted(by: { $0.name < $1.name })
+            var images: [UIImage?] = Array(repeating: nil, count: sortedItems.count)
+
+            for (index, item) in sortedItems.enumerated() {
                 dispatchGroup.enter()
                 item.downloadURL { url, error in
-                    if let error = error {
-                        print("Error getting image URL for \(item.name): \(error.localizedDescription)")
-                        dispatchGroup.leave()
-                        return
-                    }
-
                     if let url = url {
                         downloadImage(from: url) { image in
-                            if let image = image {
-                                images.append(image)
-                            }
+                            images[index] = image
                             dispatchGroup.leave()
                         }
+                    } else {
+                        dispatchGroup.leave()
                     }
                 }
             }
 
             dispatchGroup.notify(queue: .main) {
-                completion(images.isEmpty ? nil : images)
+                let filtered = images.compactMap { $0 }
+                completion(filtered.isEmpty ? nil : filtered)
             }
+
         }
     }
 
