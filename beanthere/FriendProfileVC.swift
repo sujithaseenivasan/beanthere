@@ -338,10 +338,11 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                     cell.drinkImg.image = images.first ?? UIImage(named: "beantherelogo")// Show first image
                 }
             }
-        
+            if (cell.drinkImg.image == nil){
+                cell.drinkImg.image = self.friendImg.image
+            }
             makeImageOval(cell.drinkImg)
-            //download image from firebase and display it
-            downloadImage(cell.drinkImg)
+            
         }
         return cell
     }
