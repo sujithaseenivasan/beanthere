@@ -23,6 +23,10 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var follow: UIButton!
     @IBOutlet weak var followerDummy: UILabel!
     @IBOutlet weak var followingDummy: UILabel!
+    
+    @IBOutlet weak var followers: UIButton!
+    @IBOutlet weak var following: UIButton!
+    
     @IBOutlet weak var been: UILabel!
     @IBOutlet weak var wantToTry: UILabel!
     @IBOutlet weak var recentActivities: UILabel!
@@ -289,6 +293,15 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         
         
     }
+    
+    
+    @IBAction func followersButton(_ sender: Any) {
+    }
+    
+    @IBAction func followingButton(_ sender: Any) {
+    }
+    
+    
     
     @IBAction func beenBrewButton(_ sender: Any) {
     }

@@ -22,12 +22,13 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     @IBOutlet weak var followingsNum: UILabel!
     @IBOutlet weak var userReviewsTableView: UITableView!
     @IBOutlet weak var settings: UIButton!
-    @IBOutlet weak var followerDummy: UILabel!
-    @IBOutlet weak var followingDummy: UILabel!
+    
     @IBOutlet weak var been: UILabel!
     @IBOutlet weak var wantToTry: UILabel!
     @IBOutlet weak var recs: UILabel!
     @IBOutlet weak var recentActivities: UILabel!
+    @IBOutlet weak var followers: UIButton!
+    @IBOutlet weak var followings: UIButton!
     
     //firestore instance
     let db = Firestore.firestore()
@@ -104,13 +105,13 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         userProfileUsername.font = UIFont(name: "Lora-Regular", size: 15)
         followersNum.font = UIFont(name: "Lora-Regular", size: 14)
         followingsNum.font = UIFont(name: "Lora-Regular", size: 14)
-        followerDummy.font = UIFont(name: "Lora-Regular", size: 15)
-        followingDummy.font = UIFont(name: "Lora-Regular", size: 15)
         been.font = UIFont(name: "Lora-SemiBold", size: 22)
         wantToTry.font = UIFont(name: "Lora-SemiBold", size: 22)
         recs.font = UIFont(name: "Lora-SemiBold", size: 22)
         recentActivities.font = UIFont(name: "Lora-SemiBold", size: 17)
         settings.titleLabel?.font = UIFont(name: "Lora-Bold", size: 15)
+        followers.titleLabel?.font = UIFont(name: "Lora-Regular", size: 15)
+        followings.titleLabel?.font = UIFont(name: "Lora-Regular", size: 15)
     }
     
     
@@ -142,6 +143,13 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
 
+    @IBAction func followerNavButton(_ sender: Any) {
+    }
+    
+    
+    @IBAction func followingNavButton(_ sender: Any) {
+    }
+    
     
    
     //function that segue to the comments tableview ViewController when the comment button is clicked
