@@ -51,9 +51,9 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        viewRequestsLabel.titleLabel?.font = UIFont(name: "Manjari-Bold", size: 16)
-        suggestedForYouLabel.font = UIFont(name: "Manjari-Bold", size: 20)
-        fromYourContactsLabel.font = UIFont(name: "Manjari-Bold", size: 20)
+        viewRequestsLabel.titleLabel?.font = UIFont(name: "Manjari-Bold", size: 20)
+        suggestedForYouLabel.font = UIFont(name: "Manjari-Bold", size: 24)
+        fromYourContactsLabel.font = UIFont(name: "Manjari-Bold", size: 24)
         
         suggestFriendsCollection.delegate = self
         suggestFriendsCollection.dataSource = self
