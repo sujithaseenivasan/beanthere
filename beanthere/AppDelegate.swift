@@ -19,10 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let backButtonAppearance = UIBarButtonItem.appearance()
         backButtonAppearance.setTitleTextAttributes([
-            .foregroundColor: UIColor(hex: "#44241C"),
+            .foregroundColor: UIColor(named: "TextPrimary")!,
             .font: UIFont(name: "Lora-Medium", size: 16)!
         ], for: .normal)
-        UINavigationBar.appearance().tintColor = UIColor(hex: "#44241C")
+        UINavigationBar.appearance().tintColor = UIColor(named: "TextPrimary")
+        
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+        let style: UIUserInterfaceStyle = isDarkMode ? .dark : .light
+        overrideUserInterfaceStyleForAllWindows(style: style)
         
         return true
     }
@@ -40,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
 
 }
 

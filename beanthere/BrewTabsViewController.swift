@@ -41,11 +41,11 @@ class BrewTabsViewController: UIViewController {
         //customize segmented control
         segmentedControl.removeBorders()
         let selectedAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(hex: "#44241C"),
+            .foregroundColor: UIColor(named: "TextPrimary")!,
             .font: UIFont(name: "Lora-SemiBold", size: 17)!
         ]
         let normalAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(hex: "#44241C").withAlphaComponent(0.6),
+            .foregroundColor: UIColor(named: "TextPrimary")!.withAlphaComponent(0.6),
             .font: UIFont(name: "Lora-SemiBold", size: 17)!
         ]
         segmentedControl.setTitleTextAttributes(normalAttributes, for: .normal)
@@ -87,7 +87,7 @@ class BrewTabsViewController: UIViewController {
         let underlineY = segmentedControl.bounds.height - underlineHeight
 
         let underline = UIView(frame: CGRect(x: underlineX, y: underlineY, width: underlineWidth, height: underlineHeight))
-        underline.backgroundColor = UIColor(hex: "#44241C")
+        underline.backgroundColor = UIColor(named: "TextPrimary")
         underline.tag = underlineTag
         segmentedControl.addSubview(underline)
     }

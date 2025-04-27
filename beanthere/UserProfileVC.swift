@@ -35,6 +35,8 @@ class UserProfileVC: UIViewController, PassUserInfo {
     var wentToProfile : Bool = false
     var delegate: PassUserInfoToProfileView?
     
+    @IBOutlet weak var darkModeSwitch: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //change the fonts
@@ -47,6 +49,9 @@ class UserProfileVC: UIViewController, PassUserInfo {
         self.UserImage1.layer.cornerRadius = self.UserImage1.frame.width / 2
         UserImage1.clipsToBounds = true
         self.UserImage1.layer.masksToBounds = true
+        
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+        darkModeSwitch.isOn = isDarkMode
     }
     
     //In will appear that is where we load every instance of settings
@@ -212,6 +217,18 @@ class UserProfileVC: UIViewController, PassUserInfo {
                 completion(nil)
             }
         }
+    }
+    
+    
+    @IBAction func darkModeSwitchToggle(_ sender: UISwitch) {
+        if sender.isOn {
+            overrideUserInterfaceStyleForAllWindows(style: .dark)
+        }
+        else {
+            overrideUserInterfaceStyleForAllWindows(style: .light)
+        }
+        
+        UserDefaults.standard.set(sender.isOn, forKey: "isDarkModeEnabled")
     }
     
     

@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "Screenshot 2025-03-18 at 1.19.44 PM copy Background Removed.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -9,7 +10,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "Screenshot 2025-03-18 at 1.19.44 PM.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
