@@ -31,6 +31,13 @@ class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var save: UIButton!
     
+    private var reviewListener: ListenerRegistration?
+    private var friendIds: [String] = []
+
+    
+    @IBOutlet weak var notificationPreferencesSwitch: UISwitch!
+    
+    
 var loaded_data : [String : Any]?
 var delegate: PassUserInfo?
 private let storageRef = Storage.storage().reference()
@@ -306,7 +313,98 @@ func didUserInfoChange() -> Bool{
         delegate?.populateUserInfo(info: editUserManager)
         self.navigationController?.popViewController(animated: true)
     }
+    
+    
+    @IBAction func notificationPreferencesToggled(_ sender: Any) {
+        if (sender as AnyObject).isOn {
+                requestNotificationPermissionAndStartListening()
+        } else {
+            stopListeningForFriendReviews()
+        }
+    }
+    
+    private func requestNotificationPermissionAndStartListening() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if granted {
+                print("Notification permission granted")
+                self.startListeningForFriendReviews()
+            } else {
+                print("Notification permission denied or error: \(error?.localizedDescription ?? "Unknown error")")
+                DispatchQueue.main.async {
+                    self.notificationPreferencesSwitch.isOn = false
+                }
+            }
+        }
+    }
 
+    private func startListeningForFriendReviews() {
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        let db = Firestore.firestore()
+        
+        // Step 1: Fetch friend IDs
+        let friendsCollection = db.collection("users").document(currentUserId).collection("friendsList")
+        friendsCollection.getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error fetching friends list: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No friends found")
+                return
+            }
+            
+            self.friendIds = documents.compactMap { $0.documentID }
+            
+            if self.friendIds.isEmpty {
+                print("No friends to listen for.")
+                return
+            }
+            
+            print("Friend IDs: \(self.friendIds)")
+            
+            // Step 2: Now set up the listener for friend reviews
+            self.reviewListener = db.collectionGroup("reviews")
+                .whereField("authorId", in: self.friendIds)
+                .addSnapshotListener { snapshot, error in
+                    guard let snapshot = snapshot else {
+                        print("Error fetching friend reviews: \(error?.localizedDescription ?? "Unknown error")")
+                        return
+                    }
+                    for diff in snapshot.documentChanges {
+                        if diff.type == .added {
+                            self.sendLocalNotificationForNewReview()
+                        }
+                    }
+                }
+        }
+    }
+
+            
+
+    private func stopListeningForFriendReviews() {
+        reviewListener?.remove()
+        reviewListener = nil
+        print("Stopped listening for friend reviews.")
+    }
+
+    private func sendLocalNotificationForNewReview() {
+        let content = UNMutableNotificationContent()
+        content.title = "New Friend Review!"
+        content.body = "One of your friends just posted a review ☕️"
+        content.sound = .default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to add notification request: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    
     
     // function for user to change their password
     @IBAction func resetPassword(_ sender: Any) {

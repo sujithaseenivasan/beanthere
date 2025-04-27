@@ -37,6 +37,9 @@ class UserProfileVC: UIViewController, PassUserInfo {
     
     @IBOutlet weak var darkModeSwitch: UISwitch!
     
+    
+    @IBOutlet weak var notificationPreferencesSwitch: UISwitch!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //change the fonts
