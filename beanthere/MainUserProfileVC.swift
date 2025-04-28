@@ -140,14 +140,25 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         else if segue.identifier == "wantToTrySegue",
                 let brewTabsVC = segue.destination as? BrewTabsViewController {
             brewTabsVC.defaultTabIndex = 1
+        } else if segue.identifier == "userFollowersSegue",
+                  let followersVC = segue.destination as? followersNavVC {
+            followersVC.delegate = self
+            followersVC.navUserId = self.userID
+        } else if segue.identifier == "userFollowingSegue",
+                  let followingVC = segue.destination as? followingNavVC {
+            followingVC.delegate = self
+            followingVC.navUserId = self.userID
         }
     }
 
     @IBAction func followerNavButton(_ sender: Any) {
+        performSegue(withIdentifier: "userFollowersSegue", sender: self)
+        
     }
     
     
     @IBAction func followingNavButton(_ sender: Any) {
+        performSegue(withIdentifier: "userFollowingSegue", sender: self)
     }
     
     

@@ -142,45 +142,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             }
         }
     }
-    
-    // functions that fetches userImages from firebase
-    func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
-        let storage = Storage.storage()
-        let imagePath = "images/\(userId)_file.png"
-        let imagePath2 = "images/\(userId)file.png"
-        let imageRef = storage.reference(withPath: imagePath)
-        let imageRef2 = storage.reference(withPath: imagePath2)
-
-        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("Error downloading image: \(error.localizedDescription)")
-                imageRef2.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("Error downloading image: \(error.localizedDescription)")
-                        completion(nil)
-                        return
-                    }
-                    
-                    if let data = data, let image = UIImage(data: data) {
-                        print("Image fetched 2successfully.")
-                        completion(image)
-                    } else {
-                        print("Failed2 to convert data to image.")
-                        completion(nil)
-                    }
-                }
-                return
-            }
-
-            if let data = data, let image = UIImage(data: data) {
-                print("Image fetched successfully.")
-                completion(image)
-            } else {
-                print("Failed to convert data to image.")
-                completion(nil)
-            }
-        }
-    }
 
     
     func fetchUserReviews() {
@@ -296,9 +257,11 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     
     @IBAction func followersButton(_ sender: Any) {
+        performSegue(withIdentifier: "friendFollowersSegue", sender: self)
     }
     
     @IBAction func followingButton(_ sender: Any) {
+        performSegue(withIdentifier: "friendFollowingSegue", sender: self)
     }
     
     
@@ -332,6 +295,17 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             commentVC.modalPresentationStyle = .overCurrentContext
             self.definesPresentationContext = true
         }
+        
+        else if segue.identifier == "friendFollowersSegue",
+                  let followersVC = segue.destination as? followersNavVC {
+            followersVC.delegate = self
+            followersVC.navUserId = self.friendID
+        } else if segue.identifier == "friendFollowingSegue",
+                  let followingVC = segue.destination as? followingNavVC {
+            followingVC.delegate = self
+            followingVC.navUserId = self.friendID
+        }
+        
         
     }
     
