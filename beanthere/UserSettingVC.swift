@@ -31,8 +31,12 @@ class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var save: UIButton!
     
-    private var reviewListener: ListenerRegistration?
+    @IBOutlet weak var notifPreferencesLabel: UILabel!
+    private var reviewListeners: [String: ListenerRegistration] = [:]
+
     private var friendIds: [String] = []
+    private var friendReviewCounts: [String: Int] = [:] // friendId -> number of reviews known
+
 
     
     @IBOutlet weak var notificationPreferencesSwitch: UISwitch!
@@ -58,13 +62,24 @@ override func viewDidLoad() {
     editButton.titleLabel?.baselineAdjustment = .alignCenters
     editButton.setTitle("Edit profile", for: .normal)
 
-
+    NotificationCenter.default.addObserver(self, selector: #selector(startFriendListenerFromNotification), name: .startFriendReviewListener, object: nil)
 }
+    
+    @objc func startFriendListenerFromNotification() {
+        self.startListeningIfPermissionAlreadyGranted()
+    }
+
     
 
 //In will appear that is where we load every instance of settings
 override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    
+    // Restore notification toggle state
+    let notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
+    self.notificationPreferencesSwitch.isOn = notificationsEnabled
+
+    
     // Use Firebase Auth to get the currently authenticated user's UID
     guard let currentUID = Auth.auth().currentUser?.uid else {
         print("No authenticated user found.")
@@ -162,6 +177,7 @@ override func viewWillAppear(_ animated: Bool) {
         cityDummy.font = UIFont(name: "Lora-Bold", size: 17)
         phoneDummy.font = UIFont(name: "Lora-Bold", size: 17)
         editButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
+        notifPreferencesLabel.font = UIFont(name: "Lora-Bold", size: 17)
         resetButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
         save.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
     }
@@ -316,14 +332,19 @@ func didUserInfoChange() -> Bool{
     
     
     @IBAction func notificationPreferencesToggled(_ sender: Any) {
-        if (sender as AnyObject).isOn {
-                requestNotificationPermissionAndStartListening()
+        guard let toggle = sender as? UISwitch else { return }
+
+        if toggle.isOn {
+            UserDefaults.standard.set(true, forKey: "notificationsEnabled")
+            requestNotificationPermissionAndStartListening()
+            NotificationManager.shared.startListeningIfNeeded()
         } else {
-            stopListeningForFriendReviews()
+            UserDefaults.standard.set(false, forKey: "notificationsEnabled")
+            NotificationManager.shared.stopListening()
         }
     }
     
-    private func requestNotificationPermissionAndStartListening() {
+    func requestNotificationPermissionAndStartListening() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
             if granted {
                 print("Notification permission granted")
@@ -336,57 +357,100 @@ func didUserInfoChange() -> Bool{
             }
         }
     }
+    
+    func startListeningIfPermissionAlreadyGranted() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            if settings.authorizationStatus == .authorized {
+                DispatchQueue.main.async {
+                    self.startListeningForFriendReviews()
+                }
+            } else {
+                print("Notifications not authorized")
+            }
+        }
+    }
+
 
     private func startListeningForFriendReviews() {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         let db = Firestore.firestore()
         
         // Step 1: Fetch friend IDs
-        let friendsCollection = db.collection("users").document(currentUserId).collection("friendsList")
-        friendsCollection.getDocuments { (snapshot, error) in
+        let userDoc = db.collection("users").document(currentUserId)
+
+        userDoc.getDocument { (snapshot, error) in
             if let error = error {
-                print("Error fetching friends list: \(error.localizedDescription)")
+                print("Error fetching user document: \(error.localizedDescription)")
                 return
             }
             
-            guard let documents = snapshot?.documents else {
-                print("No friends found")
+            guard let data = snapshot?.data() else {
+                print("User document is empty")
                 return
             }
             
-            self.friendIds = documents.compactMap { $0.documentID }
+            self.friendIds = data["friendsList"] as? [String] ?? []
             
             if self.friendIds.isEmpty {
-                print("No friends to listen for.")
+                print("No friends found.")
                 return
             }
             
             print("Friend IDs: \(self.friendIds)")
             
-            // Step 2: Now set up the listener for friend reviews
-            self.reviewListener = db.collectionGroup("reviews")
-                .whereField("authorId", in: self.friendIds)
-                .addSnapshotListener { snapshot, error in
-                    guard let snapshot = snapshot else {
-                        print("Error fetching friend reviews: \(error?.localizedDescription ?? "Unknown error")")
-                        return
-                    }
-                    for diff in snapshot.documentChanges {
-                        if diff.type == .added {
-                            self.sendLocalNotificationForNewReview()
+            // Now you can set up your listener:
+            for friendId in self.friendIds {
+                let listener = db.collection("users").document(friendId)
+                    .addSnapshotListener { snapshot, error in
+                        guard let snapshot = snapshot else {
+                            print("Error fetching friend document: \(error?.localizedDescription ?? "Unknown error")")
+                            return
                         }
-                    }
-                }
-        }
-    }
 
-            
+                        let reviews = snapshot.data()?["reviews"] as? [String] ?? []
+                        let currentCount = reviews.count
+                        let previousCount = self.friendReviewCounts[friendId] ?? 0
+
+                        // Check if a new review was added
+                        if currentCount > previousCount {
+                            self.sendLocalNotificationForNewReview()
+                            print("New review detected for friend \(friendId)")
+                        }
+
+                        // Update stored count
+                        self.friendReviewCounts[friendId] = currentCount
+                    }
+
+                // Save this listener!
+                self.reviewListeners[friendId] = listener
+
+
+                let reviews = snapshot?.data()?["reviews"] as? [String] ?? []
+                        let currentCount = reviews.count
+                        let previousCount = self.friendReviewCounts[friendId] ?? 0
+
+                        // Check if a new review was added
+                        if currentCount > previousCount {
+                            self.sendLocalNotificationForNewReview()
+                            print("New review detected for friend \(friendId)")
+                        }
+
+                        // Update stored count
+                        self.friendReviewCounts[friendId] = currentCount
+                    }
+            }
+
+        }
+
 
     private func stopListeningForFriendReviews() {
-        reviewListener?.remove()
-        reviewListener = nil
-        print("Stopped listening for friend reviews.")
+        for (_, listener) in reviewListeners {
+            listener.remove()
+        }
+        reviewListeners.removeAll()
+        print("Stopped listening to all friend reviews.")
     }
+
 
     private func sendLocalNotificationForNewReview() {
         let content = UNMutableNotificationContent()
@@ -415,6 +479,9 @@ func didUserInfoChange() -> Bool{
 
     
     
+extension Notification.Name {
+    static let startFriendReviewListener = Notification.Name("startFriendReviewListener")
+}
 
     
 

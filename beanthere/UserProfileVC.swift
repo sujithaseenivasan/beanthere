@@ -55,11 +55,20 @@ class UserProfileVC: UIViewController, PassUserInfo {
         
         let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
         darkModeSwitch.isOn = isDarkMode
+        
+        let notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
+            notificationPreferencesSwitch.isOn = notificationsEnabled
+
+            notificationPreferencesSwitch.isUserInteractionEnabled = false
     }
     
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
+            notificationPreferencesSwitch.isOn = notificationsEnabled
+
+            notificationPreferencesSwitch.isUserInteractionEnabled = false
         wentToProfile = true
         print("THE WENT PROFILE BOOL VIEWWILLAPPEAR \(wentToProfile)")
         
