@@ -80,13 +80,14 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             contactsFriendsCollection.isHidden = true
         }
         
-        loadSuggestedFriends()
+//        loadSuggestedFriends()
+        fetchCurrentUserRequests(firstLoad: true)
     }
     
     // ADDED FOR THE DEMO
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchCurrentUserRequests(firstLoad: true)
+        fetchCurrentUserRequests()
     }
     
     private func fetchCurrentUserRequests(firstLoad: Bool = false) {
@@ -232,6 +233,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
     }
     
     func loadSuggestedFriends() {
+        self.suggestedFriends.removeAll()
         guard let currentUserId = Auth.auth().currentUser?.uid else {
             return
         }
