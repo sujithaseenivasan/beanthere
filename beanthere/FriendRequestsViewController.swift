@@ -47,6 +47,11 @@ class FriendRequestsViewController: UIViewController, UITableViewDelegate, UITab
         loadFriendRequests()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadFriendRequests()
+    }
+    
     func loadFriendRequests() {
         guard let currentUserId = self.currentUserId else { return }
         let db = Firestore.firestore()
