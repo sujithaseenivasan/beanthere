@@ -33,7 +33,7 @@ class UserProfileVC: UIViewController, PassUserInfo, UIPickerViewDelegate, UIPic
     var loaded_data : [String : Any]?
     let editSegue = "editProfileSegue"
     var wentToProfile : Bool = false
-    var delegate: PassUserInfoToProfileView?
+    var delegate: UIViewController?
     
     
     @IBOutlet weak var notifPrefsLabel: UILabel!
@@ -137,7 +137,7 @@ class UserProfileVC: UIViewController, PassUserInfo, UIPickerViewDelegate, UIPic
             self.City1.text = data?["homeCity"] as? String ?? " "
             self.Phone1.text = data?["phoneNumber"] as? String ?? " "
             
-            self.fetchUserImage(userId: self.userID!){ image in
+            fetchUserImage(userId: self.userID!){ image in
                 if let image = image {
                     DispatchQueue.main.async {
                         self.UserImage1.image = image
@@ -155,26 +155,6 @@ class UserProfileVC: UIViewController, PassUserInfo, UIPickerViewDelegate, UIPic
         darkModeSwitch.isOn = darkModeOn
     }
 
-    
-    //When the viewDisappear pass the data back to the main profile
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(true)
-        let editUserManager = UserManager(
-            u_userID: Auth.auth().currentUser?.uid ?? "",
-            u_name : self.Name1.text,
-            u_username: self.UserName1.text,
-            u_img: self.UserImage1
-        )
-        if(wentToProfile){
-            print ("ENTERED THE VIEWDID DISAPPEAR")
-            delegate!.populateUserInfoToProfileView(info: editUserManager)
-        } else {
-            print ("DIDN'T ENTERED THE VIEWDID DISAPPEAR")
-
-        }
-       
-        
-    }
     
     //function that changes all the fonts
     func changeFonts() {
@@ -222,54 +202,10 @@ class UserProfileVC: UIViewController, PassUserInfo, UIPickerViewDelegate, UIPic
     
     //function to populate user informations in the struct and pass it along
     func populateUserInfo(info: UserManager) {
-        print("WENT IN FUNCTION SEGUE")
-        
         self.UserName1.text = info.u_username
         self.Email1.text = info.u_email
         self.Name1.text = info.u_name
         self.City1.text = info.u_city
         self.Phone1.text = info.u_phone
     }
-    
-    // functions that fetches userImages from firebase
-    func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
-        let storage = Storage.storage()
-        let imagePath = "images/\(userId)_file.png"
-        let imagePath2 = "images/\(userId)file.png"
-        let imageRef = storage.reference(withPath: imagePath)
-        let imageRef2 = storage.reference(withPath: imagePath2)
-
-        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("Error downloading image: \(error.localizedDescription)")
-                imageRef2.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("Error downloading image: \(error.localizedDescription)")
-                        completion(nil)
-                        return
-                    }
-                    
-                    if let data = data, let image = UIImage(data: data) {
-                        print("Image fetched 2successfully.")
-                        completion(image)
-                    } else {
-                        print("Failed2 to convert data to image.")
-                        completion(nil)
-                    }
-                }
-                return
-            }
-
-            if let data = data, let image = UIImage(data: data) {
-                print("Image fetched successfully.")
-                completion(image)
-            } else {
-                print("Failed to convert data to image.")
-                completion(nil)
-            }
-        }
-    }
-    
-    
-    
 }
