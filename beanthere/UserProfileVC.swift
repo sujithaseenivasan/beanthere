@@ -12,7 +12,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-class UserProfileVC: UIViewController, PassUserInfo {
+class UserProfileVC: UIViewController, PassUserInfo, UIPickerViewDelegate, UIPickerViewDataSource {
     
     
     @IBOutlet weak var MainName : UILabel!
@@ -36,8 +36,12 @@ class UserProfileVC: UIViewController, PassUserInfo {
     var delegate: PassUserInfoToProfileView?
     
     
+    @IBOutlet weak var notifPrefsLabel: UILabel!
+    @IBOutlet weak var darkModeLabel: UILabel!
     @IBOutlet weak var darkModeSwitch: UISwitch!
-    @IBOutlet weak var notificationPreferencesSwitch: UISwitch!
+
+    @IBOutlet weak var notificationPreferencesPicker: UIPickerView!
+    var notificationOptions = ["Off", "Every Minute", "Hourly", "Daily"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,19 +60,49 @@ class UserProfileVC: UIViewController, PassUserInfo {
         darkModeSwitch.isOn = darkModeOn
         darkModeSwitch.isUserInteractionEnabled = false
         
-        let notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
-            notificationPreferencesSwitch.isOn = notificationsEnabled
+        notificationPreferencesPicker.delegate = self
+        notificationPreferencesPicker.dataSource = self
+        
+        notificationPreferencesPicker.isUserInteractionEnabled = false
+        
+        if let savedOption = UserDefaults.standard.string(forKey: "NotificationFrequency"),
+           let savedRow = notificationOptions.firstIndex(of: savedOption) {
+            notificationPreferencesPicker.selectRow(savedRow, inComponent: 0, animated: false)
+        } else if let offRow = notificationOptions.firstIndex(of: "Off") {
+            notificationPreferencesPicker.selectRow(offRow, inComponent: 0, animated: false)
+        }
+    }
 
-            notificationPreferencesSwitch.isUserInteractionEnabled = false
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return notificationOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = UILabel()
+        label.text = notificationOptions[row]
+        label.textAlignment = .center
+        label.font = UIFont(name: "Lora-SemiBold", size: 17)
+        label.textColor = .darkGray
+
+        return label
     }
     
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
-            notificationPreferencesSwitch.isOn = notificationsEnabled
+        
+        if let savedOption = UserDefaults.standard.string(forKey: "NotificationFrequency"),
+           let savedRow = notificationOptions.firstIndex(of: savedOption) {
+            notificationPreferencesPicker.selectRow(savedRow, inComponent: 0, animated: false)
+        } else if let offRow = notificationOptions.firstIndex(of: "Off") {
+            notificationPreferencesPicker.selectRow(offRow, inComponent: 0, animated: false)
+        }
 
-            notificationPreferencesSwitch.isUserInteractionEnabled = false
         wentToProfile = true
         print("THE WENT PROFILE BOOL VIEWWILLAPPEAR \(wentToProfile)")
         
@@ -143,7 +177,7 @@ class UserProfileVC: UIViewController, PassUserInfo {
     }
     
     //function that changes all the fonts
-    func changeFonts(){
+    func changeFonts() {
         MainName.font = UIFont(name: "Lora-SemiBold", size: 15)
         Name1.font = UIFont(name: "Lora-Regular", size: 15)
         UserName1.font = UIFont(name: "Lora-Regular", size: 15)
@@ -157,6 +191,8 @@ class UserProfileVC: UIViewController, PassUserInfo {
         PhoneDummy.font = UIFont(name: "Lora-Bold", size: 17)
         edit.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
         logOut.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
+        notifPrefsLabel.font = UIFont(name: "Lora-Bold", size: 17)
+        darkModeLabel.font = UIFont(name: "Lora-Bold", size: 17)
     }
     
     //go to edit profile

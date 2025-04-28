@@ -14,7 +14,7 @@ import FirebaseStorage
 // tabView struct
 //struct TabView<SelectionValue, Content> where Selection
 //Value : Hashable, Content : View
-class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var Username: UITextField!
     @IBOutlet weak var Name: UITextField!
@@ -38,9 +38,9 @@ class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     private var friendReviewCounts: [String: Int] = [:] // friendId -> number of reviews known
 
 
-    
-    @IBOutlet weak var notificationPreferencesSwitch: UISwitch!
-    
+
+    @IBOutlet weak var notificationPicker: UIPickerView!
+    var notificationOptions = ["Off", "Every Minute", "Hourly", "Daily"]
     
     @IBOutlet weak var darkModeSwitch: UISwitch!
     
@@ -52,6 +52,18 @@ class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     
 override func viewDidLoad() {
     super.viewDidLoad()
+    notificationPicker.delegate = self
+    notificationPicker.dataSource = self
+    // Load saved preference
+    if let savedOption = UserDefaults.standard.string(forKey: "NotificationFrequency"),
+       let savedRow = notificationOptions.firstIndex(of: savedOption) {
+        notificationPicker.selectRow(savedRow, inComponent: 0, animated: false)
+        scheduleNotification(for: savedOption)
+    } else {
+        // Default to "Off" if nothing saved
+        scheduleNotification(for: "Off")
+    }
+    
     changeFonts()
     //make image round
     makeImageOval(userImage)
@@ -66,24 +78,86 @@ override func viewDidLoad() {
     
     let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
     darkModeSwitch.isOn = isDarkMode
-
-    NotificationCenter.default.addObserver(self, selector: #selector(startFriendListenerFromNotification), name: .startFriendReviewListener, object: nil)
 }
     
-    @objc func startFriendListenerFromNotification() {
-        self.startListeningIfPermissionAlreadyGranted()
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return notificationOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = UILabel()
+        label.text = notificationOptions[row]
+        label.textAlignment = .center
+        label.font = UIFont(name: "Lora-SemiBold", size: 17) // Your custom font
+        label.textColor = .darkGray
+
+        return label
+    }
+
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let selectedOption = notificationOptions[row]
+        UserDefaults.standard.set(selectedOption, forKey: "NotificationFrequency")
+        scheduleNotification(for: selectedOption)
+    }
+    
+
+
+    
+    private func scheduleNotification(for option: String) {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+
+        let content = UNMutableNotificationContent()
+        content.title = "New Friend Review!"
+        content.body = "One of your friends just posted a review ☕️"
+        content.sound = .default
+
+        var trigger: UNNotificationTrigger?
+
+        switch option {
+        case "Off":
+            // Don't schedule anything
+            return
+
+        case "Every Minute":
+            trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+
+        case "Hourly":
+            var dateComponents = DateComponents()
+            dateComponents.minute = 0
+            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+        case "Daily":
+            var dateComponents = DateComponents()
+            dateComponents.hour = 9
+            dateComponents.minute = 0
+            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+
+        default:
+            break
+        }
+
+        if let trigger = trigger {
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Failed to add notification request: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+
 
     
 
 //In will appear that is where we load every instance of settings
 override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    // Restore notification toggle state
-    let notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
-    self.notificationPreferencesSwitch.isOn = notificationsEnabled
-
     
     // Use Firebase Auth to get the currently authenticated user's UID
     guard let currentUID = Auth.auth().currentUser?.uid else {
@@ -335,126 +409,6 @@ func didUserInfoChange() -> Bool{
         self.navigationController?.popViewController(animated: true)
     }
     
-    
-    @IBAction func notificationPreferencesToggled(_ sender: Any) {
-        guard let toggle = sender as? UISwitch else { return }
-
-        if toggle.isOn {
-            UserDefaults.standard.set(true, forKey: "notificationsEnabled")
-            requestNotificationPermissionAndStartListening()
-            NotificationManager.shared.startListeningIfNeeded()
-        } else {
-            UserDefaults.standard.set(false, forKey: "notificationsEnabled")
-            NotificationManager.shared.stopListening()
-        }
-    }
-    
-    func requestNotificationPermissionAndStartListening() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
-            if granted {
-                print("Notification permission granted")
-                self.startListeningForFriendReviews()
-            } else {
-                print("Notification permission denied or error: \(error?.localizedDescription ?? "Unknown error")")
-                DispatchQueue.main.async {
-                    self.notificationPreferencesSwitch.isOn = false
-                }
-            }
-        }
-    }
-    
-    func startListeningIfPermissionAlreadyGranted() {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            if settings.authorizationStatus == .authorized {
-                DispatchQueue.main.async {
-                    self.startListeningForFriendReviews()
-                }
-            } else {
-                print("Notifications not authorized")
-            }
-        }
-    }
-
-
-    private func startListeningForFriendReviews() {
-        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        let db = Firestore.firestore()
-        
-        // Step 1: Fetch friend IDs
-        let userDoc = db.collection("users").document(currentUserId)
-
-        userDoc.getDocument { (snapshot, error) in
-            if let error = error {
-                print("Error fetching user document: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let data = snapshot?.data() else {
-                print("User document is empty")
-                return
-            }
-            
-            self.friendIds = data["friendsList"] as? [String] ?? []
-            
-            if self.friendIds.isEmpty {
-                print("No friends found.")
-                return
-            }
-            
-            print("Friend IDs: \(self.friendIds)")
-            
-            // Now you can set up your listener:
-            for friendId in self.friendIds {
-                let listener = db.collection("users").document(friendId)
-                    .addSnapshotListener { snapshot, error in
-                        guard let snapshot = snapshot else {
-                            print("Error fetching friend document: \(error?.localizedDescription ?? "Unknown error")")
-                            return
-                        }
-
-                        let reviews = snapshot.data()?["reviews"] as? [String] ?? []
-                        let currentCount = reviews.count
-                        let previousCount = self.friendReviewCounts[friendId] ?? 0
-
-                        // Check if a new review was added
-                        if currentCount > previousCount {
-                            self.sendLocalNotificationForNewReview()
-                            print("New review detected for friend \(friendId)")
-                        }
-
-                        // Update stored count
-                        self.friendReviewCounts[friendId] = currentCount
-                    }
-
-                // Save this listener!
-                self.reviewListeners[friendId] = listener
-
-
-                let reviews = snapshot?.data()?["reviews"] as? [String] ?? []
-                        let currentCount = reviews.count
-                        let previousCount = self.friendReviewCounts[friendId] ?? 0
-
-                        // Check if a new review was added
-                        if currentCount > previousCount {
-                            self.sendLocalNotificationForNewReview()
-                            print("New review detected for friend \(friendId)")
-                        }
-
-                        // Update stored count
-                        self.friendReviewCounts[friendId] = currentCount
-                    }
-            }
-
-        }
-
-
-    private func stopListeningForFriendReviews() {
-        for (_, listener) in reviewListeners {
-            listener.remove()
-        }
-        reviewListeners.removeAll()
-        print("Stopped listening to all friend reviews.")
-    }
 
 
     private func sendLocalNotificationForNewReview() {
@@ -494,11 +448,6 @@ func didUserInfoChange() -> Bool{
     
 }
 
-    
-    
-extension Notification.Name {
-    static let startFriendReviewListener = Notification.Name("startFriendReviewListener")
-}
 
     
 
