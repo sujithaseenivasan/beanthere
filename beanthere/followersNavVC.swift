@@ -17,6 +17,7 @@ class followersNavVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     var navUserId: String?
     var delegate: UIViewController!
     var followersList:[Friends] = []
+    var isUserProfile: Bool = false
     
     
     override func viewDidLoad() {
@@ -48,6 +49,8 @@ class followersNavVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             cell.userName.text = userFollower.username
             cell.userImage.image = userFollower.picture
             makeImageOval(cell.userImage)
+            //hid the delete button if it is not the user that segued there
+        cell.deleteButton.isHidden = !isUserProfile
         return cell
         
         
@@ -64,5 +67,11 @@ class followersCell: UITableViewCell{
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userImage: UIImageView!
+    
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    @IBAction func deleteButtonPressed(_ sender: Any) {
+        delegate.dismiss(animated: true, completion: nil)
+    }
     
 }

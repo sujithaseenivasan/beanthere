@@ -56,5 +56,11 @@ class followingCell: UITableViewCell{
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    @IBAction func deleteButtonPressed(_ sender: Any) {
+        delegate.dismiss(animated: true, completion: nil)
+    }
+    
     
 }

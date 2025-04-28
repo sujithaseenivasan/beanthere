@@ -144,6 +144,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                   let followersVC = segue.destination as? followersNavVC {
             followersVC.delegate = self
             followersVC.navUserId = self.userID
+            followersVC.isUserProfile = true
         } else if segue.identifier == "userFollowingSegue",
                   let followingVC = segue.destination as? followingNavVC {
             followingVC.delegate = self

@@ -707,7 +707,7 @@
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="filled" title="Delete">
                                                         <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
-                                                        <color key="baseBackgroundColor" name="SecondaryText"/>
+                                                        <color key="baseBackgroundColor" red="0.76470588235294112" green="0.59999999999999998" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </buttonConfiguration>
                                                     <connections>
                                                         <action selector="deleteFriendRequest:" destination="XLw-UH-GrU" eventType="touchUpInside" id="jhl-Lb-kPd"/>
@@ -3035,8 +3035,20 @@
                                                     <color key="textColor" name="TextPrimary"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HGg-7W-EMt">
+                                                    <rect key="frame" x="316" y="43" width="74" height="35"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="filled" title="Delete">
+                                                        <color key="baseBackgroundColor" red="0.76470588235294112" green="0.59999999999999998" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="deleteButtonPressed:" destination="ayh-48-Pl9" eventType="touchUpInside" id="eaH-eh-rbC"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="HGg-7W-EMt" firstAttribute="top" secondItem="LxR-3r-wSp" secondAttribute="topMargin" constant="32" id="1Nb-Vy-EX1"/>
+                                                <constraint firstItem="HGg-7W-EMt" firstAttribute="trailing" secondItem="LxR-3r-wSp" secondAttribute="trailingMargin" constant="8" id="54M-Kq-j7B"/>
                                                 <constraint firstItem="V7y-bh-zjx" firstAttribute="leading" secondItem="eVQ-17-8nn" secondAttribute="trailing" constant="21" id="5XX-pM-k5Q"/>
                                                 <constraint firstItem="V7y-bh-zjx" firstAttribute="top" secondItem="suT-8Q-ldr" secondAttribute="bottom" constant="10" id="7Ew-5E-P86"/>
                                                 <constraint firstItem="eVQ-17-8nn" firstAttribute="top" secondItem="LxR-3r-wSp" secondAttribute="topMargin" constant="16" id="D9P-KP-jfo"/>
@@ -3049,6 +3061,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="BackgroundPrimary"/>
                                         <connections>
+                                            <outlet property="deleteButton" destination="HGg-7W-EMt" id="knm-5q-BUb"/>
                                             <outlet property="name" destination="suT-8Q-ldr" id="0dt-Gj-J8P"/>
                                             <outlet property="userImage" destination="eVQ-17-8nn" id="Iv2-MW-TuA"/>
                                             <outlet property="userName" destination="V7y-bh-zjx" id="fZo-pH-3NB"/>
@@ -3134,13 +3147,25 @@
                                                     <color key="textColor" name="TextPrimary"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHN-yZ-VOK">
+                                                    <rect key="frame" x="316" y="43" width="74" height="35"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="filled" title="Delete">
+                                                        <color key="baseBackgroundColor" red="0.76470588240000004" green="0.59999999999999998" blue="0.41960784309999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <action selector="deleteButtonPressed:" destination="isL-kW-Ouy" eventType="touchUpInside" id="O2P-0e-Jvy"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="md0-Cs-mb9" secondAttribute="trailing" constant="16" id="1ea-vd-nP1"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="p0w-iY-9Ll" secondAttribute="trailing" constant="16" id="8YQ-yD-UHo"/>
                                                 <constraint firstItem="nPT-ML-Imc" firstAttribute="leading" secondItem="odR-kl-yfu" secondAttribute="leadingMargin" constant="16" id="8tn-NI-cfO"/>
                                                 <constraint firstItem="md0-Cs-mb9" firstAttribute="top" secondItem="odR-kl-yfu" secondAttribute="topMargin" constant="16" id="FdM-G2-IeW"/>
+                                                <constraint firstItem="fHN-yZ-VOK" firstAttribute="trailing" secondItem="odR-kl-yfu" secondAttribute="trailingMargin" constant="8" id="J9A-dH-57J"/>
                                                 <constraint firstItem="nPT-ML-Imc" firstAttribute="top" secondItem="odR-kl-yfu" secondAttribute="topMargin" constant="16" id="VaP-oF-tmV"/>
+                                                <constraint firstItem="fHN-yZ-VOK" firstAttribute="top" secondItem="odR-kl-yfu" secondAttribute="topMargin" constant="32" id="VuR-lM-Lz0"/>
                                                 <constraint firstItem="md0-Cs-mb9" firstAttribute="leading" secondItem="nPT-ML-Imc" secondAttribute="trailing" constant="21" id="eX4-Gz-hoZ"/>
                                                 <constraint firstItem="p0w-iY-9Ll" firstAttribute="leading" secondItem="nPT-ML-Imc" secondAttribute="trailing" constant="21" id="eYa-a3-YuG"/>
                                                 <constraint firstItem="p0w-iY-9Ll" firstAttribute="top" secondItem="md0-Cs-mb9" secondAttribute="bottom" constant="10" id="ygq-JG-xxb"/>
@@ -3148,6 +3173,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="BackgroundPrimary"/>
                                         <connections>
+                                            <outlet property="deleteButton" destination="fHN-yZ-VOK" id="6hW-nu-w5q"/>
                                             <outlet property="name" destination="md0-Cs-mb9" id="2Y1-my-OEm"/>
                                             <outlet property="userImage" destination="nPT-ML-Imc" id="TPl-Xo-8H0"/>
                                             <outlet property="userName" destination="p0w-iY-9Ll" id="0WB-iC-bZ2"/>
