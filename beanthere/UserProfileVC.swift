@@ -35,9 +35,8 @@ class UserProfileVC: UIViewController, PassUserInfo {
     var wentToProfile : Bool = false
     var delegate: PassUserInfoToProfileView?
     
+    
     @IBOutlet weak var darkModeSwitch: UISwitch!
-    
-    
     @IBOutlet weak var notificationPreferencesSwitch: UISwitch!
     
     override func viewDidLoad() {
@@ -53,8 +52,9 @@ class UserProfileVC: UIViewController, PassUserInfo {
         UserImage1.clipsToBounds = true
         self.UserImage1.layer.masksToBounds = true
         
-        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
-        darkModeSwitch.isOn = isDarkMode
+        let darkModeOn = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+        darkModeSwitch.isOn = darkModeOn
+        darkModeSwitch.isUserInteractionEnabled = false
         
         let notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
             notificationPreferencesSwitch.isOn = notificationsEnabled
@@ -116,6 +116,9 @@ class UserProfileVC: UIViewController, PassUserInfo {
             self.loaded_data = data
             
         }
+        
+        let darkModeOn = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+        darkModeSwitch.isOn = darkModeOn
     }
 
     
@@ -231,17 +234,6 @@ class UserProfileVC: UIViewController, PassUserInfo {
         }
     }
     
-    
-    @IBAction func darkModeSwitchToggle(_ sender: UISwitch) {
-        if sender.isOn {
-            overrideUserInterfaceStyleForAllWindows(style: .dark)
-        }
-        else {
-            overrideUserInterfaceStyleForAllWindows(style: .light)
-        }
-        
-        UserDefaults.standard.set(sender.isOn, forKey: "isDarkModeEnabled")
-    }
     
     
 }

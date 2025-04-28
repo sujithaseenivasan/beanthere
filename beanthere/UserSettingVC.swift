@@ -42,10 +42,12 @@ class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var notificationPreferencesSwitch: UISwitch!
     
     
-var loaded_data : [String : Any]?
-var delegate: PassUserInfo?
-private let storageRef = Storage.storage().reference()
-var didPicChange = false
+    @IBOutlet weak var darkModeSwitch: UISwitch!
+    
+    var loaded_data : [String : Any]?
+    var delegate: PassUserInfo?
+    private let storageRef = Storage.storage().reference()
+    var didPicChange = false
 
     
 override func viewDidLoad() {
@@ -60,7 +62,10 @@ override func viewDidLoad() {
     editButton.titleLabel?.lineBreakMode = .byTruncatingTail
     editButton.titleLabel?.adjustsFontSizeToFitWidth = true
     editButton.titleLabel?.baselineAdjustment = .alignCenters
-    editButton.setTitle("Edit profile", for: .normal)
+    editButton.setTitle("Edit Picture", for: .normal)
+    
+    let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+    darkModeSwitch.isOn = isDarkMode
 
     NotificationCenter.default.addObserver(self, selector: #selector(startFriendListenerFromNotification), name: .startFriendReviewListener, object: nil)
 }
@@ -473,6 +478,18 @@ func didUserInfoChange() -> Bool{
     // function for user to change their password
     @IBAction func resetPassword(_ sender: Any) {
         changePassword((Auth.auth().currentUser!.email)!)
+    }
+    
+    
+    @IBAction func darkModeTogglePressed(_ sender: UISwitch) {
+        if sender.isOn {
+            overrideUserInterfaceStyleForAllWindows(style: .dark)
+        }
+        else {
+            overrideUserInterfaceStyleForAllWindows(style: .light)
+        }
+        
+        UserDefaults.standard.set(sender.isOn, forKey: "isDarkModeEnabled")
     }
     
 }

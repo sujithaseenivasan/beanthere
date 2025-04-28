@@ -62,6 +62,7 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vns-af-SVG">
                                 <rect key="frame" x="73.666666666666686" y="373.33333333333331" width="246" height="34"/>
+                                <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="246" id="wzU-ma-DJV"/>
                                 </constraints>
@@ -101,6 +102,7 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="98K-B5-Vg6">
                                 <rect key="frame" x="73.666666666666686" y="422.33333333333331" width="246" height="34"/>
+                                <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="246" id="yCN-f5-Pic"/>
                                 </constraints>
@@ -178,6 +180,7 @@
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w2n-6e-ROs">
                                 <rect key="frame" x="61" y="376" width="271" height="34"/>
+                                <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="271" id="WTX-8k-rPZ"/>
                                 </constraints>
@@ -186,6 +189,7 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F5V-cG-6zm">
                                 <rect key="frame" x="61" y="418" width="271" height="34"/>
+                                <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="271" id="ChS-YF-KBF"/>
                                 </constraints>
@@ -194,6 +198,7 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4hg-rt-wck">
                                 <rect key="frame" x="61" y="460" width="271" height="34"/>
+                                <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="271" id="3Lz-c1-evq"/>
                                 </constraints>
@@ -202,6 +207,7 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HDN-4U-Pnc">
                                 <rect key="frame" x="61" y="502" width="271" height="34"/>
+                                <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="271" id="Xsj-ur-oeA"/>
                                 </constraints>
@@ -210,6 +216,7 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cin-bO-Te0">
                                 <rect key="frame" x="61" y="544" width="271" height="34"/>
+                                <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="271" id="oq8-YM-LjA"/>
                                 </constraints>
@@ -218,6 +225,7 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Reenter Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fcU-ou-yXL">
                                 <rect key="frame" x="61" y="586" width="271" height="34"/>
+                                <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="271" id="v5h-lT-vH6"/>
                                 </constraints>
@@ -380,20 +388,21 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="she-BZ-BEy"/>
         <segue reference="Mim-3s-xyL"/>
-        <segue reference="cby-5d-R0P"/>
+        <segue reference="YYH-35-hXi"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="beantherelogo" width="500" height="500"/>
         <image name="beantherelogosecondary" width="500" height="500"/>
         <namedColor name="BackgroundPrimary">
-            <color red="1" green="0.93725490196078431" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.93699997663497925" blue="0.88599997758865356" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="NavigationBar">
-            <color red="0.52156862745098043" green="0.32941176470588235" blue="0.23137254901960785" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5220000147819519" green="0.32899999618530273" blue="0.23100000619888306" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="TextPrimary">
-            <color red="0.26666666666666666" green="0.14117647058823529" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.2669999897480011" green="0.14100000262260437" blue="0.10999999940395355" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
