@@ -30,6 +30,8 @@ class UserSettingVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var save: UIButton!
+    @IBOutlet weak var darkModeLabel: UILabel!
+    
     
     @IBOutlet weak var notifPreferencesLabel: UILabel!
     private var reviewListeners: [String: ListenerRegistration] = [:]
@@ -257,6 +259,7 @@ override func viewWillAppear(_ animated: Bool) {
         phoneDummy.font = UIFont(name: "Lora-Bold", size: 17)
         editButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
         notifPreferencesLabel.font = UIFont(name: "Lora-Bold", size: 17)
+        darkModeLabel.font = UIFont(name: "Lora-Bold", size: 17)
         resetButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
         save.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
     }

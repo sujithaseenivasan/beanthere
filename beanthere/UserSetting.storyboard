@@ -250,6 +250,7 @@
                         <outlet property="Phone" destination="Zaz-FE-4IL" id="6aD-Bw-GRS"/>
                         <outlet property="Username" destination="xpx-iq-iSF" id="Veq-qY-jjV"/>
                         <outlet property="cityDummy" destination="alx-z5-gO9" id="Rm2-Ca-8ZC"/>
+                        <outlet property="darkModeLabel" destination="qJc-TA-TNF" id="phN-VZ-gqm"/>
                         <outlet property="darkModeSwitch" destination="rxN-nI-Myc" id="pDg-NL-WIf"/>
                         <outlet property="editButton" destination="RF6-Sf-IAt" id="u7l-in-p4G"/>
                         <outlet property="emailDummy" destination="gjk-Ex-oDT" id="V4k-Sd-P3A"/>
