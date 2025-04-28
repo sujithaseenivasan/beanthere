@@ -85,25 +85,38 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
     
     // ADDED FOR THE DEMO
     override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
-      fetchCurrentUserRequests()
+        super.viewWillAppear(animated)
+        fetchCurrentUserRequests(firstLoad: true)
     }
     
-    private func fetchCurrentUserRequests() {
-      guard let uid = Auth.auth().currentUser?.uid else { return }
-      Firestore.firestore()
-        .collection("users")
-        .document(uid)
-        .getDocument { snap, _ in
-          if let data = snap?.data(),
-             let req = data["requested"] as? [String] {
-            self.currUserRequested = req
-          } else {
-            self.currUserRequested = []
-          }
-          self.suggestFriendsCollection.reloadData()
-          self.contactsFriendsCollection.reloadData()
-        }
+    private func fetchCurrentUserRequests(firstLoad: Bool = false) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Firestore.firestore()
+            .collection("users")
+            .document(uid)
+            .getDocument { snap, _ in
+                if let data = snap?.data(),
+                   let req = data["requested"] as? [String] {
+                    self.currUserRequested = req
+                } else {
+                    self.currUserRequested = []
+                }
+                
+                if firstLoad {
+                    self.loadSuggestedFriends()
+                    if CNContactStore.authorizationStatus(for: .contacts) == .authorized {
+                        self.loadContactsFriends()
+                    }
+                }
+                
+                self.suggestedFriends.removeAll { self.currUserRequested.contains($0.id) }
+                self.contactsFriends.removeAll { self.currUserRequested.contains($0.id) }
+                
+                DispatchQueue.main.async {
+                    self.suggestFriendsCollection.reloadData()
+                    self.contactsFriendsCollection.reloadData()
+                }
+            }
     }
     
     // END ADDED FOR DEMO
@@ -184,8 +197,7 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
             }
             guard let documents = snapshot?.documents else { return }
             
-            // clear out the array before adding new data.
-            // self.contactsFriends.removeAll()
+            self.contactsFriends.removeAll()
             
             for doc in documents {
                 if doc.documentID == currentUserId {
@@ -207,7 +219,15 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
                                     profilePicture: profilePicture)
                 self.contactsFriends.append(friend)
             }
-            self.contactsFriendsCollection.reloadData()
+            
+            self.contactsFriends.removeAll {
+              self.currUserFollowing.contains($0.id) ||
+              self.currUserRequested.contains($0.id)
+            }
+            
+            DispatchQueue.main.async {
+                self.contactsFriendsCollection.reloadData()
+            }
         }
     }
     
@@ -297,6 +317,9 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
                         }
                         
                         friendDispatchGroup.notify(queue: .main) {
+                            self.suggestedFriends.removeAll {
+                                self.currUserFollowing.contains($0.id) || self.currUserRequested.contains($0.id)
+                            }
                             self.suggestFriendsCollection.reloadData()
                         }
                     }
