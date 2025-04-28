@@ -31,7 +31,7 @@ class followersNavVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             }
         }
-        print ("LISTS OF FOLLOWERS \(followersList)")
+        followersTableView.rowHeight = 100
     }
     
     

@@ -27,7 +27,7 @@ class followingNavVC: UIViewController,  UITableViewDelegate, UITableViewDataSou
                 }
             }
         }
-        print ("LISTS OF FOLLOWERS \(followingList)")
+        followingTableView.rowHeight = 100
     }
     
     
@@ -38,7 +38,7 @@ class followingNavVC: UIViewController,  UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var userFollower = self.followingList[indexPath.row]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FollowingCellID", for: indexPath) as! followersCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FollowingCellID", for: indexPath) as! followingCell
             cell.delegate = self
             cell.name.text = userFollower.name
             cell.userName.text = userFollower.username
@@ -52,6 +52,7 @@ class followingNavVC: UIViewController,  UITableViewDelegate, UITableViewDataSou
 
 
 class followingCell: UITableViewCell{
+    var delegate: UIViewController!
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userImage: UIImageView!

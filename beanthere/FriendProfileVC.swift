@@ -21,8 +21,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var followingNum: UILabel!
     @IBOutlet weak var friendReviewTableView: UITableView!
     @IBOutlet weak var follow: UIButton!
-    @IBOutlet weak var followerDummy: UILabel!
-    @IBOutlet weak var followingDummy: UILabel!
     
     @IBOutlet weak var followers: UIButton!
     @IBOutlet weak var following: UIButton!
@@ -119,8 +117,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         friendUserName.font = UIFont(name: "Lora-Regular", size: 15)
         followersNum.font = UIFont(name: "Lora-Regular", size: 14)
         followingNum.font = UIFont(name: "Lora-Regular", size: 14)
-        followerDummy.font = UIFont(name: "Lora-Regular", size: 15)
-        followingDummy.font = UIFont(name: "Lora-Regular", size: 15)
         been.font = UIFont(name: "Lora-SemiBold", size: 22)
         wantToTry.font = UIFont(name: "Lora-SemiBold", size: 22)
         recentActivities.font = UIFont(name: "Lora-SemiBold", size: 17)
@@ -257,11 +253,9 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     
     @IBAction func followersButton(_ sender: Any) {
-        performSegue(withIdentifier: "friendFollowersSegue", sender: self)
     }
     
     @IBAction func followingButton(_ sender: Any) {
-        performSegue(withIdentifier: "friendFollowingSegue", sender: self)
     }
     
     

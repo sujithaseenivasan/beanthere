@@ -1135,7 +1135,7 @@
                                                 </buttonConfiguration>
                                                 <connections>
                                                     <action selector="followersButton:" destination="cCL-dh-yzC" eventType="touchUpInside" id="0Nl-fe-jgQ"/>
-                                                    <segue destination="rwF-8s-qQN" kind="show" id="Mqr-nv-3I1"/>
+                                                    <segue destination="mEX-os-rep" kind="show" identifier="friendFollowersSegue" id="HcH-no-ZLd"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1157,6 +1157,7 @@
                                                 </buttonConfiguration>
                                                 <connections>
                                                     <action selector="followingButton:" destination="cCL-dh-yzC" eventType="touchUpInside" id="Dc5-nK-gDN"/>
+                                                    <segue destination="rwF-8s-qQN" kind="show" identifier="friendFollowingSegue" id="Psl-Gq-Lpg"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -3019,11 +3020,11 @@
                                 <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <color key="sectionIndexBackgroundColor" name="BackgroundPrimary"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="130" id="ayh-48-Pl9" customClass="followersCell" customModule="beanthere" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="402" height="130"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FollowersCellID" rowHeight="209" id="ayh-48-Pl9" customClass="followersCell" customModule="beanthere" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="402" height="209"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ayh-48-Pl9" id="LxR-3r-wSp">
-                                            <rect key="frame" x="0.0" y="0.0" width="402" height="130"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="402" height="209"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eVQ-17-8nn">
@@ -3096,7 +3097,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HZ5-cb-FjQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3115" y="1203"/>
+            <point key="canvasLocation" x="2997" y="1170"/>
         </scene>
         <!--Following NavVC-->
         <scene sceneID="AOF-ke-KRg">
@@ -3118,11 +3119,11 @@
                                 <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <color key="sectionIndexBackgroundColor" name="BackgroundPrimary"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="119" id="isL-kW-Ouy" customClass="followingCell" customModule="beanthere" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="402" height="119"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FollowingCellID" rowHeight="214" id="isL-kW-Ouy" customClass="followingCell" customModule="beanthere" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="402" height="214"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="isL-kW-Ouy" id="odR-kl-yfu">
-                                            <rect key="frame" x="0.0" y="0.0" width="402" height="119"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="402" height="214"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nPT-ML-Imc">
@@ -3194,7 +3195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FlF-gA-YaB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2187" y="1242"/>
+            <point key="canvasLocation" x="3740" y="1144"/>
         </scene>
         <!--Cafe Profile View Controller-->
         <scene sceneID="DuS-ks-sTx">
@@ -3883,7 +3884,8 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="TfK-uX-1Wo"/>
-        <segue reference="TPW-Kh-lZl"/>
+        <segue reference="phk-Gq-C6i"/>
+        <segue reference="c6E-qk-GZ6"/>
         <segue reference="NAa-Fj-8AE"/>
         <segue reference="9jf-lb-Ex5"/>
     </inferredMetricsTieBreakers>
@@ -3925,10 +3927,10 @@
             <color red="0.82352941176470584" green="0.67450980392156867" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="underPageBackgroundColor">
             <color red="0.70980392156862748" green="0.71764705882352942" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -152,13 +152,12 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
 
     @IBAction func followerNavButton(_ sender: Any) {
-        performSegue(withIdentifier: "userFollowersSegue", sender: self)
         
     }
     
     
     @IBAction func followingNavButton(_ sender: Any) {
-        performSegue(withIdentifier: "userFollowingSegue", sender: self)
+       
     }
     
     
