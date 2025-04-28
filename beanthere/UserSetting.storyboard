@@ -1181,11 +1181,11 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="zry-Ya-KHE">
                                 <rect key="frame" x="16" y="484" width="159.33333333333334" height="24"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="cup.and.heat.waves" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xcf-sH-lzU">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="cup.and.heat.waves" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xcf-sH-lzU">
                                         <rect key="frame" x="0.0" y="-3.5527136788005009e-15" width="22" height="23.666666666666671"/>
                                         <color key="tintColor" name="NavigationBar"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Recent Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lS2-ZK-qSO">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lS2-ZK-qSO">
                                         <rect key="frame" x="28" y="0.0" width="131.33333333333334" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" name="TextPrimary"/>
@@ -1193,7 +1193,6 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="lS2-ZK-qSO" firstAttribute="top" secondItem="zry-Ya-KHE" secondAttribute="top" id="8yy-8T-nap"/>
                                     <constraint firstItem="lS2-ZK-qSO" firstAttribute="top" secondItem="zry-Ya-KHE" secondAttribute="top" id="MWU-0Q-Cks"/>
                                 </constraints>
                             </stackView>
@@ -3873,11 +3872,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="TfK-uX-1Wo"/>
-        <segue reference="phk-Gq-C6i"/>
-        <segue reference="c6E-qk-GZ6"/>
+        <segue reference="Psl-Gq-Lpg"/>
+        <segue reference="HcH-no-ZLd"/>
+        <segue reference="7fc-Fy-hqo"/>
         <segue reference="NAa-Fj-8AE"/>
-        <segue reference="9jf-lb-Ex5"/>
+        <segue reference="jVx-qO-yZE"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="addFriend" width="20" height="20"/>
