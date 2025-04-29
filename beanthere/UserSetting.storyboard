@@ -1659,7 +1659,7 @@
                                 <color key="backgroundColor" name="BackgroundPrimary"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="402" id="x0T-hq-V37"/>
-                                    <constraint firstAttribute="height" constant="275" id="xnB-eU-OfY"/>
+                                    <constraint firstAttribute="height" constant="205" id="xnB-eU-OfY"/>
                                 </constraints>
                                 <color key="sectionIndexBackgroundColor" name="BackgroundPrimary"/>
                                 <prototypes>
