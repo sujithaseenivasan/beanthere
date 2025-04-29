@@ -33,12 +33,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        if UserDefaults.standard.bool(forKey: "notificationsEnabled") {
-            NotificationManager.shared.startListeningIfNeeded()
-        }
+        
     }
-
-
 
 
     func sceneWillResignActive(_ scene: UIScene) {

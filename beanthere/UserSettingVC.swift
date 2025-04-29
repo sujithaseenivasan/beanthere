@@ -60,10 +60,10 @@ override func viewDidLoad() {
     if let savedOption = UserDefaults.standard.string(forKey: "NotificationFrequency"),
        let savedRow = notificationOptions.firstIndex(of: savedOption) {
         notificationPicker.selectRow(savedRow, inComponent: 0, animated: false)
-        scheduleNotification(for: savedOption)
+        scheduleNotification(with: savedOption)
     } else {
         // Default to "Off" if nothing saved
-        scheduleNotification(for: "Off")
+        scheduleNotification(with: "Off")
     }
     
     changeFonts()
@@ -78,8 +78,8 @@ override func viewDidLoad() {
     editButton.titleLabel?.baselineAdjustment = .alignCenters
     editButton.setTitle("Edit Picture", for: .normal)
     
-    let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
-    darkModeSwitch.isOn = isDarkMode
+    //let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+    //darkModeSwitch.isOn = isDarkMode
 }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -101,57 +101,6 @@ override func viewDidLoad() {
     }
 
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedOption = notificationOptions[row]
-        UserDefaults.standard.set(selectedOption, forKey: "NotificationFrequency")
-        scheduleNotification(for: selectedOption)
-    }
-    
-
-
-    
-    private func scheduleNotification(for option: String) {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-
-        let content = UNMutableNotificationContent()
-        content.title = "New Friend Review!"
-        content.body = "One of your friends just posted a review ☕️"
-        content.sound = .default
-
-        var trigger: UNNotificationTrigger?
-
-        switch option {
-        case "Off":
-            // Don't schedule anything
-            return
-
-        case "Every Minute":
-            trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
-
-        case "Hourly":
-            var dateComponents = DateComponents()
-            dateComponents.minute = 0
-            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-
-        case "Daily":
-            var dateComponents = DateComponents()
-            dateComponents.hour = 9
-            dateComponents.minute = 0
-            trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-
-        default:
-            break
-        }
-
-        if let trigger = trigger {
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request) { error in
-                if let error = error {
-                    print("Failed to add notification request: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
 
 
 
@@ -243,7 +192,7 @@ override func viewWillAppear(_ animated: Bool) {
         phoneDummy.font = UIFont(name: "Lora-Bold", size: 17)
         editButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
         notifPreferencesLabel.font = UIFont(name: "Lora-Bold", size: 17)
-        darkModeLabel.font = UIFont(name: "Lora-Bold", size: 17)
+        //darkModeLabel.font = UIFont(name: "Lora-Bold", size: 17)
         resetButton.titleLabel?.font = UIFont(name: "Lora-SemiBold", size: 17)
         save.titleLabel?.font = UIFont(name: "Lora-Bold", size: 17)
     }
@@ -393,24 +342,6 @@ func didUserInfoChange() -> Bool{
         delegate?.populateUserInfo(info: editUserManager)
         self.navigationController?.popViewController(animated: true)
     }
-    
-
-
-    private func sendLocalNotificationForNewReview() {
-        let content = UNMutableNotificationContent()
-        content.title = "New Friend Review!"
-        content.body = "One of your friends just posted a review ☕️"
-        content.sound = .default
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Failed to add notification request: \(error.localizedDescription)")
-            }
-        }
-    }
 
     
     
@@ -430,6 +361,82 @@ func didUserInfoChange() -> Bool{
         
         UserDefaults.standard.set(sender.isOn, forKey: "isDarkModeEnabled")
     }
+    
+    // MARK: - Notification Handling
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let selectedOption = notificationOptions[row]
+        UserDefaults.standard.set(selectedOption, forKey: "NotificationFrequency")
+        
+        // Clear all previously scheduled notifications
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        print("✅ Cleared all pending notifications.")
+
+        // Then schedule a new notification
+        sendLocalNotificationForNewReview()
+    }
+
+    // Schedules a notification based on user's wantToTry list
+    private func sendLocalNotificationForNewReview() {
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
+            print("❌ No current user ID.")
+            return
+        }
+        
+        let db = Firestore.firestore()
+        let userRef = db.collection("users").document(currentUserID)
+
+        userRef.getDocument { document, error in
+            if let document = document, document.exists {
+                print("✅ Successfully fetched user document.")
+                let data = document.data()
+                let wantToTryIDs = data?["wantToTry"] as? [String] ?? []
+
+                if let randomWantToTryID = wantToTryIDs.randomElement() {
+                    print("✅ Found wantToTry cafe ID: \(randomWantToTryID)")
+                    
+                    // Fetch the cafe's name
+                    db.collection("coffeeShops").document(randomWantToTryID).getDocument { cafeDoc, _ in
+                        if let cafeDoc = cafeDoc, cafeDoc.exists,
+                           let cafeData = cafeDoc.data(),
+                           let cafeName = cafeData["name"] as? String {
+                            print("✅ Found cafe name: \(cafeName)")
+                            self.scheduleNotification(with: "Check out \(cafeName)! ☕️")
+                        } else {
+                            print("⚠️ Cafe document not found or missing name. Falling back to default message.")
+                            self.scheduleNotification(with: "Come back to check out new cafes! ☕️")
+                        }
+                    }
+                } else {
+                    print("⚠️ wantToTry list is empty. Sending default notification.")
+                    self.scheduleNotification(with: "Come back to check out new cafes! ☕️")
+                }
+            } else {
+                print("❌ Failed to fetch user document: \(error?.localizedDescription ?? "Unknown error")")
+                self.scheduleNotification(with: "Come back to check out new cafes! ☕️")
+            }
+        }
+    }
+
+    // Helper function to schedule the local notification
+    private func scheduleNotification(with body: String) {
+        let content = UNMutableNotificationContent()
+        content.title = "New Cafe Recommendation!"
+        content.body = body
+        content.sound = .default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("❌ Failed to add notification request: \(error.localizedDescription)")
+            } else {
+                print("✅ Notification scheduled with body: \"\(body)\"")
+            }
+        }
+    }
+
     
 }
 
