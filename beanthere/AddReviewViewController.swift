@@ -50,6 +50,8 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+
         ratingTextLabel.font = UIFont(name: "Lora-Bold", size: 20)
         tagsTextLabel.font = UIFont(name: "Lora-Bold", size: 20)
         notesTextLabel.font = UIFont(name: "Lora-Bold", size: 20)
@@ -105,7 +107,7 @@ class AddReviewViewController: UIViewController, UICollectionViewDelegate, UICol
     
     func updateButtonImages() {
         for (index, button) in ratingButtons.enumerated() {
-            let imageName = index < currentRating ? "filled_bean" : "unfilled_bean"
+            let imageName = index < currentRating ? "small_filled_bean" : "small_unfilled_bean"
             button.setImage(UIImage(named: imageName), for: .normal)
         }
     }
