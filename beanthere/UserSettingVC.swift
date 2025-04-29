@@ -57,14 +57,18 @@ override func viewDidLoad() {
     notificationPicker.delegate = self
     notificationPicker.dataSource = self
     // Load saved preference
-    if let savedOption = UserDefaults.standard.string(forKey: "NotificationFrequency"),
-       let savedRow = notificationOptions.firstIndex(of: savedOption) {
-        notificationPicker.selectRow(savedRow, inComponent: 0, animated: false)
-        scheduleNotification(with: savedOption)
-    } else {
-        // Default to "Off" if nothing saved
-        scheduleNotification(with: "Off")
-    }
+        if let savedOption = UserDefaults.standard.string(forKey: "NotificationFrequency"),
+           let savedRow = notificationOptions.firstIndex(of: savedOption) {
+            notificationPicker.selectRow(savedRow, inComponent: 0, animated: false)
+
+            // Clear old notifications and schedule new
+            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+
+            scheduleNotification(for: savedOption)
+        } else {
+            // Default to "Off" if nothing saved
+            scheduleNotification(for: "Off")
+        }
     
     changeFonts()
     //make image round
@@ -370,16 +374,41 @@ func didUserInfoChange() -> Bool{
         
         // Clear all previously scheduled notifications
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        print("✅ Cleared all pending notifications.")
+        print("Cleared all pending notifications.")
 
-        // Then schedule a new notification
-        sendLocalNotificationForNewReview()
+        // Then schedule a new notification based on selected option
+        scheduleNotification(for: selectedOption)
     }
 
-    // Schedules a notification based on user's wantToTry list
-    private func sendLocalNotificationForNewReview() {
+    // Schedules the notification based on user's preference
+    private func scheduleNotification(for option: String) {
+        guard option != "Off" else {
+            print("Notifications are turned off.")
+            return
+        }
+
+        // Map option text to time interval in seconds
+        let interval: TimeInterval
+        switch option {
+        case "Every Minute":
+            interval = 60 // 1 minute
+        case "Hourly":
+            interval = 3600 // 1 hour
+        case "Daily":
+            interval = 86400 // 1 day
+        default:
+            print("Unknown or Off option. No notification scheduled.")
+            return
+        }
+
+
+        sendLocalNotificationForNewReview(after: interval)
+    }
+
+    // Fetch a cafe from wantToTry or fallback to default message
+    private func sendLocalNotificationForNewReview(after interval: TimeInterval) {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
-            print("❌ No current user ID.")
+            print("No current user ID.")
             return
         }
         
@@ -388,56 +417,52 @@ func didUserInfoChange() -> Bool{
 
         userRef.getDocument { document, error in
             if let document = document, document.exists {
-                print("✅ Successfully fetched user document.")
+                
                 let data = document.data()
                 let wantToTryIDs = data?["wantToTry"] as? [String] ?? []
 
                 if let randomWantToTryID = wantToTryIDs.randomElement() {
-                    print("✅ Found wantToTry cafe ID: \(randomWantToTryID)")
                     
-                    // Fetch the cafe's name
                     db.collection("coffeeShops").document(randomWantToTryID).getDocument { cafeDoc, _ in
                         if let cafeDoc = cafeDoc, cafeDoc.exists,
                            let cafeData = cafeDoc.data(),
                            let cafeName = cafeData["name"] as? String {
-                            print("✅ Found cafe name: \(cafeName)")
-                            self.scheduleNotification(with: "Check out \(cafeName)! ☕️")
+                            
+                            self.scheduleNotification(with: "Check out \(cafeName)! ☕️", after: interval)
                         } else {
-                            print("⚠️ Cafe document not found or missing name. Falling back to default message.")
-                            self.scheduleNotification(with: "Come back to check out new cafes! ☕️")
+                            
+                            self.scheduleNotification(with: "Come back to check out new cafes! ☕️", after: interval)
                         }
                     }
                 } else {
-                    print("⚠️ wantToTry list is empty. Sending default notification.")
-                    self.scheduleNotification(with: "Come back to check out new cafes! ☕️")
+                    
+                    self.scheduleNotification(with: "Come back to check out new cafes! ☕️", after: interval)
                 }
             } else {
-                print("❌ Failed to fetch user document: \(error?.localizedDescription ?? "Unknown error")")
-                self.scheduleNotification(with: "Come back to check out new cafes! ☕️")
+                print("Failed to fetch user document: \(error?.localizedDescription ?? "Unknown error")")
+                self.scheduleNotification(with: "Come back to check out new cafes! ☕️", after: interval)
             }
         }
     }
 
-    // Helper function to schedule the local notification
-    private func scheduleNotification(with body: String) {
+    // Actually schedule the local notification
+    private func scheduleNotification(with body: String, after interval: TimeInterval) {
         let content = UNMutableNotificationContent()
         content.title = "New Cafe Recommendation!"
         content.body = body
         content.sound = .default
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: true)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("❌ Failed to add notification request: \(error.localizedDescription)")
+                print("Failed to add notification request: \(error.localizedDescription)")
             } else {
-                print("✅ Notification scheduled with body: \"\(body)\"")
+                print("Notification scheduled with body: \"\(body)\", interval: \(interval) seconds.")
             }
         }
     }
-
-    
 }
 
 
