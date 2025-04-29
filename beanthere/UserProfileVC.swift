@@ -38,8 +38,8 @@ class UserProfileVC: UIViewController, PassUserInfo, UIPickerViewDelegate, UIPic
     
     @IBOutlet weak var notifPrefsLabel: UILabel!
     @IBOutlet weak var darkModeLabel: UILabel!
-    @IBOutlet weak var darkModeSwitch: UISwitch!
 
+    @IBOutlet weak var darkModeSwitch: UISwitch!
     @IBOutlet weak var notificationPreferencesPicker: UIPickerView!
     var notificationOptions = ["Off", "Every Minute", "Hourly", "Daily"]
     

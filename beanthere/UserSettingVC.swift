@@ -82,8 +82,8 @@ override func viewDidLoad() {
     editButton.titleLabel?.baselineAdjustment = .alignCenters
     editButton.setTitle("Edit Picture", for: .normal)
     
-    //let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
-    //darkModeSwitch.isOn = isDarkMode
+    let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+    darkModeSwitch.isOn = isDarkMode
 }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -355,7 +355,8 @@ func didUserInfoChange() -> Bool{
     }
     
     
-    @IBAction func darkModeTogglePressed(_ sender: UISwitch) {
+
+    @IBAction func darkModeSwitchToggle(_ sender: UISwitch) {
         if sender.isOn {
             overrideUserInterfaceStyleForAllWindows(style: .dark)
         }
@@ -463,6 +464,7 @@ func didUserInfoChange() -> Bool{
             }
         }
     }
+    
 }
 
 
