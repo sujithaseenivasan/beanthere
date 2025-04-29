@@ -39,17 +39,26 @@ protocol PassUserInfo{
     func populateUserInfo(info : UserManager)
 }
 
-//protocol to pass info back to the MainUser Profile
-protocol PassUserInfoToProfileView{
-    func populateUserInfoToProfileView(info : UserManager)
-}
-
+//protocol when you tapped the comment in the MainProfileVC review TableView
 protocol MainProfileTableViewCellDel: AnyObject {
     func didTapCommentButton(reviewID: String)
 }
 
+//protocol when you tapped the comment in the FriendProfileVC review TableView
 protocol FriendProfileTableViewCellDel: AnyObject {
     func didTapCommentButton2(reviewID: String)
+}
+
+/*protocol when you segue in the followers screen and delete their follower
+  make it delete automatically in the tableView and the firebase and update it*/
+protocol FollowersCellDelegate: AnyObject {
+    func didTapDelete(for friendId: String, cell: followersCell)
+}
+
+/*protocol when you segue in the following screen and delete their following
+  make it delete automatically in the tableView and the firebase and update it*/
+protocol FollowingCellDelegate: AnyObject {
+    func didTapDelete(for friendId: String, cell: followingCell)
 }
 
 

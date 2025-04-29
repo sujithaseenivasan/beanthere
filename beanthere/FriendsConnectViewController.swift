@@ -451,12 +451,12 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
         if collectionView == suggestFriendsCollection {
             let selectedFriend = suggestedFriends[indexPath.row]
             selectedFriendId = selectedFriend.id
-            performSegue(withIdentifier: "suggGoToFriendProfID", sender: self)
+            performSegue(withIdentifier: "suggestedFriendsProfileSegue", sender: selectedFriendId)
         } else if collectionView == contactsFriendsCollection {
             // TODO: handling a selection in contacts collection, set selectedFriendId the same way as above
             let selectedFriend = contactsFriends[indexPath.row]
             selectedFriendId = selectedFriend.id
-            performSegue(withIdentifier: "contactGoToFriendProfID", sender: self)
+            performSegue(withIdentifier: "suggestedFriendsProfileSegue", sender: selectedFriendId)
         }
     }
     
@@ -500,11 +500,11 @@ class FriendsConnectViewController: UIViewController, UICollectionViewDelegate, 
         if segue.identifier == "ViewRequests",
            let nextVC = segue.destination as? FriendRequestsViewController {
             nextVC.delegate = self
-        } else if segue.identifier == "suggGoToFriendProfID" || segue.identifier == "contactGoToFriendProfID" , let nextVC = segue.destination as? FriendProfileVC {
+        } else if segue.identifier == "suggestedFriendsProfileSegue", let nextVC = segue.destination as? FriendProfileVC, let user = sender as? String {
             nextVC.delegate = self
             // nextVC.friendID = testForFriendID.text ?? ""
-            nextVC.friendID = selectedFriendId
-            navigationController?.pushViewController(nextVC, animated: true)
+            nextVC.friendID = user
+//            navigationController?.pushViewController(nextVC, animated: true)
         } else if segue.identifier == "FriendSearch", let nextVC = segue.destination as? FriendSearchViewController {
             nextVC.initialSearchText = searchFriends.text
         }

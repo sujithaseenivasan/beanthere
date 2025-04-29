@@ -90,8 +90,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             self.followingNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
             
             let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
-            //put all the information of currently loaded data in the array of reviews
-            print("ENTERED VIEW WILL APPEAR")
             // updates the follow button
             if let userUID = Auth.auth().currentUser?.uid , let data = data {
                 var text = "Follow" // default
@@ -101,11 +99,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                         text = "Requested"
                     }
                     self.follow.setTitle(text, for: .normal)
-                
             }
-            
-
-            
             self.fetchUserReviews()
             
         }
@@ -133,13 +127,12 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             if let document = document, document.exists {
                 if let userName = document.data()?["firstName"] as? String {
                     self.myUserName = userName
-                    print("MY USERNAME IS INSIDE \(self.myUserName)")
                 }
             }
         }
     }
 
-    
+    //function that fetches user reviews
     func fetchUserReviews() {
            //get the user that is currently logged in
         let userID = self.friendID!
@@ -156,7 +149,8 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             }
            }
     }
-       
+    
+    //function that fetchs all the review details and then append them in the userReviews array
     func fetchReviewDetails(reviewIDs: [String]) {
         let group = DispatchGroup()
         var fetchedReviews: [Review] = []
@@ -179,9 +173,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
                     tags: data["tags"] as? [String] ?? [],
                     timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
                     numLikes: data["friendsLikes"] as? Int ?? 0
-                    
                 )
-                   
                 self.fetchCoffeeShopDetails(for: review.coffeeShopID) { name, address in
                     review.coffeeShopName = name
                     review.address = address
@@ -195,6 +187,7 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
             self.friendReviewTableView.reloadData()
         }
     }
+    
     //helper function that grabs the name and address for a particular coffeeShopID
     func fetchCoffeeShopDetails(for coffeeShopID: String, completion: @escaping (String?, String?) -> Void) {
         db.collection("coffeeShops").document(coffeeShopID).getDocument { (document, error) in
@@ -263,7 +256,10 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     @IBAction func beenBrewButton(_ sender: Any) {
     }
     
-    //segue to view friend's brewlog from their profile
+    /* The function that have all segues from friends profile
+     like : to view friend's brewlog from their profile, the commentPopUp,
+     the followers and followings pages
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "friendToBeenSegue",
            let tabsVC = segue.destination as? BrewTabsViewController {
@@ -279,17 +275,12 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         if segue.identifier == "friendCommentSegue",
                let commentVC = segue.destination as? CommentPopUpVC,
                   let reviewID = sender as? String {
-            print("ENTERED PREPARE FOR SEGUE \(reviewID)")
-            print("MY USERNAME IS \(myUserName)")
             commentVC.delegate = self
             commentVC.reviewID = reviewID
             commentVC.userName = self.myUserName
-            print("ENTERED PREPARE FOR SEGUE PASSED \(commentVC.reviewID)")
-
             commentVC.modalPresentationStyle = .overCurrentContext
             self.definesPresentationContext = true
         }
-        
         else if segue.identifier == "friendFollowersSegue",
                   let followersVC = segue.destination as? followersNavVC {
             followersVC.delegate = self
@@ -303,8 +294,8 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
         
     }
     
+    //protocol function that when you tap the comment button it goes to the commentPop screen
     func didTapCommentButton2(reviewID: String) {
-        print("ENTERED DID TAP IN FRIEND VC ")
         performSegue(withIdentifier: "friendCommentSegue", sender: reviewID)
     }
     
@@ -315,7 +306,6 @@ class FriendProfileVC: UIViewController,UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var userReview = userReviews[indexPath.row]
-        //print ("Entered CellForRowAt at Profile ")
         let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! FriendProfileTVCell
         if (userReviews.count > 0){
             cell.changeFonts()

@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 
-class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, PassUserInfoToProfileView, MainProfileTableViewCellDel{
+class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, MainProfileTableViewCellDel{
     
     
     
@@ -46,7 +46,6 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         changeFonts()
         // from firebase download the image and make it round
         makeImageOval(self.userProfileImg)
-        
         userReviewsTableView.delegate = self
         userReviewsTableView.dataSource = self
         userReviewsTableView.rowHeight = 150
@@ -56,11 +55,9 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     //In will appear that is where we load every instance of settings
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         // Make sure there's a logged-in user
         if let profileUID = Auth.auth().currentUser?.uid {
             self.userID = profileUID
-            
             let userField = Firestore.firestore().collection("users").document(profileUID)
             
             userField.getDocument { document, error in
@@ -76,9 +73,6 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                     self.followingsNum.text = "\((data?["friendsList"] as? [String])?.count ?? 0)"
                     let reviewIDs: [String] = data?["reviews"] as? [String] ?? []
                     // You might want to store these review IDs if needed
-                    print("User review IDs: \(reviewIDs)")
-                    
-                    print("ENTERED VIEW WILL APPEAR")
                     self.fetchUserReviews()
                 } else {
                     print("User document not found or error: \(error?.localizedDescription ?? "unknown error")")
@@ -115,7 +109,10 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     
-    //overwrite do the connection  between the 2 screens and the main screen
+    /* The function that have all segues from Main User profile
+     like : to view friend's brewlog from their profile, the commentPopUp,
+     the followers and followings pages
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == userSettingsSegueIdentifier,
            let userProfileVC = segue.destination as? UserProfileVC {
@@ -124,12 +121,9 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         } else if segue.identifier == "userCommentSegue",
                   let commentVC = segue.destination as? CommentPopUpVC,
                   let reviewID = sender as? String {
-            print("ENTERED PREPARE FOR SEGUE \(reviewID)")
             commentVC.delegate = self
             commentVC.reviewID = reviewID
             commentVC.userName = self.profileName.text ?? ""
-            print("ENTERED PREPARE FOR SEGUE PASSED \(commentVC.reviewID)")
-
             commentVC.modalPresentationStyle = .overCurrentContext
             self.definesPresentationContext = true
 
@@ -144,10 +138,12 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                   let followersVC = segue.destination as? followersNavVC {
             followersVC.delegate = self
             followersVC.navUserId = self.userID
+            followersVC.isUserProfile = true
         } else if segue.identifier == "userFollowingSegue",
                   let followingVC = segue.destination as? followingNavVC {
             followingVC.delegate = self
             followingVC.navUserId = self.userID
+            followingVC.isUserProfile = true
         }
     }
 
@@ -155,62 +151,15 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
         
     }
     
-    
     @IBAction func followingNavButton(_ sender: Any) {
        
     }
     
-    
-   
-    //function that segue to the comments tableview ViewController when the comment button is clicked
+    /*function that segue to the comments tableview ViewController
+    when the comment button is clicked */
     func didTapCommentButton(reviewID: String) {
-        print("CAME IN DID TAP SEGUE")
         performSegue(withIdentifier: "userCommentSegue", sender: reviewID)
     }
-    
-    // Function to change the edited data from UserProfile to MainUserProfileVC
-    func populateUserInfoToProfileView(info: UserManager) {
-    }
-    
-    // functions that fetches userImages from firebase
-    func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
-        let storage = Storage.storage()
-        let imagePath = "images/\(userId)_file.png"
-        let imagePath2 = "images/\(userId)file.png"
-        let imageRef = storage.reference(withPath: imagePath)
-        let imageRef2 = storage.reference(withPath: imagePath2)
-
-        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("Error downloading image: \(error.localizedDescription)")
-                imageRef2.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("Error downloading image: \(error.localizedDescription)")
-                        completion(nil)
-                        return
-                    }
-                    
-                    if let data = data, let image = UIImage(data: data) {
-                        print("Image fetched 2successfully.")
-                        completion(image)
-                    } else {
-                        print("Failed2 to convert data to image.")
-                        completion(nil)
-                    }
-                }
-                return
-            }
-
-            if let data = data, let image = UIImage(data: data) {
-                print("Image fetched successfully.")
-                completion(image)
-            } else {
-                print("Failed to convert data to image.")
-                completion(nil)
-            }
-        }
-    }
-
     
     //function that fetchs all the users reviews and places them into our table View and our
     //array of reviews
@@ -297,7 +246,6 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 cell.delegate = self
                 cell.likeCount = userReview.numLikes ?? 0
                 cell.reviewID = userReviewIDs[indexPath.row]
-                
                 cell.cafeName.text = userReview.coffeeShopName
                 cell.cafeAdrr.text = userReview.address
                 let cafeRanks = userReview.rating
@@ -308,6 +256,7 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
                 }
 
                 cell.userComment.text = userReview.comment
+                //fill the review with their image
                 globLoadReviewImage(reviewId: userReviewIDs[indexPath.row]){images in
                     if let images = images, !images.isEmpty {
                         cell.drinkImg.image = images.first ?? UIImage(named: "beantherelog")// Show first image
@@ -320,15 +269,5 @@ class MainUserProfileVC: UIViewController, UITableViewDelegate, UITableViewDataS
             }
             return cell
         }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedReviewID = userReviewIDs[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: valCellIndetifier, for: indexPath) as! MainProfileTableViewCell
-        if (userReviews.count > 0){
-            
-        }
-    }
-        
-        
     }
 

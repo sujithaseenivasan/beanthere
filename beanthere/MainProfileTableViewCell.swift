@@ -69,7 +69,6 @@ class MainProfileTableViewCell: UITableViewCell {
     }
     
     @IBAction func commentButtonTapped(_ sender: UIButton) {
-        print ("ENTERED COMMENT BUTTON IN CELL ")
         delegate?.didTapCommentButton(reviewID: reviewID)
     }
     

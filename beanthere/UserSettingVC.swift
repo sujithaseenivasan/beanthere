@@ -209,29 +209,13 @@ override func viewWillAppear(_ animated: Bool) {
     func fetchUserImage(userId: String, completion: @escaping (UIImage?) -> Void) {
         let storage = Storage.storage()
         let imagePath = "images/\(userId)_file.png"
-        let imagePath2 = "images/\(userId)file.png"
         let imageRef = storage.reference(withPath: imagePath)
-        let imageRef2 = storage.reference(withPath: imagePath2)
-
         imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
             if let error = error {
                 print("Error downloading image: \(error.localizedDescription)")
-                imageRef2.getData(maxSize: 5 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("Error downloading image: \(error.localizedDescription)")
-                        completion(nil)
-                        return
-                    }
-                    
-                    if let data = data, let image = UIImage(data: data) {
-                        print("Image fetched 2successfully.")
-                        completion(image)
-                    } else {
-                        print("Failed2 to convert data to image.")
-                        completion(nil)
-                    }
-                }
+                completion(nil)
                 return
+                
             }
 
             if let data = data, let image = UIImage(data: data) {
@@ -293,8 +277,6 @@ func didUserInfoChange() -> Bool{
     if(didPicChange){
         changed = true
     }
-    //COMEBACK FOR THE PICTURE PASS
-    print("CODE ENTERED CHANGE")
     return changed
 }
 

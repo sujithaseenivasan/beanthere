@@ -214,7 +214,7 @@ func getUserFriends(userID: String,  completion: @escaping (Friends?) -> Void){
         fetchUserImage(userId: userID){image in
             DispatchQueue.main.async {
                 let userImage = image ?? UIImage()
-                let userFriends = Friends(name: firstname, username: username, picture: userImage)
+                let userFriends = Friends(id: userID, name: firstname, username: username, picture: userImage)
                 completion(userFriends)
                 }
         }

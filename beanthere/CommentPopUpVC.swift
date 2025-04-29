@@ -30,8 +30,6 @@ class CommentPopUpVC: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet var outsideView: UIView!
     var delegate: UIViewController?
     override func viewDidLoad() {
-        print ("ENTERED COMMENT POP UP")
-        print ("ENTERED COMMENT POP UP REVIEW ID: \(reviewID!)")
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         //self.innerView.backgroundColor = UIColor.clear
@@ -83,9 +81,7 @@ class CommentPopUpVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         let lines = comment.components(separatedBy: .newlines)
         // Assign parts
         let username = lines.first ?? ""
-        print("ENTERED MAKE COMMENT FROM FIREBASE FIRST LINE IS: \(username)")
         let commentText = lines.dropFirst().joined(separator: "\n")
-        print("ENTERED MAKE COMMENT FROM FIREBASE 2ND LINE IS: \(commentText)")
         //put it in a comment
         var commentObj =  Comment(name: username, comment: commentText)
         
@@ -100,10 +96,8 @@ class CommentPopUpVC: UIViewController, UITableViewDelegate, UITableViewDataSour
             reviewRef.getDocument { document, error in
                 if let document = document, document.exists {
                     var currentComments = document.data()?["friendsComment"] as? [String] ?? []
-                    
                     // Append the new comment [name, comment]
                     currentComments.append(" \(self.userName!) \n \(commentText)" )
-                    
                     
                     // Write the updated array back to Firestore
                     reviewRef.updateData(["friendsComment": currentComments]) { err in
